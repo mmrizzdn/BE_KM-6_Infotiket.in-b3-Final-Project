@@ -43,6 +43,7 @@ model Airport {
   iata_code   String
   from_flights Flight[] @relation("DepartureAirport")
   to_flights   Flight[] @relation("ArrivalAirport")
+  @@map("airport")
 }
 
 model Flight {
@@ -69,27 +70,30 @@ model Flight {
   arrival_airport     Airport  @relation("ArrivalAirport", fields: [arrival_airport_id], references: [id])
   airline             Airline  @relation(fields: [airline_id], references: [id])
   schedule            Schedule[]
+  @@map("flight")
 }
 
 model Airline {
   id          Int      @id @default(autoincrement())
   name        String
   short_name  String
-  icon_url    String
+  icon_url    String?
   iata_code   String
   flights     Flight[]
   airplanes   Airplane[]
+  @@map("airline")
 }
 
 model Airplane {
   id          Int      @id @default(autoincrement())
   model       String
-  seat_layout String
-  seat_pitch  Int
-  seat_type   String
+  seat_layout String?
+  seat_pitch  Int?
+  seat_type   String?
   seat_amount Int
   airline_id  Int
   airline     Airline  @relation(fields: [airline_id], references: [id])
+  @@map("airplane")
 }
 
 model Schedule {
@@ -98,6 +102,7 @@ model Schedule {
   is_available Boolean
   flight      Flight   @relation(fields: [flight_id], references: [id])
   tickets             Ticket[]
+  @@map("schedule")
 }
 
 model Booking {
@@ -110,6 +115,7 @@ model Booking {
   user            User      @relation(fields: [user_id], references: [id])
   ticket          Ticket    @relation(fields: [ticket_id], references: [id])
   payments        Payment[]
+  @@map("booking")
 }
 
 model Ticket {
@@ -120,6 +126,7 @@ model Ticket {
   passenger    Passenger @relation(fields: [passenger_id], references: [id])
   schedule     Schedule  @relation(fields: [schedule_id], references: [id])
   bookings     Booking[]
+  @@map("ticket")
 }
 
 model Passenger {
@@ -130,6 +137,7 @@ model Passenger {
   id_passport_number String
   citizenship     String
   tickets         Ticket[]
+  @@map("passenger")
 }
 
 model Payment {
@@ -140,4 +148,5 @@ model Payment {
   payment_method String
   status         String
   booking        Booking  @relation(fields: [booking_id], references: [id])
+  @@map("payment")
 }
