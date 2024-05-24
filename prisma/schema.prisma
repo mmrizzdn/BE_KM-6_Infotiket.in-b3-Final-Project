@@ -35,42 +35,74 @@ enum Role {
 }
 
 model Airport {
-  id           Int      @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name_airport String
-  city         String
-  province     String
-  time_zone    String
-  iata         String
-  flights_from Flight[] @relation("FromAirport")
-  flights_to   Flight[] @relation("ToAirport")
-
+  city        String
+  province    String
+  time_zone   String
+  iata_code   String
+  from_flights Flight[] @relation("DepartureAirport")
+  to_flights   Flight[] @relation("ArrivalAirport")
   @@map("airport")
 }
 
 model Flight {
-  id              Int      @id @default(autoincrement())
-  from_airport_id Int
-  to_airport_id   Int
-  airline_id      Int
-  departure_date  DateTime
-  arrival_date    DateTime
-  from_airport    Airport  @relation("FromAirport", fields: [from_airport_id], references: [id])
-  to_airport      Airport  @relation("ToAirport", fields: [to_airport_id], references: [id])
-  airline         Airline  @relation(fields: [airline_id], references: [id])
-  tickets         Ticket[]
-
+  id                Int      @id @default(autoincrement())
+  departure_airport_id Int
+  arrival_airport_id   Int
+  airline_id          Int
+  departure_time      DateTime
+  arrival_time        DateTime
+  price               Float
+  flight_number       String
+  free_baggage        Int
+  cabin_baggage       Int
+  duration_minute     Int
+  class               String
+  is_sunday           Boolean
+  is_monday           Boolean
+  is_tuesday          Boolean
+  is_wednesday        Boolean
+  is_thursday         Boolean
+  is_friday           Boolean
+  is_saturday         Boolean
+  departure_airport   Airport  @relation("DepartureAirport", fields: [departure_airport_id], references: [id])
+  arrival_airport     Airport  @relation("ArrivalAirport", fields: [arrival_airport_id], references: [id])
+  airline             Airline  @relation(fields: [airline_id], references: [id])
+  schedule            Schedule[]
   @@map("flight")
 }
 
 model Airline {
-  id      Int      @id @default(autoincrement())
-  name    String
-  type    String
-  class   String
-  price   Float
-  flights Flight[]
-
+  id          Int      @id @default(autoincrement())
+  name        String
+  short_name  String
+  icon_url    String?
+  iata_code   String
+  flights     Flight[]
+  airplanes   Airplane[]
   @@map("airline")
+}
+
+model Airplane {
+  id          Int      @id @default(autoincrement())
+  model       String
+  seat_layout String?
+  seat_pitch  Int?
+  seat_type   String?
+  seat_amount Int
+  airline_id  Int
+  airline     Airline  @relation(fields: [airline_id], references: [id])
+  @@map("airplane")
+}
+
+model Schedule {
+  id          Int      @id @default(autoincrement())
+  flight_id   Int
+  is_available Boolean
+  flight      Flight   @relation(fields: [flight_id], references: [id])
+  tickets             Ticket[]
+  @@map("schedule")
 }
 
 model Booking {
@@ -81,32 +113,30 @@ model Booking {
   total_passenger Int
   status          String
   user            User      @relation(fields: [user_id], references: [id])
-  tickets         Ticket    @relation(fields: [ticket_id], references: [id])
+  ticket          Ticket    @relation(fields: [ticket_id], references: [id])
   payments        Payment[]
-
   @@map("booking")
 }
 
 model Ticket {
-  id            Int       @id @default(autoincrement())
-  passenger_id  Int
-  flight_id     Int
+  id           Int       @id @default(autoincrement())
+  passenger_id Int
+  schedule_id  Int
   ticket_number String
-  flight        Flight    @relation(fields: [flight_id], references: [id])
-  passenger     Passenger @relation(fields: [passenger_id], references: [id])
-  bookings      Booking[]
-
+  passenger    Passenger @relation(fields: [passenger_id], references: [id])
+  schedule     Schedule  @relation(fields: [schedule_id], references: [id])
+  bookings     Booking[]
   @@map("ticket")
 }
 
 model Passenger {
   id              Int      @id @default(autoincrement())
-  type            String
+  full_name       String
   birth_date      DateTime
+  type            String
+  id_passport_number String
   citizenship     String
-  passport_number String
   tickets         Ticket[]
-
   @@map("passenger")
 }
 
@@ -118,6 +148,5 @@ model Payment {
   payment_method String
   status         String
   booking        Booking  @relation(fields: [booking_id], references: [id])
-
   @@map("payment")
 }
