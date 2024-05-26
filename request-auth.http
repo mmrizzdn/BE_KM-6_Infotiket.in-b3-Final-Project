@@ -1,4 +1,4 @@
-### register     
+### register
 POST http://localhost:3000/register
 Content-Type: application/json
 
@@ -21,5 +21,5 @@ Content-Type: application/json
 
 ### halaman awal     
 GET http://localhost:3000/
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzE2NzI3NjkxfQ.o4PmLMBXRQ7uyLlArbvUaIUwG5VBg4e0Oj18CvDsWqE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsImlhdCI6MTcxNjczNzQ0MH0.NxZDeyi4LRJU0MoGBA-Ihk_pn_rDfj3yEHSs3DT3ri0
 
