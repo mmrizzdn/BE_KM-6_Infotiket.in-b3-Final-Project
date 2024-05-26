@@ -1,11 +1,13 @@
 require("dotenv").config();
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const PORT = 3000 || process.env;
 
 const app = express();
 const cors = require("cors");
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 // Swagger
 const swaggerUI = require("swagger-ui-express");
@@ -18,9 +20,13 @@ const swaggerDocument = YAML.parse(file);
 // Api Docs
 app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
+// Api Login and Register
+const router = require("./routes/route.index");
+app.use("/", router);
+
 // Api Bandara
-const router = require("./routes/route.airport");
-app.use("/api/v1", router);
+const routerAirport = require("./routes/route.airport");
+app.use("/api/v1", routerAirport);
 
 // 404 halaman tidak ditemukan
 app.use((req, res, next) => {
