@@ -1,0 +1,408 @@
+[
+  {
+    "name_airport": "APT Pranoto Airport",
+    "city": "Samarinda",
+    "province": "Kalimantan Timur",
+    "time_zone": "UTC+8",
+    "iata_code": "AAP"
+  },
+  {
+    "name_airport": "Abdul Rachman Saleh",
+    "city": "Malang",
+    "province": "Jawa Timur",
+    "time_zone": "UTC+7",
+    "iata_code": "MLG"
+  },
+  {
+    "name_airport": "Achmad Yani",
+    "city": "Semarang",
+    "province": "Jawa Tengah",
+    "time_zone": "UTC+7",
+    "iata_code": "SRG"
+  },
+  {
+    "name_airport": "Adi Soemarmo",
+    "city": "Solo",
+    "province": "Jawa Tengah",
+    "time_zone": "UTC+7",
+    "iata_code": "SOC"
+  },
+  {
+    "name_airport": "Adi Sutjipto",
+    "city": "Yogyakarta",
+    "province": "Daerah Istimewa Yogyakarta",
+    "time_zone": "UTC+7",
+    "iata_code": "JOG"
+  },
+  {
+    "name_airport": "Betoambari",
+    "city": "Bau-Bau, Buton",
+    "province": "Sulawesi Tenggar",
+    "time_zone": "UTC+9",
+    "iata_code": "BUW"
+  },
+  {
+    "name_airport": "Binaka",
+    "city": "Nias/Gunung Sitoli",
+    "province": "Sumatera Utara",
+    "time_zone": "UTC+7",
+    "iata_code": "GNS"
+  },
+  {
+    "name_airport": "Depati Amir",
+    "city": "Bangka / Pangkal Pinang",
+    "province": "Kepulauan Bangka Belitung",
+    "time_zone": "UTC+7",
+    "iata_code": "PGK"
+  },
+  {
+    "name_airport": "Domine Eduard Osok",
+    "city": "Sorong",
+    "province": "Papua Barat",
+    "time_zone": "UTC+9",
+    "iata_code": "SOQ"
+  },
+  {
+    "name_airport": "El Tari",
+    "city": "Kupang",
+    "province": "Nusa Tenggara Timur",
+    "time_zone": "UTC+8",
+    "iata_code": "KOE"
+  },
+  {
+    "name_airport": "Fatmawati Soekarno",
+    "city": "Bengkulu",
+    "province": "Bengkulu",
+    "time_zone": "UTC+7",
+    "iata_code": "BKS"
+  },
+  {
+    "name_airport": "Frans Kaisiepo",
+    "city": "Biak",
+    "province": "Papua",
+    "time_zone": "UTC+9",
+    "iata_code": "BIK"
+  },
+  {
+    "name_airport": "Frans Seda/Wai Oti",
+    "city": "Maumere",
+    "province": "Nusa Tenggara Timur",
+    "time_zone": "UTC+8",
+    "iata_code": "MOF"
+  },
+  {
+    "name_airport": "Gusti Sjamsir Alam",
+    "city": "Kotabaru",
+    "province": "Kalimantan Selatan",
+    "time_zone": "UTC+8",
+    "iata_code": "KBU"
+  },
+  {
+    "name_airport": "H Hasan Aroeboesman",
+    "city": "Ende",
+    "province": "Nusa Tenggara Timur",
+    "time_zone": "UTC+8",
+    "iata_code": "ENE"
+  },
+  {
+    "name_airport": "H. Asan Airport",
+    "city": "Sampit",
+    "province": "Kalimantan Tengah",
+    "time_zone": "UTC+8",
+    "iata_code": "SMQ"
+  },
+  {
+    "name_airport": "H.A.S Hanandjoeddin Airport",
+    "city": "Belitung / Tanjung Pandan",
+    "province": "Kepulauan Bangka Belitung",
+    "time_zone": "UTC+7",
+    "iata_code": "TJQ"
+  },
+  {
+    "name_airport": "Halim Perdanakusuma International Airport",
+    "city": "Jakarta",
+    "province": "DKI Jakarta",
+    "time_zone": "UTC+7",
+    "iata_code": "HLP"
+  },
+  {
+    "name_airport": "Haluoleo",
+    "city": "Kendari",
+    "province": "Sulawesi Tenggara",
+    "time_zone": "UTC+9",
+    "iata_code": "KDI"
+  },
+  {
+    "name_airport": "Hang Nadim",
+    "city": "Batam",
+    "province": "Kepulauan Riau",
+    "time_zone": "UTC+7",
+    "iata_code": "BTH"
+  },
+  {
+    "name_airport": "Hasanuddin",
+    "city": "Makassar",
+    "province": "Sulawesi Selatan",
+    "time_zone": "UTC+8",
+    "iata_code": "UPG"
+  },
+  {
+    "name_airport": "Husein Sastranegara",
+    "city": "Bandung",
+    "province": "Jawa Barat",
+    "time_zone": "UTC+7",
+    "iata_code": "BDO"
+  },
+  {
+    "name_airport": "Iskandar",
+    "city": "Pangkalan Bun",
+    "province": "Kalimantan Tengah",
+    "time_zone": "UTC+8",
+    "iata_code": "PKN"
+  },
+  {
+    "name_airport": "Jalaluddin",
+    "city": "Gorontalo",
+    "province": "Gorontalo",
+    "time_zone": "UTC+8",
+    "iata_code": "GTO"
+  },
+  {
+    "name_airport": "Juanda International Airport",
+    "city": "Surabaya",
+    "province": "Jawa Timur",
+    "time_zone": "UTC+7",
+    "iata_code": "SUB"
+  },
+  {
+    "name_airport": "Juwata International Airport",
+    "city": "Tarakan",
+    "province": "Kalimantan Utara",
+    "time_zone": "UTC+8",
+    "iata_code": "TRK"
+  },
+  {
+    "name_airport": "Kalimarau",
+    "city": "Berau",
+    "province": "Kalimantan Timur",
+    "time_zone": "UTC+8",
+    "iata_code": "BEJ"
+  },
+  {
+    "name_airport": "Komodo",
+    "city": "Labuan Bajo",
+    "province": "Nusa Tenggara Timur",
+    "time_zone": "UTC+8",
+    "iata_code": "LBJ"
+  },
+  {
+    "name_airport": "Kualanamu International Airport",
+    "city": "Medan",
+    "province": "Sumatera Utara",
+    "time_zone": "UTC+7",
+    "iata_code": "KNO"
+  },
+  {
+    "name_airport": "Lombok Praya International Airport",
+    "city": "Lombok",
+    "province": "Nusa Tenggara Barat",
+    "time_zone": "UTC+7",
+    "iata_code": "LOP"
+  },
+  {
+    "name_airport": "Minangkabau Intl",
+    "city": "Padang",
+    "province": "Sumatera Barat",
+    "time_zone": "UTC+7",
+    "iata_code": "PDG"
+  },
+  {
+    "name_airport": "Mopah",
+    "city": "Merauke",
+    "province": "Papua",
+    "time_zone": "UTC+9",
+    "iata_code": "MKQ"
+  },
+  {
+    "name_airport": "Mozes Kilangin",
+    "city": "Timika",
+    "province": "Papua Tengah",
+    "time_zone": "UTC+9",
+    "iata_code": "TIM"
+  },
+  {
+    "name_airport": "Muhammad Salahuddin",
+    "city": "Bima",
+    "province": "Nusa Tenggara Barat",
+    "time_zone": "UTC+7",
+    "iata_code": "BMU"
+  },
+  {
+    "name_airport": "Mutiara SIS Aljufri",
+    "city": "Palu",
+    "province": "Sulawesi Tengah",
+    "time_zone": "UTC+8",
+    "iata_code": "PLW"
+  },
+  {
+    "name_airport": "Nabire",
+    "city": "Nabire",
+    "province": "Papua",
+    "time_zone": "UTC+9",
+    "iata_code": "NBX"
+  },
+  {
+    "name_airport": "Ngurah Rai International Airport",
+    "city": "Bali / Denpasar",
+    "province": "Bali",
+    "time_zone": "UTC+7",
+    "iata_code": "DPS"
+  },
+  {
+    "name_airport": "Pattimura Airport",
+    "city": "Ambon",
+    "province": "Maluku",
+    "time_zone": "UTC+9",
+    "iata_code": "AMQ"
+  },
+  {
+    "name_airport": "Radin Inten II Airport",
+    "city": "Bandar Lampung",
+    "province": "Lampung",
+    "time_zone": "UTC+7",
+    "iata_code": "TKG"
+  },
+  {
+    "name_airport": "Rahadi Usman",
+    "city": "Ketapang",
+    "province": "Kalimantan Barat",
+    "time_zone": "UTC+8",
+    "iata_code": "KTG"
+  },
+  {
+    "name_airport": "Raja Haji Fisabilillah International Airport",
+    "city": "Bintan / Tanjung Pinang",
+    "province": "Kepulauan Riau",
+    "time_zone": "UTC+7",
+    "iata_code": "TNJ"
+  },
+  {
+    "name_airport": "Rendani",
+    "city": "Manokwari",
+    "province": "Papua Barat",
+    "time_zone": "UTC+9",
+    "iata_code": "MKW"
+  },
+  {
+    "name_airport": "Sam Ratulangi",
+    "city": "Manado",
+    "province": "Sulawesi Utara",
+    "time_zone": "UTC+8",
+    "iata_code": "MDC"
+  },
+  {
+    "name_airport": "Sentani",
+    "city": "Jayapura",
+    "province": "Papua",
+    "time_zone": "UTC+9",
+    "iata_code": "DJJ"
+  },
+  {
+    "name_airport": "Sepinggan",
+    "city": "Balikpapan",
+    "province": "Kalimantan Timur",
+    "time_zone": "UTC+8",
+    "iata_code": "BPN"
+  },
+  {
+    "name_airport": "Soa",
+    "city": "Bajawa",
+    "province": "Nusa Tenggara Timur",
+    "time_zone": "UTC+8",
+    "iata_code": "BJW"
+  },
+  {
+    "name_airport": "Soekarno Hatta International Airport",
+    "city": "Jakarta",
+    "province": "DKI Jakarta",
+    "time_zone": "UTC+7",
+    "iata_code": "CGK"
+  },
+  {
+    "name_airport": "Sultan Babullah",
+    "city": "Ternate",
+    "province": "Maluku Utara",
+    "time_zone": "UTC+9",
+    "iata_code": "TTE"
+  },
+  {
+    "name_airport": "Sultan Iskandarmuda",
+    "city": "Banda Aceh",
+    "province": "Aceh",
+    "time_zone": "UTC+7",
+    "iata_code": "BTJ"
+  },
+  {
+    "name_airport": "Sultan Mahmud Badaruddin II",
+    "city": "Palembang",
+    "province": "Sumatera Selatan",
+    "time_zone": "UTC+7",
+    "iata_code": "PLM"
+  },
+  {
+    "name_airport": "Sultan Syarif Kasim II",
+    "city": "Pekanbaru",
+    "province": "Riau",
+    "time_zone": "UTC+7",
+    "iata_code": "PKU"
+  },
+  {
+    "name_airport": "Sultan Thaha",
+    "city": "Jambi",
+    "province": "Jambi",
+    "time_zone": "UTC+7",
+    "iata_code": "DJB"
+  },
+  {
+    "name_airport": "Supadio",
+    "city": "Pontianak",
+    "province": "Kalimantan Barat",
+    "time_zone": "UTC+8",
+    "iata_code": "PNK"
+  },
+  {
+    "name_airport": "Syamsudin Noor",
+    "city": "Banjarmasin",
+    "province": "Kalimantan Selatan",
+    "time_zone": "UTC+8",
+    "iata_code": "BDJ"
+  },
+  {
+    "name_airport": "Tambolaka Airport",
+    "city": "Waikabubak",
+    "province": "Nusa Tenggara Timur",
+    "time_zone": "UTC+8",
+    "iata_code": "TMC"
+  },
+  {
+    "name_airport": "Tjilik Riwut",
+    "city": "Palangkaraya",
+    "province": "Kalimantan Tengah",
+    "time_zone": "UTC+8",
+    "iata_code": "PKY"
+  },
+  {
+    "name_airport": "Wamena",
+    "city": "Wamena",
+    "province": "Papua",
+    "time_zone": "UTC+9",
+    "iata_code": "WMX"
+  },
+  {
+    "name_airport": "Yogyakarta International Airport",
+    "city": "Yogyakarta",
+    "province": "Daerah Istimewa Yogyakarta",
+    "time_zone": "UTC+7",
+    "iata_code": "YIA"
+  }
+]
