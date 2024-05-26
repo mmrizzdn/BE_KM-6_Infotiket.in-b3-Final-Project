@@ -9,12 +9,213 @@ servers:
   - url: http://localhost:3000
 
 paths:
+  /register:
+    post:
+      tags:
+        - "Mendaftar"
+      summary: Mendaftarkan Pengguna Baru
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Mendaftar"
+
+      responses:
+        201:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Akun berhasil dibuat. Silahkan periksa email Anda untuk verifikasi!
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      first_name:
+                        type: string
+                        example: BE3
+                      last_name:
+                        type: string
+                        example: Infotiket.in
+                      email:
+                        type: string
+                        example: Infotiketin@gmail.com
+                      is_verified:
+                        type: boolean
+                        example: false
+                      image_url:
+                        type: string
+                        example: null
+                      role:
+                        type: string
+                        example: user
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Email sudah digunakan sebelumnya!
+                  data:
+                    type: string
+                    example: null
+
+  /login:
+    post:
+      tags:
+        - "Masuk"
+      summary: Login dengan email dan kata sandi
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Anda telah berhasil masuk!
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      first_name:
+                        type: string
+                        example: BE3
+                      last_name:
+                        type: string
+                        example: Infotiket.in
+                      email:
+                        type: string
+                        example: Infotiketin@gmail.com
+                      is_verified:
+                        type: boolean
+                        example: false
+                      image_url:
+                        type: string
+                        example: null
+                      role:
+                        type: string
+                        example: user
+                      token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzE2NzI1ODMyfQ.b19b_5Os8Tbj_ltRoGyOkD8KfxZ-S-12312scwasr23
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Email atau kata sandi tidak valid!
+                  data:
+                    type: string
+                    example: null
+
+  /:
+    get:
+      tags:
+        - "Selamat Datang"
+      summary: Selamat datang di Infotiket.in
+      security:
+        - BearerAuth: []
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Selamat Datang di website Infotiket.in!
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      first_name:
+                        type: string
+                        example: BE3
+                      last_name:
+                        type: string
+                        example: Infotiket.in
+                      email:
+                        type: string
+                        example: Infotiketin@gmail.com
+                      is_verified:
+                        type: boolean
+                        example: false
+                      image_url:
+                        type: string
+                        example: null
+                      role:
+                        type: string
+                        example: user
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Tidak ada token!
+                  data:
+                    type: string
+                    example: null
+
   /api/v1/airports:
     get:
       tags:
         - "Bandara"
       summary: Daftar Semua Data Bandara
-
       responses:
         201:
           description: sukses
@@ -141,7 +342,36 @@ paths:
                     example: null
 
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
+    Mendaftar:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: BE3
+        last_name:
+          type: string
+          example: Infotiket.in
+        email:
+          type: string
+          example: Infotiketin@gmail.com
+        password:
+          type: string
+          example: password123
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+          example: Infotiketin@gmail.com
+        password:
+          type: string
+          example: password123
     Bandara:
       type: object
       properties:

@@ -15,8 +15,6 @@ async function main() {
         province: airport.province,
         time_zone: airport.time_zone,
         iata_code: airport.iata_code,
-        from_flights: flights.from_flights,
-        to_flights: flights.to_flights,
       },
     });
   }
