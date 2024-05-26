@@ -49,7 +49,7 @@ paths:
                         example: Infotiket.in
                       email:
                         type: string
-                        example: Infotiketin@gmail.com
+                        example: infotiketin@gmail.com
                       is_verified:
                         type: boolean
                         example: false
@@ -117,7 +117,7 @@ paths:
                         example: Infotiket.in
                       email:
                         type: string
-                        example: Infotiketin@gmail.com
+                        example: infotiketin@gmail.com
                       is_verified:
                         type: boolean
                         example: false
@@ -183,7 +183,7 @@ paths:
                         example: Infotiket.in
                       email:
                         type: string
-                        example: Infotiketin@gmail.com
+                        example: infotiketin@gmail.com
                       is_verified:
                         type: boolean
                         example: false
@@ -359,7 +359,7 @@ components:
           example: Infotiket.in
         email:
           type: string
-          example: Infotiketin@gmail.com
+          example: infotiketin@gmail.com
         password:
           type: string
           example: password123
@@ -368,7 +368,7 @@ components:
       properties:
         email:
           type: string
-          example: Infotiketin@gmail.com
+          example: infotiketin@gmail.com
         password:
           type: string
           example: password123
