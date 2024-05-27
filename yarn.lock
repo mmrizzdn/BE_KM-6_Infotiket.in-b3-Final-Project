@@ -19,7 +19,7 @@
 
 "@prisma/client@^5.14.0":
   version "5.14.0"
-  resolved "https://registry.npmjs.org/@prisma/client/-/client-5.14.0.tgz"
+  resolved "https://registry.yarnpkg.com/@prisma/client/-/client-5.14.0.tgz#dadca5bb1137ddcebb454bbdaf89423823d3363f"
   integrity sha512-akMSuyvLKeoU4LeyBAUdThP/uhVP3GuLygFE3MlYzaCb3/J8SfsYBE5PkaFuLuVpLyA6sFoW+16z/aPhNAESqg==
 
 "@prisma/debug@5.14.0":
@@ -955,7 +955,7 @@ path@^0.12.7:
 
 prisma@^5.14.0:
   version "5.14.0"
-  resolved "https://registry.npmjs.org/prisma/-/prisma-5.14.0.tgz"
+  resolved "https://registry.yarnpkg.com/prisma/-/prisma-5.14.0.tgz#ffc4696a43b044b636c3303b7aa98c13c2ade4dd"
   integrity sha512-gCNZco7y5XtjrnQYeDJTiVZmT/ncqCr5RY1/Cf8X2wgLRmyh9ayPAGBNziI4qEE4S6SxCH5omQLVo9lmURaJ/Q==
   dependencies:
     "@prisma/engines" "5.14.0"

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "seed": "node seeders/airport.seeders.js && node seeders/airline.seeders.js"
   },
   "dependencies": {
     "@prisma/client": "^5.14.0",
