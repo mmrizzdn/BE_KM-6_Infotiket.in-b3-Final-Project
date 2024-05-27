@@ -147,6 +147,54 @@ paths:
                     type: string
                     example: null
 
+  /verifikasi:
+    get:
+      tags:
+        - "Verifikasi Email"
+      summary: "Verifikasi Email"
+      parameters:
+        - schema:
+            type: string
+          name: token
+          in: "query"
+          description: "Token autentikasi"
+          required: true
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mengubah kata sandi!
+                  data:
+                    type: string
+                    example: null
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Gagal diverifikasi
+                  data:
+                    type: string
+                    example: null
+
   /:
     get:
       tags:
@@ -207,6 +255,118 @@ paths:
                   message:
                     type: string
                     example: Tidak ada token!
+                  data:
+                    type: string
+                    example: null
+
+  /forgot-password:
+    post:
+      tags:
+        - "Lupa kata sandi"
+      summary: Lupa sandi dengan email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: infotiketin@gmail.com
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Silahkan periksa email Anda untuk atur ulang kata sandi!
+                  data:
+                    type: string
+                    example: null
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Pengguna tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+
+  /reset-password:
+    post:
+      tags:
+        - "Setel ulang kata sandi"
+      summary: "Setel ulang kata sandi"
+      parameters:
+        - schema:
+            type: string
+          name: token
+          in: "query"
+          description: "Token autentikasi"
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: tes
+                confirmPassword:
+                  type: string
+                  example: tes
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mengubah kata sandi!
+                  data:
+                    type: string
+                    example: null
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Token tidak valid atau sudah kedaluwarsa!
                   data:
                     type: string
                     example: null
