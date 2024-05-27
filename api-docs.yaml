@@ -523,6 +523,9 @@ components:
         password:
           type: string
           example: password123
+        confirmPassword:
+          type: string
+          example: password123
     Login:
       type: object
       properties:

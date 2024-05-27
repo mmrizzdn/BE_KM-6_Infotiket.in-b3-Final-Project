@@ -8,8 +8,15 @@ const { sendMail } = require("../libs/nodemailer");
 module.exports = {
   register: async (req, res, next) => {
     try {
-      let { first_name, last_name, email, password } = req.body;
-      if (!first_name || !last_name || !email || !password) {
+      let { first_name, last_name, email, password, confirmPassword } =
+        req.body;
+      if (
+        !first_name ||
+        !last_name ||
+        !email ||
+        !password ||
+        !confirmPassword
+      ) {
         return res.status(400).json({
           status: false,
           message: "Semua kolom harus diisi!",
@@ -22,6 +29,22 @@ module.exports = {
         return res.status(400).json({
           status: false,
           message: "Email sudah digunakan sebelumnya!",
+          data: null,
+        });
+      }
+
+      if (!password || !confirmPassword) {
+        return res.status(400).json({
+          status: false,
+          message: "Kata sandi baru diperlukan!",
+          data: null,
+        });
+      }
+
+      if (password !== confirmPassword) {
+        return res.status(400).json({
+          status: false,
+          message: "Kata sandi tidak cocok!",
           data: null,
         });
       }

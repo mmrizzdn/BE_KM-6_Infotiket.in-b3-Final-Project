@@ -6,7 +6,8 @@ Content-Type: application/json
     "first_name": "BE3",
     "last_name": "Infotiket.in",
     "email": "infotiketin@gmail.com",
-    "password": "password123"
+    "password": "password123",
+    "confirmPassword": "password123"
 }
 
 ### login
