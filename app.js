@@ -28,6 +28,10 @@ app.use("/", router);
 const routerAirport = require("./routes/route.airport");
 app.use("/api/v1", routerAirport);
 
+// Api Profile
+const routerProfile = require("./routes/route.profile");
+app.use("/api/v1", routerProfile);
+
 // 404 halaman tidak ditemukan
 app.use((req, res, next) => {
   return res.status(404).json({
