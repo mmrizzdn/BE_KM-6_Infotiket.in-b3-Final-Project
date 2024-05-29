@@ -50,8 +50,8 @@ model Flight {
   departure_airport_id Int
   arrival_airport_id   Int
   airline_id           Int
-  departure_time       DateTime
-  arrival_time         DateTime
+  departure_time       String
+  arrival_time         String
   price                Float
   flight_number        String
   free_baggage         Int
