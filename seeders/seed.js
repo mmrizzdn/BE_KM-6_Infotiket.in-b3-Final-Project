@@ -8,7 +8,6 @@ const { flight } = require('./flight.seeders');
 async function main() {
 	await airline();
 	await airport();
-	await flight();
 }
 
 main()
