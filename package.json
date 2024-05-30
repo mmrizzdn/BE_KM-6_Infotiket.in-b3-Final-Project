@@ -4,15 +4,27 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "seed": "node seeders/airport.seeders.js && node seeders/airline.seeders.js && node seeders/flight.seeders.js"
   },
   "dependencies": {
     "@prisma/client": "^5.14.0",
-    "cookie-parser": "~1.4.4",
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
     "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1",
-    "prisma": "^5.14.0"
+    "fs": "^0.0.1-security",
+    "googleapis": "^137.1.0",
+    "imagekit": "^5.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.13",
+    "path": "^0.12.7",
+    "prisma": "^5.14.0",
+    "swagger-ui-express": "^5.0.0",
+    "yaml": "^2.4.2"
   }
 }

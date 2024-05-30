@@ -1,0 +1,45 @@
+### register
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "first_name": "BE3",
+    "last_name": "Infotiket.in",
+    "email": "infotiketin@gmail.com",
+    "password": "password123",
+    "confirmPassword": "password123"
+}
+
+### login
+POST http://localhost:3000/login  
+Content-Type: application/json
+
+{
+    "email": "infotiketin@gmail.com",
+    "password": "password123"
+}
+
+### Verification
+GET http://localhost:3000/verifikasi?token="masukan token dari email disini"
+
+
+### first poge    
+GET http://localhost:3000/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjksImlhdCI6MTcxNjc5MDg2M30.
+
+### forgot password
+POST http://localhost:3000/forgot-password
+Content-Type: application/json
+
+{
+    "email": "infotiketin@gmail.com"
+}
+
+###
+POST http://localhost:3000/reset-password?token="masukan token dari email disini"
+Content-Type: application/json
+
+{
+    "password": "infotiketin",
+    "confirmPassword": "infotiketin"
+}
