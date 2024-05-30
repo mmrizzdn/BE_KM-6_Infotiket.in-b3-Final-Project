@@ -32,6 +32,14 @@ app.use("/api/v1", routerAirport);
 const routerProfile = require("./routes/route.profile");
 app.use("/api/v1", routerProfile);
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: true,
+    message: "welcome to infotiket.in API!",
+    data: null,
+  });
+})
+
 // 404 halaman tidak ditemukan
 app.use((req, res, next) => {
   return res.status(404).json({
