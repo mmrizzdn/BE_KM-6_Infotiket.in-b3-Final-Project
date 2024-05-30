@@ -13,12 +13,12 @@ app.use(cookieParser());
 const swaggerUI = require("swagger-ui-express");
 const YAML = require("yaml");
 const fs = require("fs");
-const file = fs.readFileSync("./api-docs.yaml", "utf-8");
-const swaggerDocument = YAML.parse(file);
+// const file = fs.readFileSync("./api-docs.yaml", "utf-8");
+// const swaggerDocument = YAML.parse(file);
 
 // All Routers
 // Api Docs
-app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+// app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // Api Login and Register
 const router = require("./routes/route.index");
