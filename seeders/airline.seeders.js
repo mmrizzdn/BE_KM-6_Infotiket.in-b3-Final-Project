@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 const fs = require('fs');
 const path = require('path');
 
-async function main() {
+async function airline() {
 	const filePath = path.join(__dirname, 'data', 'airlines.json');
 	const airlinesData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
 
@@ -21,11 +21,4 @@ async function main() {
 	console.info('Data inserted');
 }
 
-main()
-	.catch((e) => {
-		console.error(e);
-		process.exit(1);
-	})
-	.finally(async () => {
-		await prisma.$disconnect();
-	});
+module.exports = { airline };
