@@ -6,7 +6,7 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "seed": "node seeders/seed.js",
-    "vercel-build": "prisma generate && prisma migrate deploy && prisma migrate reset && node seeders/seed.js"
+    "vercel-build": "prisma generate && prisma migrate deploy && prisma migrate reset --force && node seeders/seed.js"
   },
   "dependencies": {
     "@prisma/client": "^5.14.0",
