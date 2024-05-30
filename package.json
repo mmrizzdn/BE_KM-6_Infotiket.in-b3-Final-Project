@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "seed": "node seeders/airport.seeders.js && node seeders/airline.seeders.js && node seeders/flight.seeders.js"
+    "seed": "node seeders/airport.seeders.js && node seeders/airline.seeders.js && node seeders/flight.seeders.js",
+    "vercel-build": "prisma generate && prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "^5.14.0",
