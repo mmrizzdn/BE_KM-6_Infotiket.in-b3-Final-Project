@@ -1,0 +1,146 @@
+[
+	{
+		"model": "Airbus A320",
+		"seat_layout": "3-3",
+		"seat_pitch": 29,
+		"seat_type": "STANDARD_LEGROOM",
+		"seat_amount": 120,
+		"airline_id": 1
+	},
+	{
+		"model": "ATR-72",
+		"seat_layout": "2-2",
+		"seat_pitch": 31,
+		"seat_type": "ABOVE_AVERAGE_LEGROOM",
+		"seat_amount": 78,
+		"airline_id": 1
+	},
+	{
+		"model": "ATR-72",
+		"seat_layout": "2-2",
+		"seat_pitch": 28,
+		"seat_type": "STANDARD_LEGROOM",
+		"seat_amount": 78,
+		"airline_id": 1
+	},
+	{
+		"model": "Airbus A320",
+		"seat_layout": "3-3",
+		"seat_pitch": 32,
+		"seat_type": "STANDARD_LEGROOM",
+		"seat_amount": 120,
+		"airline_id": 4
+	},
+	{
+		"model": "ARJ21",
+		"seat_layout": "2-3",
+		"seat_pitch": 31,
+		"seat_type": "STANDARD_LEGROOM",
+		"seat_amount": 90,
+		"airline_id": 4
+	},
+	{
+		"model": "Boeing 737",
+		"seat_layout": "3-3",
+		"seat_pitch": 31,
+		"seat_type": "ABOVE_AVERAGE_LEGROOM",
+		"seat_amount": 162,
+		"airline_id": 5
+	},
+	{
+		"model": "Airbus A332",
+		"seat_layout": "3-3",
+		"seat_pitch": 31,
+		"seat_type": "ABOVE_AVERAGE_LEGROOM",
+		"seat_amount": 186,
+		"airline_id": 5
+	},
+	{
+		"model": "Bombardier CRJ1000",
+		"seat_layout": "2-2",
+		"seat_pitch": 31,
+		"seat_type": "ABOVE_AVERAGE_LEGROOM",
+		"seat_amount": 104,
+		"airline_id": 5
+	},
+	{
+		"model": "Boeing 737-800",
+		"seat_layout": "3-3",
+		"seat_pitch": 31,
+		"seat_type": "ABOVE_AVERAGE_LEGROOM",
+		"seat_amount": 189,
+		"airline_id": 5
+	},
+	{
+		"model": "Airbus A330",
+		"seat_layout": "2-4-2",
+		"seat_pitch": 32,
+		"seat_type": "ABOVE_AVERAGE_LEGROOM",
+		"seat_amount": 293,
+		"airline_id": 5
+	},
+	{
+		"model": "Boeing 737",
+		"seat_layout": "3-3",
+		"seat_pitch": 29,
+		"seat_type": "STANDARD_LEGROOM",
+		"seat_amount": 162,
+		"airline_id": 6
+	},
+	{
+		"model": "Boeing 737",
+		"seat_layout": "3-3",
+		"seat_pitch": 31,
+		"seat_type": "ABOVE_AVERAGE_LEGROOM",
+		"seat_amount": 189,
+		"airline_id": 6
+	},
+	{
+		"model": "Boeing 737",
+		"seat_layout": "3-3",
+		"seat_pitch": 32,
+		"seat_type": "ABOVE_AVERAGE_LEGROOM",
+		"seat_amount": 189,
+		"airline_id": 7
+	},
+	{
+		"model": "Airbus A320",
+		"seat_layout": "3-3",
+		"seat_pitch": 32,
+		"seat_type": "ABOVE_AVERAGE_LEGROOM",
+		"seat_amount": 180,
+		"airline_id": 7
+	},
+	{
+		"model": "Boeing 737-800",
+		"seat_layout": "3-3",
+		"seat_pitch": 32,
+		"seat_type": "ABOVE_AVERAGE_LEGROOM",
+		"seat_amount": 189,
+		"airline_id": 7
+	},
+	{
+		"model": "Boeing 737",
+		"seat_layout": "3-3",
+		"seat_pitch": 29,
+		"seat_type": "STANDARD_LEGROOM",
+		"seat_amount": 162,
+		"airline_id": 9
+	},
+	{
+		"model": "Boeing 737",
+		"seat_layout": "3-3",
+		"seat_pitch": 29,
+		"seat_type": "STANDARD_LEGROOM",
+		"seat_amount": 162,
+		"airline_id": 10
+	},
+	{
+		"model": "Boeing 737",
+		"seat_layout": "3-3",
+		"seat_pitch": 30,
+		"seat_type": "STANDARD_LEGROOM",
+    "seat_amount": 162,
+		"airline_id": 12
+	}
+]

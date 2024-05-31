@@ -28,6 +28,14 @@ app.use("/", router);
 const routerAirport = require("./routes/route.airport");
 app.use("/api/v1", routerAirport);
 
+// Api Airline
+const routerAirline = require("./routes/route.airline");
+app.use("/api/v1", routerAirline);
+
+// Api Airplane
+const routerAirplane = require("./routes/route.airplane");
+app.use("/api/v1", routerAirplane);
+
 // Api Profile
 const routerProfile = require("./routes/route.profile");
 app.use("/api/v1", routerProfile);

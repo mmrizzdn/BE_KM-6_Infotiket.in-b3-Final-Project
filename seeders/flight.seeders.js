@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const fs = require("fs");
 const path = require("path");
 
-async function main() {
+async function flight() {
   const filePath = path.join(__dirname, "data", "schedules.json");
   const flightsData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
@@ -51,11 +51,4 @@ async function main() {
   console.info("Data penerbangan berhasil dimasukkan");
 }
 
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+module.exports = { flight };
