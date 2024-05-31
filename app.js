@@ -13,12 +13,12 @@ app.use(cookieParser());
 const swaggerUI = require("swagger-ui-express");
 const YAML = require("yaml");
 const fs = require("fs");
-// const file = fs.readFileSync("./api-docs.yaml", "utf-8");
-// const swaggerDocument = YAML.parse(file);
+const file = fs.readFileSync("./api-docs.yaml", "utf-8");
+const swaggerDocument = YAML.parse(file);
 
 // All Routers
 // Api Docs
-// app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // Api Login and Register
 const router = require("./routes/route.index");
@@ -27,6 +27,14 @@ app.use("/", router);
 // Api Bandara
 const routerAirport = require("./routes/route.airport");
 app.use("/api/v1", routerAirport);
+
+// Api Airline
+const routerAirline = require("./routes/route.airline");
+app.use("/api/v1", routerAirline);
+
+// Api Airplane
+const routerAirplane = require("./routes/route.airplane");
+app.use("/api/v1", routerAirplane);
 
 // Api Profile
 const routerProfile = require("./routes/route.profile");
