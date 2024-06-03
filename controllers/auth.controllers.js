@@ -297,12 +297,16 @@ module.exports = {
   },
 
   logout: (req, res) => {
-    req.logout((err) => {
-      if (err) {
-        console.error(err);
-        return res.redirect("/");
-      }
-      res.redirect("/");
-    });
+    try {
+      req.logout((err) => {
+        if (err) {
+          console.error(err);
+          return res.redirect("/");
+        }
+        res.redirect("/");
+      });
+    } catch (error) {
+      next(error);
+    }
   },
 };
