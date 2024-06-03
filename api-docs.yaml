@@ -885,7 +885,66 @@ components:
           example: AAP
         from_flights:
           type: array
-          example: []
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 245
+              departure_airport_id:
+                type: integer
+                example: 1
+              arrival_airport_id:
+                type: integer
+                example: 25
+              airline_id:
+                type: integer
+                example: 1
+              departure_time:
+                type: string
+                example: "10:55"
+              arrival_time:
+                type: string
+                example: "11:25"
+              price:
+                type: number
+                example: 1315385
+              flight_number:
+                type: string
+                example: "QG-461"
+              free_baggage:
+                type: integer
+                example: 20
+              cabin_baggage:
+                type: integer
+                example: 7
+              duration_minute:
+                type: integer
+                example: 90
+              class:
+                type: string
+                example: "ECONOMY"
+              is_sunday:
+                type: boolean
+                example: true
+              is_monday:
+                type: boolean
+                example: false
+              is_tuesday:
+                type: boolean
+                example: false
+              is_wednesday:
+                type: boolean
+                example: false
+              is_thursday:
+                type: boolean
+                example: false
+              is_friday:
+                type: boolean
+                example: false
+              is_saturday:
+                type: boolean
+                example: false
         to_flights:
           type: array
           example: []
