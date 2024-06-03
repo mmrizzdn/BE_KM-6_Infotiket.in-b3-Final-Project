@@ -996,7 +996,7 @@ components:
               is_saturday:
                 type: boolean
                 example: false
-                Airline:
+    Airline:
       type: object
       properties:
         id:
