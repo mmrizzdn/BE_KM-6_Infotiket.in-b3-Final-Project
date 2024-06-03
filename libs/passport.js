@@ -5,15 +5,14 @@ const passport = require("passport");
 const bcrypt = require("bcrypt");
 const prisma = new PrismaClient();
 
-const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL } =
-  process.env;
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 
 pasport.use(
   new GoogleStrategy(
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: GOOGLE_CALLBACK_URL,
+      callbackURL: "http://localhost:3000/auth/google/callback",
     },
     async function (accessToken, refreshToken, profile, done) {
       try {
