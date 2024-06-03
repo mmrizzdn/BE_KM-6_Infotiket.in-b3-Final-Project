@@ -68,7 +68,6 @@ model Flight {
   departure_airport    Airport    @relation("DepartureAirport", fields: [departure_airport_id], references: [id])
   arrival_airport      Airport    @relation("ArrivalAirport", fields: [arrival_airport_id], references: [id])
   airline              Airline    @relation(fields: [airline_id], references: [id])
-  schedule             Schedule[]
 
   @@map("flight")
 }
@@ -100,9 +99,20 @@ model Airplane {
 
 model Schedule {
   id           Int      @id @default(autoincrement())
-  flight_id    Int
+  departure_airport_id Int
+  arrival_airport_id   Int
+  airline_id           Int
+  departure_time       String
+  arrival_time         String
+  price                Float
+  flight_number        String
+  free_baggage         Int
+  cabin_baggage        Int
+  duration_minute      Int
+  class                String
+  Date                 DateTime
+  seat_available       Int            @default(25)
   is_available Boolean
-  flight       Flight   @relation(fields: [flight_id], references: [id])
   tickets      Ticket[]
 
   @@map("schedule")

@@ -20,7 +20,7 @@ module.exports = {
       }
       res.status(200).json({
         status: true,
-        message: "Berhasil menampilkan semua data Airports",
+        message: "Berhasil menampilkan semua data Bandara",
         data: airports,
       });
     } catch (error) {
@@ -48,7 +48,7 @@ module.exports = {
       }
       res.status(200).json({
         status: true,
-        message: "Berhasil menampilkan data Airport",
+        message: "Berhasil menampilkan data Bandara",
         data: airport,
       });
     } catch (error) {

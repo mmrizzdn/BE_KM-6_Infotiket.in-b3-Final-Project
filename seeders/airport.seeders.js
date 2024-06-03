@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const fs = require("fs");
@@ -19,7 +20,7 @@ async function airport() {
     });
   }
 
-  console.info("Data inserted");
+  console.info("Data bandara berhasil dimasukkan");
 }
 
 module.exports = { airport };
