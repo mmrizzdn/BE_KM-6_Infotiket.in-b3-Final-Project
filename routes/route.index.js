@@ -15,21 +15,21 @@ const restrict = require("../middleware/restrict");
 // all router api auth
 
 // register
-router.post("/register", register);
+router.post("/daftar-sekarang", register);
 
 //login
-router.post("/login", login);
+router.post("/masuk", login);
 
 // firstPage
-router.get("/", restrict, firstPage);
+router.get("/", firstPage);
 
 // verifikasi email
 router.get("/verifikasi", verifyEmail);
 
 // forgot password
-router.post("/forgot-password", forgotPassword);
+router.post("/lupa-kata-sandi", forgotPassword);
 
 // reset password
-router.post("/reset-password", resetPassword);
+router.post("/mengatur-ulang-kata-sandi", resetPassword);
 
 module.exports = router;
