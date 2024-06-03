@@ -21,6 +21,7 @@ model User {
   password    String
   is_verified Boolean   @default(false)
   image_url   String?
+  google_id   String?
   booking     Booking[]
   role        Role      @default(user)
 
@@ -46,7 +47,7 @@ model Airport {
 }
 
 model Flight {
-  id                   Int        @id @default(autoincrement())
+  id                   Int     @id @default(autoincrement())
   departure_airport_id Int
   arrival_airport_id   Int
   airline_id           Int
@@ -65,9 +66,9 @@ model Flight {
   is_thursday          Boolean
   is_friday            Boolean
   is_saturday          Boolean
-  departure_airport    Airport    @relation("DepartureAirport", fields: [departure_airport_id], references: [id])
-  arrival_airport      Airport    @relation("ArrivalAirport", fields: [arrival_airport_id], references: [id])
-  airline              Airline    @relation(fields: [airline_id], references: [id])
+  departure_airport    Airport @relation("DepartureAirport", fields: [departure_airport_id], references: [id])
+  arrival_airport      Airport @relation("ArrivalAirport", fields: [arrival_airport_id], references: [id])
+  airline              Airline @relation(fields: [airline_id], references: [id])
 
   @@map("flight")
 }
@@ -98,7 +99,7 @@ model Airplane {
 }
 
 model Schedule {
-  id           Int      @id @default(autoincrement())
+  id                   Int      @id @default(autoincrement())
   departure_airport_id Int
   arrival_airport_id   Int
   airline_id           Int
@@ -111,9 +112,9 @@ model Schedule {
   duration_minute      Int
   class                String
   Date                 DateTime
-  seat_available       Int            @default(25)
-  is_available Boolean
-  tickets      Ticket[]
+  seat_available       Int      @default(25)
+  is_available         Boolean
+  tickets              Ticket[]
 
   @@map("schedule")
 }

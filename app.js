@@ -1,5 +1,5 @@
 require("dotenv").config();
-require('./libs/cron');
+require("./libs/cron");
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const PORT = 3000 || process.env;

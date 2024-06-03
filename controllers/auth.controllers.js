@@ -280,4 +280,25 @@ module.exports = {
       next(error);
     }
   },
+
+  googleOauth2: (req, res) => {
+    try {
+      let token = jwt.sign({ id: req.user.id }, JWT_SECRET);
+
+      return res.status(200).json({
+        status: true,
+        message: "Berhasil login menggunakan Google OAuth.",
+        err: null,
+        data: { user: req.user, token },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  logout: (req, res) => {
+    req.logout(() => {
+      res.redirect("/");
+    });
+  },
 };

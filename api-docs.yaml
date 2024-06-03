@@ -673,7 +673,7 @@ paths:
                     example: Berhasil menampilkan semua data maskapai
                   data:
                     allOf:
-                      - $ref: "#/components/schemas/Airline"
+                      - $ref: "#/components/schemas/Maskapai"
         404:
           description: Halaman Tidak Ditemukan 404
           content:
@@ -689,7 +689,7 @@ paths:
                     example: Data maskapai tidak ditemukan!
                   data:
                     type: string
-                    example: null                
+                    example: null
   /api/v1/airlines/{id}:
     parameters:
       - schema:
@@ -717,7 +717,7 @@ paths:
                     example: Berhasil mendapatkan data maskapai
                   data:
                     allOf:
-                      - $ref: "#/components/schemas/Airline"
+                      - $ref: "#/components/schemas/Maskapai"
         404:
           description: Halaman Tidak Ditemukan 404
           content:
@@ -755,7 +755,7 @@ paths:
                     example: Berhasil mendapatkan data pesawat
                   data:
                     allOf:
-                      - $ref: "#/components/schemas/Airplane"
+                      - $ref: "#/components/schemas/Pesawat"
         404:
           description: Halaman Tidak Ditemukan 404
           content:
@@ -799,7 +799,7 @@ paths:
                     example: Berhasil mendapatkan data pesawat
                   data:
                     allOf:
-                      - $ref: "#/components/schemas/Airplane"
+                      - $ref: "#/components/schemas/Pesawat"
         404:
           description: Halaman Tidak Ditemukan 404
           content:
@@ -996,7 +996,7 @@ components:
               is_saturday:
                 type: boolean
                 example: false
-                Airline:
+    Maskapai:
       type: object
       properties:
         id:
@@ -1014,7 +1014,7 @@ components:
         iata_code:
           type: string
           example: QG
-    Airplane:
+    Pesawat:
       type: object
       properties:
         id:
