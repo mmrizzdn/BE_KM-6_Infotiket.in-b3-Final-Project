@@ -41,6 +41,8 @@ model Airport {
   iata_code    String
   from_flights Flight[] @relation("DepartureAirport")
   to_flights   Flight[] @relation("ArrivalAirport")
+  schedule_from_flights Schedule[] @relation("DepartureAirport")
+  schedule_to_flights Schedule[] @relation("ArrivalAirport")
 
   @@map("airport")
 }
@@ -79,6 +81,7 @@ model Airline {
   icon_url   String?
   iata_code  String
   flights    Flight[]
+  schedule   Schedule[]
   airplanes  Airplane[]
 
   @@map("airline")
@@ -110,9 +113,12 @@ model Schedule {
   cabin_baggage        Int
   duration_minute      Int
   class                String
-  Date                 DateTime
+  Date                 DateTime       @db.Date
   seat_available       Int            @default(25)
   is_available Boolean
+  departure_airport    Airport    @relation("DepartureAirport", fields: [departure_airport_id], references: [id])
+  arrival_airport      Airport    @relation("ArrivalAirport", fields: [arrival_airport_id], references: [id])
+  airline              Airline    @relation(fields: [airline_id], references: [id])
   tickets      Ticket[]
 
   @@map("schedule")

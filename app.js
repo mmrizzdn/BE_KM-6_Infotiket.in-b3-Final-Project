@@ -37,6 +37,9 @@ app.use("/api/v1", routerAirline);
 const routerAirplane = require("./routes/route.airplane");
 app.use("/api/v1", routerAirplane);
 
+const routerFlights = require("./routes/route.find-flight");
+app.use("/api/v1", routerFlights);
+
 // Api Profile
 const routerProfile = require("./routes/route.profile");
 app.use("/api/v1", routerProfile);
