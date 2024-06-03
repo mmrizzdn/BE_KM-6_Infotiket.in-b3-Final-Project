@@ -1,6 +1,8 @@
 require("dotenv").config();
 require("./libs/cron");
 const express = require("express");
+const session = require("express-session");
+const passport = require("./libs/passport");
 const cookieParser = require("cookie-parser");
 const PORT = 3000 || process.env;
 
@@ -9,6 +11,17 @@ const cors = require("cors");
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
+
+app.use(
+  session({
+    secret: process.env.SECRET_SESSION,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Swagger
 // const swaggerUI = require("swagger-ui-express");

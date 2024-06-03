@@ -297,7 +297,11 @@ module.exports = {
   },
 
   logout: (req, res) => {
-    req.logout(() => {
+    req.logout((err) => {
+      if (err) {
+        console.error(err);
+        return res.redirect("/");
+      }
       res.redirect("/");
     });
   },
