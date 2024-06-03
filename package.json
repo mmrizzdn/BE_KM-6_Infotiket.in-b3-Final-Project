@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "seed": "node seeders/airport.seeders.js && node seeders/airline.seeders.js"
+    "seed": "node seeders/airport.seeders.js && node seeders/airline.seeders.js && node seeders/flight.seeders.js"
   },
   "dependencies": {
     "@prisma/client": "^5.14.0",
@@ -21,7 +21,9 @@
     "imagekit": "^5.0.1",
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.3",
     "nodemailer": "^6.9.13",
+    "nodemon": "^3.1.2",
     "path": "^0.12.7",
     "prisma": "^5.14.0",
     "swagger-ui-express": "^5.0.0",

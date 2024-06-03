@@ -10,7 +10,6 @@ async function main() {
   for (const flightKey in flightsData) {
     const flight = flightsData[flightKey];
 
-    // Mendapatkan ID airport dan airline berdasarkan kode IATA
     const departureAirport = await prisma.airport.findFirst({
       where: { iata_code: flight.departureAirport },
     });
