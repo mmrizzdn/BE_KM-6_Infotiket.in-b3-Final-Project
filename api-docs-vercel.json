@@ -1,0 +1,981 @@
+{
+	"_type": "export",
+	"__export_format": 4,
+	"__export_date": "2024-06-03T15:31:57.395Z",
+	"__export_source": "insomnia.desktop.app:v8.6.1",
+	"resources": [
+		{
+			"_id": "req_33f7eac102b247dcb568efe6bb08cdfe",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717427616557,
+			"created": 1717096736575,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/daftar-sekarang",
+			"name": "Register",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \"first_name\": \"BE3\",\n  \"last_name\": \"Infotiket.in\",\n  \"email\": \"21102122@ittelkom-pwt.ac.id\",\n  \"password\": \"password123\",\n  \"confirmPassword\": \"password123\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {},
+			"metaSortKey": -1717422637275,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "fld_c285d19a44774705aa41254e3344f176",
+			"parentId": "fld_4e93f409dd6346de9018c2cb8435c5f0",
+			"modified": 1717422634558,
+			"created": 1717422634558,
+			"name": "Preview",
+			"description": "",
+			"environment": {},
+			"environmentPropertyOrder": null,
+			"metaSortKey": -1717422634559,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_4e93f409dd6346de9018c2cb8435c5f0",
+			"parentId": "fld_45502db8686c4b6d99759683bc0f849b",
+			"modified": 1717421935259,
+			"created": 1717421935259,
+			"name": "Vercel",
+			"description": "",
+			"environment": {},
+			"environmentPropertyOrder": null,
+			"metaSortKey": -1717421935259,
+			"_type": "request_group"
+		},
+		{
+			"_id": "fld_45502db8686c4b6d99759683bc0f849b",
+			"parentId": "wrk_2260de146cf64144a83f4fb876ca47df",
+			"modified": 1717096732716,
+			"created": 1717096732716,
+			"name": "Develop",
+			"description": "",
+			"environment": {},
+			"environmentPropertyOrder": null,
+			"metaSortKey": -1717096732717,
+			"_type": "request_group"
+		},
+		{
+			"_id": "wrk_2260de146cf64144a83f4fb876ca47df",
+			"parentId": null,
+			"modified": 1716391712559,
+			"created": 1716391712559,
+			"name": "Final Project",
+			"description": "",
+			"scope": "collection",
+			"_type": "workspace"
+		},
+		{
+			"_id": "req_46a1e8dc7b1744f394b5c868fb61bef2",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717427625895,
+			"created": 1717422234136,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/masuk",
+			"name": "Login",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \"email\": \"21102122@ittelkom-pwt.ac.id\",\n  \"password\": \"password123\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {},
+			"metaSortKey": -1717422637175,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_4f5bcd8497ee4a1fa3a15ed460d775c8",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717427633549,
+			"created": 1717422799254,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/verifikasi?eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE3NDI1MjA1fQ.wAWRka69z_JhPfxPgeVNEdRV6ymVsDcpREC6kTSe0_0",
+			"name": "Email Verivication",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716832307183.5,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_0fb216ece4044c378695a6c84ebb6d16",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717427636820,
+			"created": 1717422913792,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/",
+			"name": "Welcome",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE3NDIzNjE3fQ.35RUc32tKX2gy-DQroG-gfgxIJ_aXSWoA-iCVGDwIBk"
+			},
+			"metaSortKey": -1716537142187.75,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_5cc3b5bc461f4574ac5ec7ccf38cf2cb",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717427641050,
+			"created": 1717422988548,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/lupa-kata-sandi",
+			"name": "Forgot Password",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \"email\": \"21102122@ittelkom-pwt.ac.id\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {},
+			"metaSortKey": -1716537142087.75,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_68837abd6c7148d89912ae0cb7317c7b",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717427650647,
+			"created": 1717423095357,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/mengatur-ulang-kata-sandi",
+			"name": "Reset Password",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \"password\": \"tes\",\n  \"confirmPassword\": \"tes\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE3NDI0NTIyfQ.SS2Yed_o179d9StA5YTwDuMnTSm5xT5jh19K529a4uc",
+				"disabled": false
+			},
+			"metaSortKey": -1716389559639.875,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_b2fc2d50fd154a38adeb755d497087b8",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717427655051,
+			"created": 1717424659645,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/api/v1/profil",
+			"name": "Get Profile",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE3NDI1NDgxfQ.wnevDA5V3iTIt_uxoU8MiCjIxynLGSNsluNpU1o5g98"
+			},
+			"metaSortKey": -1716389559539.875,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_367ac19b451a43108713634944e3a9fb",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717427659609,
+			"created": 1717424739953,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/api/v1/profil",
+			"name": "Update Profil",
+			"description": "",
+			"method": "PUT",
+			"body": {
+				"mimeType": "multipart/form-data",
+				"params": [
+					{
+						"name": "first_name",
+						"value": "ammar",
+						"id": "pair_960b73f0740342c19abbfe58df31ef91"
+					},
+					{
+						"id": "pair_f66156127d504a9caebc7c01281d5512",
+						"name": "last_name",
+						"value": "izzudin",
+						"description": ""
+					},
+					{
+						"id": "pair_0cecf0ff59b249f993d3327ed0af3150",
+						"name": "password",
+						"value": "password123",
+						"description": ""
+					},
+					{
+						"id": "pair_611caedc00964b7d804b8ac5fbbfc6af",
+						"name": "confirmPassword",
+						"value": "password123",
+						"description": ""
+					},
+					{
+						"id": "pair_19dff1211a7a4243ad786f1fa9944238",
+						"name": "gambar_url",
+						"value": "",
+						"description": "",
+						"type": "file",
+						"fileName": "/home/madamiz/Pictures/WhatsApp Image 2024-05-24 at 8.22.30 PM.jpeg"
+					}
+				]
+			},
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "multipart/form-data" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE3NDI1Nzk1fQ.N22LFm3wDO_VJedt5HFhYkgyEudi5ZZyXOba62Yp1ac",
+				"disabled": false
+			},
+			"metaSortKey": -1716389559439.875,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_5388b1cc01364d5788112a60bd206314",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717428268718,
+			"created": 1717426007922,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/api/v1/bandara",
+			"name": "Get All Airport",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716389559339.875,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_dd622c80cc4b466e97885977056068a4",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717428271423,
+			"created": 1717426045595,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/api/v1/bandara/1",
+			"name": "Get An Airport",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716315768265.9375,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_885c1b37b572478faeaabba5b2127ad6",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717428274389,
+			"created": 1717426085894,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/api/v1/airlines",
+			"name": "Get All Airlines",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716278872728.9688,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_541d212d0a80481282ac28d951cf32f7",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717428277046,
+			"created": 1717426112569,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/api/v1/airlines/3",
+			"name": "Get An Airline",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716260424960.4844,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_35625c619592403a919a5d9b5ddfcca2",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717428280396,
+			"created": 1717426138686,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/api/v1/airplanes",
+			"name": "Get All Airplanes",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716251201076.2422,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_c0cbf848656e42eabc5e3a2e8b9eeae0",
+			"parentId": "fld_c285d19a44774705aa41254e3344f176",
+			"modified": 1717428283125,
+			"created": 1717426161383,
+			"url": "https://be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/api/v1/airplanes/2",
+			"name": "Get An Airplane",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716246589134.121,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_9a4b306d1c0848fea9fe9bf4c64d70ea",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717426534061,
+			"created": 1717426211717,
+			"url": "https://be-km-6-infotiket-in-b3-final-project.vercel.app/daftar-sekarang",
+			"name": "Register",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \"first_name\": \"BE3\",\n  \"last_name\": \"Infotiket.in\",\n  \"email\": \"21102122@ittelkom-pwt.ac.id\",\n  \"password\": \"password123\",\n  \"confirmPassword\": \"password123\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {},
+			"metaSortKey": -1717422637275,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"parentId": "fld_4e93f409dd6346de9018c2cb8435c5f0",
+			"modified": 1717426211715,
+			"created": 1717426211715,
+			"name": "Production",
+			"description": "",
+			"environment": {},
+			"environmentPropertyOrder": null,
+			"metaSortKey": -1717422284909,
+			"_type": "request_group"
+		},
+		{
+			"_id": "req_d6e6b3ec94e944ebbe0ea3751be850f1",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717427504973,
+			"created": 1717426211719,
+			"url": "https://be-km-6-infotiket-in-b3-final-project.vercel.app/masuk",
+			"name": "Login",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \"email\": \"21102122@ittelkom-pwt.ac.id\",\n  \"password\": \"password123\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {},
+			"metaSortKey": -1717422637175,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_0abe74154db3402fb7e4aebf36c6ce25",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717427537015,
+			"created": 1717426211721,
+			"url": "https://be-km-6-infotiket-in-b3-final-project.vercel.app",
+			"name": "Email Verivication",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716832307183.5,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_53d2470ecf8c457da9891b37bef0f3d9",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717427576502,
+			"created": 1717426211723,
+			"url": "https://be-km-6-infotiket-in-b3-final-project.vercel.app",
+			"name": "Welcome",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE3NDI3NTA3fQ.Wsl6sB07yazIrwd5JoSjvrCed7pmetubCAW3iiUBICY"
+			},
+			"metaSortKey": -1716537142187.75,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_7b7857c493754149a730c86b0c496724",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717427596003,
+			"created": 1717426211725,
+			"url": "https://be-km-6-infotiket-in-b3-final-project.vercel.app/lupa-kata-sandi",
+			"name": "Forgot Password",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \"email\": \"21102122@ittelkom-pwt.ac.id\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {},
+			"metaSortKey": -1716537142087.75,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_9ab5ad0bfa734055abc9be7dfc2c33b9",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717426211726,
+			"created": 1717426211726,
+			"url": "be-km-6-infotiket-in-b3-final-project-lngd3exkq.vercel.app/mengatur-ulang-kata-sandi",
+			"name": "Reset Password",
+			"description": "",
+			"method": "POST",
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n  \"password\": \"tes\",\n  \"confirmPassword\": \"tes\"\n}"
+			},
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE3NDI0NTIyfQ.SS2Yed_o179d9StA5YTwDuMnTSm5xT5jh19K529a4uc",
+				"disabled": false
+			},
+			"metaSortKey": -1716389559639.875,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_973e7f96b4e349e3b290d67a3e2370cb",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717427890387,
+			"created": 1717426211728,
+			"url": "https://be-km-6-infotiket-in-b3-final-project.vercel.app/api/v1/profil",
+			"name": "Get Profile",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE3NDI3NTA3fQ.Wsl6sB07yazIrwd5JoSjvrCed7pmetubCAW3iiUBICY"
+			},
+			"metaSortKey": -1716389559539.875,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_276790336f0446a5a6a24fe14f1490c8",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717427980333,
+			"created": 1717426211730,
+			"url": "https://be-km-6-infotiket-in-b3-final-project.vercel.app/api/v1/profil",
+			"name": "Update Profil",
+			"description": "",
+			"method": "PUT",
+			"body": {
+				"mimeType": "multipart/form-data",
+				"params": [
+					{
+						"name": "first_name",
+						"value": "ammar",
+						"id": "pair_960b73f0740342c19abbfe58df31ef91"
+					},
+					{
+						"id": "pair_f66156127d504a9caebc7c01281d5512",
+						"name": "last_name",
+						"value": "izzudin",
+						"description": ""
+					},
+					{
+						"id": "pair_0cecf0ff59b249f993d3327ed0af3150",
+						"name": "password",
+						"value": "password123",
+						"description": ""
+					},
+					{
+						"id": "pair_611caedc00964b7d804b8ac5fbbfc6af",
+						"name": "confirmPassword",
+						"value": "password123",
+						"description": ""
+					},
+					{
+						"id": "pair_19dff1211a7a4243ad786f1fa9944238",
+						"name": "gambar_url",
+						"value": "",
+						"description": "",
+						"type": "file",
+						"fileName": "/home/madamiz/Pictures/WhatsApp Image 2024-05-24 at 8.22.30 PM.jpeg"
+					}
+				]
+			},
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "multipart/form-data" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": {
+				"type": "bearer",
+				"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE3NDI3NTA3fQ.Wsl6sB07yazIrwd5JoSjvrCed7pmetubCAW3iiUBICY",
+				"disabled": false
+			},
+			"metaSortKey": -1716389559439.875,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_d333597ae4914a12a444816f680915d7",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717428088340,
+			"created": 1717426211731,
+			"url": "https://be-km-6-infotiket-in-b3-final-project.vercel.app/api/v1/bandara",
+			"name": "Get All Airport",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716389559339.875,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_4bdd25b4f65f4ad9859157932a958b8f",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717428085113,
+			"created": 1717426211732,
+			"url": "https://be-km-6-infotiket-in-b3-final-project.vercel.app/api/v1/bandara/1",
+			"name": "Get An Airport",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716315768265.9375,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_e3e611a7466c4f4e947297cef86070eb",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717428081735,
+			"created": 1717426211733,
+			"url": "https://be-km-6-infotiket-in-b3-final-project.vercel.app/api/v1/airlines",
+			"name": "Get All Airlines",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716278872728.9688,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_6fa64fba3bfb4653b659b0dd119f16aa",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717428078168,
+			"created": 1717426211734,
+			"url": "https://be-km-6-infotiket-in-b3-final-project.vercel.app/api/v1/airlines/3",
+			"name": "Get An Airline",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716260424960.4844,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_9c8cac9545b04acd8400a9f4305f5760",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717428075008,
+			"created": 1717426211736,
+			"url": "https://be-km-6-infotiket-in-b3-final-project.vercel.app/api/v1/airplanes",
+			"name": "Get All Airplanes",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716251201076.2422,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "req_5abe0ccbad6d4b3e9eb0617746033b96",
+			"parentId": "fld_07bd3743e3e04718905ef9867a24a55b",
+			"modified": 1717428070400,
+			"created": 1717426211737,
+			"url": "https://be-km-6-infotiket-in-b3-final-project.vercel.app/api/v1/airplanes/2",
+			"name": "Get An Airplane",
+			"description": "",
+			"method": "GET",
+			"body": { "mimeType": "application/json", "text": "" },
+			"parameters": [],
+			"headers": [
+				{ "name": "Content-Type", "value": "application/json" },
+				{ "name": "User-Agent", "value": "insomnia/8.6.1" }
+			],
+			"authentication": { "type": "bearer", "token": "" },
+			"metaSortKey": -1716246589134.121,
+			"isPrivate": false,
+			"pathParameters": [],
+			"settingStoreCookies": true,
+			"settingSendCookies": true,
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingRebuildPath": true,
+			"settingFollowRedirects": "global",
+			"_type": "request"
+		},
+		{
+			"_id": "env_15bf237c6c0975d746dd4a37a0e7db561540294e",
+			"parentId": "wrk_2260de146cf64144a83f4fb876ca47df",
+			"modified": 1716391712570,
+			"created": 1716391712570,
+			"name": "Base Environment",
+			"data": {},
+			"dataPropertyOrder": null,
+			"color": null,
+			"isPrivate": false,
+			"metaSortKey": 1716391712570,
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_15bf237c6c0975d746dd4a37a0e7db561540294e",
+			"parentId": "wrk_2260de146cf64144a83f4fb876ca47df",
+			"modified": 1717096848143,
+			"created": 1716391712580,
+			"name": "Default Jar",
+			"cookies": [
+				{
+					"key": "_vercel_sso_nonce",
+					"value": "bPjr0OrHJLQCVdebxGeSxauj",
+					"maxAge": 3600,
+					"domain": "be-km-6-infotiket-in-b3-final-project-4duqd9rg5.vercel.app",
+					"path": "/",
+					"secure": true,
+					"httpOnly": true,
+					"hostOnly": true,
+					"creation": "2024-05-30T19:19:20.194Z",
+					"lastAccessed": "2024-05-30T19:20:48.143Z",
+					"sameSite": "lax",
+					"id": "f2ca86cc-b245-493e-bca7-41669313674a"
+				}
+			],
+			"_type": "cookie_jar"
+		}
+	]
+}
