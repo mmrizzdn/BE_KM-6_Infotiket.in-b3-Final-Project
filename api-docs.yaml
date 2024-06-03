@@ -652,7 +652,170 @@ paths:
                   data:
                     type: string
                     example: null
-
+  /api/v1/airlines:
+    get:
+      tags:
+        - "Maskapai"
+      summary: Daftar Semua Data Maskapai
+      responses:
+        200:
+          description: sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil menampilkan semua data maskapai
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Airline"
+        404:
+          description: Halaman Tidak Ditemukan 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data maskapai tidak ditemukan!
+                  data:
+                    type: string
+                    example: null                
+  /api/v1/airlines/{id}:
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    get:
+      tags:
+        - "Maskapai"
+      summary: Data Maskapai by Id
+      responses:
+        200:
+          description: sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mendapatkan data maskapai
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Airline"
+        404:
+          description: Halaman Tidak Ditemukan 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data maskapai tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+  /api/v1/airplanes:
+    get:
+      tags:
+        - "Pesawat"
+      summary: Daftar Semua Data Pesawat
+      responses:
+        200:
+          description: sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mendapatkan data pesawat
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Airplane"
+        404:
+          description: Halaman Tidak Ditemukan 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data pesawat tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+  /api/v1/airplanes/{id}:
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    get:
+      tags:
+        - "Pesawat"
+      summary: Data Pesawat by Id
+      responses:
+        200:
+          description: sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mendapatkan data pesawat
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Airplane"
+        404:
+          description: Halaman Tidak Ditemukan 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data pesawat tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
 components:
   securitySchemes:
     BearerAuth:
@@ -772,6 +935,7 @@ components:
                 example: false
         to_flights:
           type: array
+          example: []
           items:
             type: object
             properties:
@@ -832,3 +996,45 @@ components:
               is_saturday:
                 type: boolean
                 example: false
+                Airline:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Citilink
+        short_name:
+          type: string
+          example: Citilink
+        icon_url:
+          type: string
+          example:
+        iata_code:
+          type: string
+          example: QG
+    Airplane:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        model:
+          type: string
+          example: Airbus A320
+        seat_layout:
+          type: string
+          example: 3-3
+        seat_pitch:
+          type: integer
+          example: 29
+        seat_type:
+          type: string
+          example: STANDARD_LEGROOM
+        seat_amount:
+          type: integer
+          example: 120
+        airline_id:
+          type: integer
+          example: 1

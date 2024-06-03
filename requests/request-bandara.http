@@ -1,4 +1,4 @@
-### get all data airports 
+### get all data airports
 GET http://localhost:3000/api/v1/airports
 Content-Type: application/json
 
