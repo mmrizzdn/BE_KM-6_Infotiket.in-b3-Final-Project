@@ -1,6 +1,8 @@
 require("dotenv").config();
-require('./libs/cron');
+require("./libs/cron");
 const express = require("express");
+const session = require("express-session");
+const passport = require("./libs/passport");
 const cookieParser = require("cookie-parser");
 const PORT = 3000 || process.env;
 
@@ -10,16 +12,27 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
+app.use(
+  session({
+    secret: "Infotiketin",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Swagger
-const swaggerUI = require("swagger-ui-express");
-const YAML = require("yaml");
+// const swaggerUI = require("swagger-ui-express");
+// const YAML = require("yaml");
 const fs = require("fs");
-const file = fs.readFileSync("./api-docs.yaml", "utf-8");
-const swaggerDocument = YAML.parse(file);
+// const file = fs.readFileSync("./api-docs.yaml", "utf-8");
+// const swaggerDocument = YAML.parse(file);
 
 // All Routers
 // Api Docs
-app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+// app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // Api Login and Register
 const router = require("./routes/route.index");
