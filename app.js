@@ -14,7 +14,7 @@ app.use(cookieParser());
 
 app.use(
   session({
-    secret: process.env.SECRET_SESSION,
+    secret: "Infotiketin",
     resave: false,
     saveUninitialized: false,
   })
