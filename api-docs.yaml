@@ -9,7 +9,7 @@ servers:
   - url: http://localhost:3000
 
 paths:
-  /register:
+  /daftar-sekarang:
     post:
       tags:
         - "Mendaftar"
@@ -77,7 +77,7 @@ paths:
                     type: string
                     example: null
 
-  /login:
+  /masuk:
     post:
       tags:
         - "Masuk"
@@ -135,17 +135,29 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: false
-                  message:
-                    type: string
-                    example: Email atau kata sandi tidak valid!
-                  data:
-                    type: string
-                    example: null
+                oneOf:
+                  - type: object
+                    properties:
+                      status:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+                        example: Silahkan verifikasi email Anda. Tautan verifikasi telah dikirim ke email Anda!
+                      data:
+                        type: string
+                        example: null
+                  - type: object
+                    properties:
+                      status:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+                        example: Email atau kata sandi tidak valid!
+                      data:
+                        type: string
+                        example: null
 
   /verifikasi:
     get:
@@ -217,30 +229,6 @@ paths:
                   message:
                     type: string
                     example: Selamat Datang di website Infotiket.in!
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: number
-                        example: 1
-                      first_name:
-                        type: string
-                        example: BE3
-                      last_name:
-                        type: string
-                        example: Infotiket.in
-                      email:
-                        type: string
-                        example: infotiketin@gmail.com
-                      is_verified:
-                        type: boolean
-                        example: false
-                      image_url:
-                        type: string
-                        example: null
-                      role:
-                        type: string
-                        example: user
 
         400:
           description: Error
@@ -259,7 +247,7 @@ paths:
                     type: string
                     example: null
 
-  /forgot-password:
+  /lupa-kata-sandi:
     post:
       tags:
         - "Lupa kata sandi"
@@ -310,7 +298,7 @@ paths:
                     type: string
                     example: null
 
-  /reset-password:
+  /mengatur-ulang-kata-sandi:
     post:
       tags:
         - "Setel ulang kata sandi"
@@ -371,7 +359,7 @@ paths:
                     type: string
                     example: null
 
-  /api/v1/profile:
+  /api/v1/profil:
     get:
       tags:
         - "Dapatkan Profil"
@@ -410,7 +398,7 @@ paths:
                         example: infotiketin@gmail.com
                       is_verified:
                         type: boolean
-                        example: false
+                        example: true
                       image_url:
                         type: string
                         example: null
@@ -437,8 +425,8 @@ paths:
 
     put:
       tags:
-        - "put /profile:"
-      summary: "Profile"
+        - "put /profil:"
+      summary: "Profil"
       security:
         - BearerAuth: []
       requestBody:
@@ -535,7 +523,7 @@ paths:
                     type: string
                     example: null
 
-  /api/v1/airports:
+  /api/v1/bandara:
     get:
       tags:
         - "Bandara"
@@ -578,7 +566,7 @@ paths:
                 responses:
                   value:
                     status: true
-                    message: Berhasil menampilkan semua data Airports
+                    message: Berhasil menampilkan semua data Bandara
                     data:
                       - id: 1
                         name_airport: APT Pranoto Airport
@@ -612,12 +600,12 @@ paths:
                     example: Halaman Tidak Ditemukan 404
                   err:
                     type: string
-                    example: Cannot find /api/v1/airportss
+                    example: Cannot find /api/v1/bandaraa
                   data:
                     type: string
                     example: null
 
-  /api/v1/airport/{id}:
+  /api/v1/bandara/{id}:
     parameters:
       - schema:
           type: integer
@@ -631,7 +619,7 @@ paths:
       summary: Daftar Data Bandara ID
 
       responses:
-        201:
+        200:
           description: sukses
           content:
             application/json:
@@ -643,7 +631,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: Berhasil menampilkan semua data Airports
+                    example: Berhasil menampilkan semua data Bandara
                   data:
                     allOf:
                       - $ref: "#/components/schemas/Bandara"
@@ -722,7 +710,125 @@ components:
           example: AAP
         from_flights:
           type: array
-          example: []
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 245
+              departure_airport_id:
+                type: integer
+                example: 1
+              arrival_airport_id:
+                type: integer
+                example: 25
+              airline_id:
+                type: integer
+                example: 1
+              departure_time:
+                type: string
+                example: "10:55"
+              arrival_time:
+                type: string
+                example: "11:25"
+              price:
+                type: number
+                example: 1315385
+              flight_number:
+                type: string
+                example: "QG-461"
+              free_baggage:
+                type: integer
+                example: 20
+              cabin_baggage:
+                type: integer
+                example: 7
+              duration_minute:
+                type: integer
+                example: 90
+              class:
+                type: string
+                example: "ECONOMY"
+              is_sunday:
+                type: boolean
+                example: true
+              is_monday:
+                type: boolean
+                example: false
+              is_tuesday:
+                type: boolean
+                example: false
+              is_wednesday:
+                type: boolean
+                example: false
+              is_thursday:
+                type: boolean
+                example: false
+              is_friday:
+                type: boolean
+                example: false
+              is_saturday:
+                type: boolean
+                example: false
         to_flights:
           type: array
-          example: []
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 385
+              departure_airport_id:
+                type: integer
+                example: 25
+              arrival_airport_id:
+                type: integer
+                example: 1
+              airline_id:
+                type: integer
+                example: 1
+              departure_time:
+                type: string
+                example: "06:55"
+              arrival_time:
+                type: string
+                example: "09:35"
+              price:
+                type: number
+                example: 1405265
+              flight_number:
+                type: string
+                example: "QG-460"
+              free_baggage:
+                type: integer
+                example: 20
+              cabin_baggage:
+                type: integer
+                example: 7
+              duration_minute:
+                type: integer
+                example: 100
+              class:
+                type: string
+                example: "ECONOMY"
+              is_sunday:
+                type: boolean
+                example: false
+              is_monday:
+                type: boolean
+                example: true
+              is_tuesday:
+                type: boolean
+                example: false
+              is_wednesday:
+                type: boolean
+                example: false
+              is_thursday:
+                type: boolean
+                example: false
+              is_friday:
+                type: boolean
+                example: false
+              is_saturday:
+                type: boolean
+                example: false

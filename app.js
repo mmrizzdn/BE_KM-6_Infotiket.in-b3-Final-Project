@@ -1,4 +1,5 @@
 require("dotenv").config();
+require('./libs/cron');
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const PORT = 3000 || process.env;
@@ -28,17 +29,17 @@ app.use("/", router);
 const routerAirport = require("./routes/route.airport");
 app.use("/api/v1", routerAirport);
 
+// Api Airline
+const routerAirline = require("./routes/route.airline");
+app.use("/api/v1", routerAirline);
+
+// Api Airplane
+const routerAirplane = require("./routes/route.airplane");
+app.use("/api/v1", routerAirplane);
+
 // Api Profile
 const routerProfile = require("./routes/route.profile");
 app.use("/api/v1", routerProfile);
-
-app.get("/", (req, res) => {
-  res.status(200).json({
-    status: true,
-    message: "welcome to infotiket.in API!",
-    data: null,
-  });
-})
 
 // 404 halaman tidak ditemukan
 app.use((req, res, next) => {
