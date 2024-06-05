@@ -34,9 +34,9 @@ const generateFlightSchedules = async () => {
             cabin_baggage: template.cabin_baggage,
             duration_minute: template.duration_minute,
             class: template.class,
-            Date: new Date(date), // Pastikan tanggal disalin dengan benar
-            seat_available: 25, // Nilai default sesuai skema
-            is_available: true, // Asumsikan ketersediaan default
+            Date: new Date(date),
+            seat_available: 25,
+            is_available: true, 
           });
         }
       });
@@ -53,5 +53,5 @@ const generateFlightSchedules = async () => {
 };
 
 // Atur tugas cron untuk menjalankan setiap hari pukul 00:00
-let task = cron.schedule('*/10 * * * *', generateFlightSchedules, {timezone: 'Asia/Jakarta'});
+let task = cron.schedule('0 0 * * *', generateFlightSchedules, {timezone: 'Asia/Jakarta'});
 task.start();

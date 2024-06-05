@@ -33,13 +33,13 @@
 		"name": "Lion Air",
 		"short_name": "Lion",
 		"icon_url": "",
-		"iata_code": "JT, IW, ID"
+		"iata_code": "JT"
 	},
 	{
 		"name": "Batik Air",
 		"short_name": "Batik",
 		"icon_url": "",
-		"iata_code": "JT, IW, ID, OD"
+		"iata_code": "ID"
 	},
 	{
 		"name": "Super Air Jet",
@@ -63,7 +63,7 @@
 		"name": "Wings Air",
 		"short_name": "Wings",
 		"icon_url": "",
-		"iata_code": "JT, IW, ID, OD"
+		"iata_code": "IW"
 	},
 	{
 		"name": "Trigana Air",

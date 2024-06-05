@@ -10,7 +10,7 @@ async function main() {
 	await airline();
 	await airport();
 	await airplane();
-	// await flight();
+	await flight();
 }
 
 main()
