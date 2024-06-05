@@ -7,6 +7,9 @@ info:
     email: Infotiket.in@gmail.com
 servers:
   - url: http://localhost:3000
+    description: URL localhost
+  - url: https://be-km-6-infotiket-in-b3-final-project-qkllke67j.vercel.app/
+    description: URL Develop
 
 paths:
   /daftar-sekarang:
@@ -425,7 +428,7 @@ paths:
 
     put:
       tags:
-        - "put /profil:"
+        - "memperbaharui profil:"
       summary: "Profil"
       security:
         - BearerAuth: []
@@ -822,6 +825,15 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    google_oauth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://accounts.google.com/o/oauth2/auth
+          tokenUrl: https://oauth2.googleapis.com/token
+          scopes:
+            email: Access to your email
+            profile: Access to your profile
   schemas:
     Mendaftar:
       type: object
@@ -1038,3 +1050,7 @@ components:
         airline_id:
           type: integer
           example: 1
+
+security:
+  - google_oauth: []
+  - BearerAuth: []
