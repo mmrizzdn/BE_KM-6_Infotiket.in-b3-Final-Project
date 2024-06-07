@@ -149,7 +149,7 @@ module.exports = {
       delete user.password;
 
       res.cookie("token", token, { httpOnly: true });
-      return res.redirect("http://localhost:3000/api/v1/auth/halaman-utama");
+      return res.redirect("http://localhost:3000/api/v1/auth/halaman-uatama");
       // res.json({
       //   status: true,
       //   message: "Anda telah berhasil masuk!",
