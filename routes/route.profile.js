@@ -6,7 +6,7 @@ const {
   profilePut,
 } = require("../controllers/profile.controllers");
 const { image } = require("../libs/multer");
-const restrict = require("../middleware/restrict");
+const { restrict } = require("../middleware/restrict");
 
 // all router api profile
 

@@ -3,45 +3,30 @@ const { JWT_SECRET } = process.env;
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-let restrict = (req, res, next) => {
-  let { authorization } = req.headers;
-  if (!authorization || !authorization.split(" ")[1]) {
-    return res.status(401).json({
-      status: false,
-      message: "Tidak ada token!",
-      data: null,
-    });
-  }
-
-  let token = authorization.split(" ")[1];
-  jwt.verify(token, JWT_SECRET, async (err, decodedToken) => {
-    if (err) {
+module.exports = {
+  restrict: (req, res, next) => {
+    let { token } = req.cookies;
+    if (!token) {
       return res.status(401).json({
         status: false,
-        message: err.message,
+        message: "Tidak diizinkan",
+        err: "Token tidak ditemukan pada header!",
         data: null,
       });
     }
 
-    try {
-      let userFromDb = await prisma.user.findFirst({
-        where: { id: decodedToken.id },
-      });
-      if (!userFromDb) {
-        return res.status(404).json({
+    jwt.verify(token, JWT_SECRET, async (err, decoded) => {
+      if (err) {
+        return res.status(401).json({
           status: false,
-          message: "Pengguna tidak ditemukan",
+          message: "Tidak diizinkan",
+          err: err.message,
           data: null,
         });
       }
 
-      delete userFromDb.password;
-      req.user = userFromDb;
+      req.user = await prisma.user.findUnique({ where: { id: decoded.id } });
       next();
-    } catch (error) {
-      next(error);
-    }
-  });
+    });
+  },
 };
-
-module.exports = restrict;

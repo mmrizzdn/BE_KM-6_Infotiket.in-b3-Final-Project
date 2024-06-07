@@ -12,7 +12,6 @@ const {
   logout,
 } = require("../controllers/auth.controllers");
 
-const restrict = require("../middleware/restrict");
 let passport = require("../libs/passport");
 
 // all router api auth
@@ -24,7 +23,7 @@ router.post("/daftar-sekarang", register);
 router.post("/masuk", login);
 
 // firstPage
-router.get("/", firstPage);
+router.get("/halaman-utama", firstPage);
 
 // verifikasi email
 router.get("/verifikasi", verifyEmail);
@@ -41,7 +40,7 @@ router.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 router.get(
-  "/auth/google/callback",
+  "/google/callback",
   passport.authenticate("google", {
     failureRedirect: "/api/v1/auth/google",
     session: false,

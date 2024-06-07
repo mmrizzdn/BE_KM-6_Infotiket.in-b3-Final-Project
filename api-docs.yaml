@@ -6,13 +6,13 @@ info:
   contact:
     email: Infotiket.in@gmail.com
 servers:
-  - url: http://localhost:3000
+  - url: http://localhost:3000/api/v1/
     description: URL localhost
-  - url: https://be-km-6-infotiket-in-b3-final-project-qkllke67j.vercel.app/
+  - url: https://be-km-6-infotiket-in-b3-final-project-qkllke67j.vercel.app
     description: URL Develop
 
 paths:
-  /daftar-sekarang:
+  /auth/daftar-sekarang:
     post:
       tags:
         - "Mendaftar"
@@ -80,7 +80,7 @@ paths:
                     type: string
                     example: null
 
-  /masuk:
+  /auth/masuk:
     post:
       tags:
         - "Masuk"
@@ -162,7 +162,7 @@ paths:
                         type: string
                         example: null
 
-  /verifikasi:
+  /auth/verifikasi:
     get:
       tags:
         - "Verifikasi Email"
@@ -210,7 +210,7 @@ paths:
                     type: string
                     example: null
 
-  /:
+  /auth/halaman-utama:
     get:
       tags:
         - "Selamat Datang"
@@ -250,7 +250,7 @@ paths:
                     type: string
                     example: null
 
-  /lupa-kata-sandi:
+  /auth/lupa-kata-sandi:
     post:
       tags:
         - "Lupa kata sandi"
@@ -301,7 +301,7 @@ paths:
                     type: string
                     example: null
 
-  /mengatur-ulang-kata-sandi:
+  /auth/mengatur-ulang-kata-sandi:
     post:
       tags:
         - "Setel ulang kata sandi"
@@ -362,7 +362,7 @@ paths:
                     type: string
                     example: null
 
-  /api/v1/profil:
+  /profil:
     get:
       tags:
         - "Dapatkan Profil"
@@ -428,7 +428,7 @@ paths:
 
     put:
       tags:
-        - "memperbaharui profil:"
+        - "Memperbaharui profil:"
       summary: "Profil"
       security:
         - BearerAuth: []
@@ -526,7 +526,7 @@ paths:
                     type: string
                     example: null
 
-  /api/v1/bandara:
+  /bandara:
     get:
       tags:
         - "Bandara"
@@ -608,7 +608,7 @@ paths:
                     type: string
                     example: null
 
-  /api/v1/bandara/{id}:
+  /bandara/{id}:
     parameters:
       - schema:
           type: integer
@@ -655,7 +655,7 @@ paths:
                   data:
                     type: string
                     example: null
-  /api/v1/airlines:
+  /airlines:
     get:
       tags:
         - "Maskapai"
@@ -693,7 +693,7 @@ paths:
                   data:
                     type: string
                     example: null
-  /api/v1/airlines/{id}:
+  /airlines/{id}:
     parameters:
       - schema:
           type: integer
@@ -737,7 +737,7 @@ paths:
                   data:
                     type: string
                     example: null
-  /api/v1/airplanes:
+  /airplanes:
     get:
       tags:
         - "Pesawat"
@@ -775,7 +775,7 @@ paths:
                   data:
                     type: string
                     example: null
-  /api/v1/airplanes/{id}:
+  /airplanes/{id}:
     parameters:
       - schema:
           type: integer

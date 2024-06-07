@@ -26,6 +26,15 @@ module.exports = {
 
       let exists = await prisma.user.findFirst({ where: { email } });
       if (exists) {
+        if (exists.google_id) {
+          return res.status(400).json({
+            status: false,
+            message:
+              "Sepertinya Anda mendaftar menggunakan Google OAuth. Mohon masuk dengan Google OAuth.",
+            data: null,
+          });
+        }
+
         return res.status(400).json({
           status: false,
           message: "Email sudah digunakan sebelumnya!",
@@ -36,7 +45,7 @@ module.exports = {
       if (!password || !confirmPassword) {
         return res.status(400).json({
           status: false,
-          message: "Kata sandi baru diperlukan!",
+          message: "Kata sandi diperlukan!",
           data: null,
         });
       }
@@ -100,6 +109,15 @@ module.exports = {
         });
       }
 
+      if (!user.password && user.google_id) {
+        return res.status(400).json({
+          status: false,
+          message:
+            "Sepertinya Anda telah mendaftar dengan Google. Silakan masuk menggunakan Google.",
+          data: null,
+        });
+      }
+
       let isPasswordCorrect = await bcrypt.compare(password, user.password);
       if (!isPasswordCorrect) {
         return res.status(400).json({
@@ -130,11 +148,13 @@ module.exports = {
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
       delete user.password;
 
-      res.json({
-        status: true,
-        message: "Anda telah berhasil masuk!",
-        data: { ...user, token },
-      });
+      res.cookie("token", token, { httpOnly: true });
+      return res.redirect("http://localhost:3000/api/v1/auth/halaman-utama");
+      // res.json({
+      //   status: true,
+      //   message: "Anda telah berhasil masuk!",
+      //   data: { ...user, token },
+      // });
     } catch (error) {
       next(error);
     }
@@ -284,13 +304,14 @@ module.exports = {
   googleOauth2: (req, res) => {
     try {
       let token = jwt.sign({ id: req.user.id }, JWT_SECRET);
-
-      return res.status(200).json({
-        status: true,
-        message: "Berhasil login menggunakan Google OAuth.",
-        err: null,
-        data: { user: req.user, token },
-      });
+      res.cookie("token", token, { httpOnly: true });
+      return res.redirect("http://localhost:3000/api/v1/auth/halaman-utama");
+      // return res.status(200).json({
+      //   status: true,
+      //   message: "Berhasil login menggunakan Google OAuth.",
+      //   err: null,
+      //   data: { user: req.user, token },
+      // });
     } catch (error) {
       next(error);
     }
