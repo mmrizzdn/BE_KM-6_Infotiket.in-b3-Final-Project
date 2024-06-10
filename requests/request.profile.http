@@ -1,10 +1,10 @@
 ### get profile
-GET http://localhost:3000/api/v1/profile
+GET http://localhost:3000/api/v1/profil
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYsImlhdCI6MTcxNjg3MTIzNn0.
 
 
 ### update profile
-PUT http://localhost:3000/api/v1/profile  
+PUT http://localhost:3000/api/v1/profil
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYsImlhdCI6MTcxNjg3MTIzNn0.
 Content-Type: application/json
 

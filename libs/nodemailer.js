@@ -14,7 +14,7 @@ const ouath2Client = new google.auth.OAuth2(
 ouath2Client.setCredentials({ refresh_token: GOOGLE_REFRESH_TOKEN });
 
 module.exports = {
-  sendMail: async (to, subject, html) => {
+  sendMail: async (to, subject, html, next) => {
     try {
       let accessToken = await ouath2Client.getAccessToken();
       let transport = nodemailer.createTransport({

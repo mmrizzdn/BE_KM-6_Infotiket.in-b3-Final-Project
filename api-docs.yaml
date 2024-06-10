@@ -6,10 +6,13 @@ info:
   contact:
     email: Infotiket.in@gmail.com
 servers:
-  - url: http://localhost:3000
+  - url: http://localhost:3000/api/v1/
+    description: URL localhost
+  - url: https://be-km-6-infotiket-in-b3-final-project-qkllke67j.vercel.app/api/v1/
+    description: URL Develop
 
 paths:
-  /daftar-sekarang:
+  /auth/daftar-sekarang:
     post:
       tags:
         - "Mendaftar"
@@ -77,7 +80,7 @@ paths:
                     type: string
                     example: null
 
-  /masuk:
+  /auth/masuk:
     post:
       tags:
         - "Masuk"
@@ -159,7 +162,7 @@ paths:
                         type: string
                         example: null
 
-  /verifikasi:
+  /auth/verifikasi:
     get:
       tags:
         - "Verifikasi Email"
@@ -207,7 +210,7 @@ paths:
                     type: string
                     example: null
 
-  /:
+  /auth/halaman-utama:
     get:
       tags:
         - "Selamat Datang"
@@ -247,7 +250,7 @@ paths:
                     type: string
                     example: null
 
-  /lupa-kata-sandi:
+  /auth/lupa-kata-sandi:
     post:
       tags:
         - "Lupa kata sandi"
@@ -298,7 +301,7 @@ paths:
                     type: string
                     example: null
 
-  /mengatur-ulang-kata-sandi:
+  /auth/mengatur-ulang-kata-sandi:
     post:
       tags:
         - "Setel ulang kata sandi"
@@ -359,7 +362,7 @@ paths:
                     type: string
                     example: null
 
-  /api/v1/profil:
+  /profil:
     get:
       tags:
         - "Dapatkan Profil"
@@ -425,7 +428,7 @@ paths:
 
     put:
       tags:
-        - "put /profil:"
+        - "Memperbaharui profil:"
       summary: "Profil"
       security:
         - BearerAuth: []
@@ -523,7 +526,71 @@ paths:
                     type: string
                     example: null
 
-  /api/v1/bandara:
+  /reservasi:
+    get:
+      tags:
+        - "Dapatkan Reservasi"
+      summary: "Reservasi"
+      security:
+        - BearerAuth: []
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mengambil data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      first_name:
+                        type: string
+                        example: BE3
+                      last_name:
+                        type: string
+                        example: Infotiket.in
+                      email:
+                        type: string
+                        example: infotiketin@gmail.com
+                      is_verified:
+                        type: boolean
+                        example: true
+                      image_url:
+                        type: string
+                        example: null
+                      role:
+                        type: string
+                        example: user
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Tidak ada token!
+                  data:
+                    type: string
+                    example: null
+
+  /bandara:
     get:
       tags:
         - "Bandara"
@@ -605,7 +672,7 @@ paths:
                     type: string
                     example: null
 
-  /api/v1/bandara/{id}:
+  /bandara/{id}:
     parameters:
       - schema:
           type: integer
@@ -652,7 +719,7 @@ paths:
                   data:
                     type: string
                     example: null
-  /api/v1/airlines:
+  /airlines:
     get:
       tags:
         - "Maskapai"
@@ -690,7 +757,7 @@ paths:
                   data:
                     type: string
                     example: null
-  /api/v1/airlines/{id}:
+  /airlines/{id}:
     parameters:
       - schema:
           type: integer
@@ -734,7 +801,7 @@ paths:
                   data:
                     type: string
                     example: null
-  /api/v1/airplanes:
+  /airplanes:
     get:
       tags:
         - "Pesawat"
@@ -772,7 +839,7 @@ paths:
                   data:
                     type: string
                     example: null
-  /api/v1/airplanes/{id}:
+  /airplanes/{id}:
     parameters:
       - schema:
           type: integer
@@ -822,6 +889,15 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    google_oauth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: http://localhost:3000/api/v1/auth/google
+          tokenUrl: https://oauth2.googleapis.com/token
+          scopes:
+            email: Access to your email
+            profile: Access to your profile
   schemas:
     Mendaftar:
       type: object
@@ -1038,3 +1114,7 @@ components:
         airline_id:
           type: integer
           example: 1
+
+security:
+  - google_oauth: []
+  - BearerAuth: []

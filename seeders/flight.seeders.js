@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 
 async function flight() {
-  const filePath = path.join(__dirname, "data", "schedules.json");
+  const filePath = path.join(__dirname, "data", "schedules2.json");
   const flightsData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
   for (const flightKey in flightsData) {
