@@ -1,5 +1,5 @@
 ### cari-jadwal-penerbangan
-GET http://localhost:3000/api/v1/flights?departureAirport=CGK&arrivalAirport=BDJ&departureDate=2024-06-03&flightClass=EKONOMI
+GET http://localhost:3000/api/v1/flights?departureAirport=CGK&arrivalAirport=BDJ&departureDate=2024-06-08&flightClass=EKONOMI
 
 ### cari-jadwal-penerbangan-pulang-pergi
 GET http://localhost:3000/api/v1/flights?departureAirport=CGK&arrivalAirport=BDJ&departureDate=2024-06-03&returnDate=2023-06-08&flightClass=EKONOMI

@@ -13,15 +13,15 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // Swagger
-const swaggerUI = require("swagger-ui-express");
-const YAML = require("yaml");
+// const swaggerUI = require("swagger-ui-express");
+// const YAML = require("yaml");
 const fs = require("fs");
-const file = fs.readFileSync("./api-docs.yaml", "utf-8");
-const swaggerDocument = YAML.parse(file);
+// const file = fs.readFileSync("./api-docs.yaml", "utf-8");
+// const swaggerDocument = YAML.parse(file);
 
 // All Routers
 // Api Docs
-app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+// app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // Api Login and Register
 const authRouter = require("./routes/route.index");
@@ -39,12 +39,17 @@ app.use("/api/v1", routerAirline);
 const routerAirplane = require("./routes/route.airplane");
 app.use("/api/v1", routerAirplane);
 
+// Api Flight
 const routerFlights = require("./routes/route.find-flight");
 app.use("/api/v1", routerFlights);
 
 // Api Profile
 const routerProfile = require("./routes/route.profile");
 app.use("/api/v1", routerProfile);
+
+// Api Booking
+const routerBooking = require("./routes/route.booking");
+app.use("/api/v1", routerBooking);
 
 // 404 halaman tidak ditemukan
 app.use((req, res, next) => {

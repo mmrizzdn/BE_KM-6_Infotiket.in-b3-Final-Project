@@ -30,7 +30,7 @@ module.exports = {
           return res.status(400).json({
             status: false,
             message:
-              "Sepertinya Anda mendaftar menggunakan Google OAuth. Mohon masuk dengan Google OAuth.",
+              "Sepertinya Anda mendaftar menggunakan Google. Mohon masuk dengan Google.",
             data: null,
           });
         }
@@ -149,12 +149,10 @@ module.exports = {
       delete user.password;
 
       res.cookie("token", token, { httpOnly: true });
-      return res.redirect("http://localhost:3000/api/v1/auth/halaman-uatama");
-      // res.json({
-      //   status: true,
-      //   message: "Anda telah berhasil masuk!",
-      //   data: { ...user, token },
-      // });
+      const protocol = req.protocol;
+      const host = req.get("host");
+      const redirectUrl = `${protocol}://${host}/api/v1/auth/halaman-utama`;
+      return res.redirect(redirectUrl);
     } catch (error) {
       next(error);
     }
@@ -305,13 +303,10 @@ module.exports = {
     try {
       let token = jwt.sign({ id: req.user.id }, JWT_SECRET);
       res.cookie("token", token, { httpOnly: true });
-      return res.redirect("http://localhost:3000/api/v1/auth/halaman-utama");
-      // return res.status(200).json({
-      //   status: true,
-      //   message: "Berhasil login menggunakan Google OAuth.",
-      //   err: null,
-      //   data: { user: req.user, token },
-      // });
+      const protocol = req.protocol;
+      const host = req.get("host");
+      const redirectUrl = `${protocol}://${host}/api/v1/auth/halaman-utama`;
+      return res.redirect(redirectUrl);
     } catch (error) {
       next(error);
     }

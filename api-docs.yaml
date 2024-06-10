@@ -526,6 +526,70 @@ paths:
                     type: string
                     example: null
 
+  /reservasi:
+    get:
+      tags:
+        - "Dapatkan Reservasi"
+      summary: "Reservasi"
+      security:
+        - BearerAuth: []
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mengambil data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      first_name:
+                        type: string
+                        example: BE3
+                      last_name:
+                        type: string
+                        example: Infotiket.in
+                      email:
+                        type: string
+                        example: infotiketin@gmail.com
+                      is_verified:
+                        type: boolean
+                        example: true
+                      image_url:
+                        type: string
+                        example: null
+                      role:
+                        type: string
+                        example: user
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Tidak ada token!
+                  data:
+                    type: string
+                    example: null
+
   /bandara:
     get:
       tags:
