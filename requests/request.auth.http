@@ -5,7 +5,7 @@ Content-Type: application/json
 {
     "first_name": "BE3",
     "last_name": "Infotiket.in",
-    "email": "infotiketin@gmail.com",
+    "email": "21102122@gmail.com",
     "password": "password123",
     "confirmPassword": "password123"
 }

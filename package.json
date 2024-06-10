@@ -9,7 +9,7 @@
     "vercel-build": "prisma generate && prisma migrate deploy && prisma migrate reset --force && node seeders/seed.js"
   },
   "dependencies": {
-    "@prisma/client": "^5.14.0",
+    "@prisma/client": "^5.15.0",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
