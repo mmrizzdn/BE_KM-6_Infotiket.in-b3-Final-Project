@@ -8,9 +8,9 @@ const PORT = 3000 || process.env;
 
 const app = express();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookieParser());
 
 // Swagger
 // const swaggerUI = require("swagger-ui-express");
