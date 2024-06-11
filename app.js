@@ -53,25 +53,25 @@ app.use("/api/v1", routerBooking);
 
 // 404 halaman tidak ditemukan
 app.use((req, res, next) => {
-  return res.status(404).json({
-    status: false,
-    message: "Halaman Tidak Ditemukan 404 ",
-    err: `Cannot find ${req.url}`,
-    data: null,
-  });
+    return res.status(404).json({
+        status: false,
+        message: "Halaman Tidak Ditemukan 404 ",
+        err: `Cannot find ${req.url}`,
+        data: null,
+    });
 });
 
 // 500 Kesalahan Server Internal
 app.use((err, req, res, next) => {
-  console.info(err);
-  return res.status(500).json({
-    status: false,
-    message: "Kesalahan Server Internal",
-    err: err.message,
-    data: null,
-  });
+    console.info(err);
+    return res.status(500).json({
+        status: false,
+        message: "Kesalahan Server Internal",
+        err: err.message,
+        data: null,
+    });
 });
 
-app.listen(PORT, () => console.info(`App listening on port ${PORT}!`));
+app.listen(PORT, "0.0.0.0", () => console.info(`App listening on port ${PORT}!`));
 
 module.exports = app;
