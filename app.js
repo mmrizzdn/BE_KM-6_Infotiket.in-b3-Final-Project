@@ -72,6 +72,8 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(PORT, "0.0.0.0", () => console.info(`App listening on port ${PORT}!`));
+app.listen(PORT, "0.0.0.0", () => {
+    console.info(`App listening on port ${PORT}!`)
+});
 
 module.exports = app;
