@@ -13,17 +13,17 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Swagger
-// const swaggerUI = require("swagger-ui-express");
-// const YAML = require("yaml");
+const swaggerUI = require("swagger-ui-express");
+const YAML = require("yaml");
 const fs = require("fs");
-// const file = fs.readFileSync("./api-docs.yaml", "utf-8");
-// const swaggerDocument = YAML.parse(file);
+const file = fs.readFileSync("./api-docs.yaml", "utf-8");
+const swaggerDocument = YAML.parse(file);
 
 // All Routers
 // Api Docs
-// app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-// Api Login and Register
+// Api Auth
 const authRouter = require("./routes/route.index");
 app.use("/api/v1/auth/", authRouter);
 
@@ -31,27 +31,27 @@ app.use("/api/v1/auth/", authRouter);
 const routerAirport = require("./routes/route.airport");
 app.use("/api/v1", routerAirport);
 
-// Api Airline
+// Api Perusahaan penerbangan
 const routerAirline = require("./routes/route.airline");
 app.use("/api/v1", routerAirline);
 
-// Api Airplane
+// Api Pesawat terbang
 const routerAirplane = require("./routes/route.airplane");
 app.use("/api/v1", routerAirplane);
 
-// Api Flight
+// Api Penerbangan
 const routerFlights = require("./routes/route.find-flight");
 app.use("/api/v1", routerFlights);
 
-// Api Profile
+// Api Profil
 const routerProfile = require("./routes/route.profile");
 app.use("/api/v1", routerProfile);
 
-// Api Booking
+// Api Reservasi
 const routerBooking = require("./routes/route.booking");
 app.use("/api/v1", routerBooking);
 
-// 404 halaman tidak ditemukan
+// 404 Halaman tidak ditemukan
 app.use((req, res, next) => {
   return res.status(404).json({
     status: false,

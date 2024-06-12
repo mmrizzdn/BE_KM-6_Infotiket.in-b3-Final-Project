@@ -71,7 +71,7 @@ module.exports = {
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
       let url = `${req.protocol}://${req.get(
         "host"
-      )}/verifikasi?token=${token}`;
+      )}/api/v1/auth/verifikasi?token=${token}`;
       console.info(url);
       let emailContent = `Tautan verifikasi Email: ${url}`;
 
@@ -131,7 +131,7 @@ module.exports = {
         let token = jwt.sign({ id: user.id }, JWT_SECRET);
         let url = `${req.protocol}://${req.get(
           "host"
-        )}/verifikasi?token=${token}`;
+        )}/api/v1/auth/verifikasi?token=${token}`;
         console.info(url);
         let emailContent = `Tautan verifikasi Email: ${url}`;
 
