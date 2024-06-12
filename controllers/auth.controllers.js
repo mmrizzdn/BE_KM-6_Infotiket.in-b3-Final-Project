@@ -222,7 +222,7 @@ module.exports = {
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
       let resetPassUrl = `${req.protocol}://${req.get(
         "host"
-      )}/reset-password?token=${token}`;
+      )}/api/v1/auth/reset-password?token=${token}`;
       console.info(resetPassUrl);
       let emailContent = `Tautan mengatur ulang kata sandi: ${resetPassUrl}`;
 
