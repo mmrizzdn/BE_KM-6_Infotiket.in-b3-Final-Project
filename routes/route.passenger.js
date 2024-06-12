@@ -5,6 +5,6 @@ const { restrict } = require("../middleware/restrict");
 const { addPassenger } = require("../controllers/passenger.controllers");
 
 // router api penumpang
-router.post("/addPassengers", restrict, addPassenger);
+router.post("/passengers", restrict, addPassenger);
 
 module.exports = router;
