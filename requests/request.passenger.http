@@ -1,5 +1,6 @@
 ### add passenger
-POST http://localhost:3000/api/v1/passengers
+POST http://localhost:3000/api/v1/addPassengers
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYsImlhdCI6MTcxNjg3MTIzNn0.
 Content-Type: application/json
 
 {

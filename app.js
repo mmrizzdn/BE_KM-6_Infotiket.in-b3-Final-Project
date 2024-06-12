@@ -4,7 +4,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 const app = express();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
@@ -13,17 +13,17 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Swagger
-const swaggerUI = require("swagger-ui-express");
-const YAML = require("yaml");
+// const swaggerUI = require("swagger-ui-express");
+// const YAML = require("yaml");
 const fs = require("fs");
-const file = fs.readFileSync("./api-docs.yaml", "utf-8");
-const swaggerDocument = YAML.parse(file);
+// const file = fs.readFileSync("./api-docs.yaml", "utf-8");
+// const swaggerDocument = YAML.parse(file);
 
 // All Routers
 // Api Docs
-app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+// app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-// Api Auth
+// Api Login and Register
 const authRouter = require("./routes/route.index");
 app.use("/api/v1/auth/", authRouter);
 
@@ -31,27 +31,31 @@ app.use("/api/v1/auth/", authRouter);
 const routerAirport = require("./routes/route.airport");
 app.use("/api/v1", routerAirport);
 
-// Api Perusahaan penerbangan
+// Api Airline
 const routerAirline = require("./routes/route.airline");
 app.use("/api/v1", routerAirline);
 
-// Api Pesawat terbang
+// Api Airplane
 const routerAirplane = require("./routes/route.airplane");
 app.use("/api/v1", routerAirplane);
 
-// Api Penerbangan
+// Api Flight
 const routerFlights = require("./routes/route.find-flight");
 app.use("/api/v1", routerFlights);
 
-// Api Profil
+// Api Profile
 const routerProfile = require("./routes/route.profile");
 app.use("/api/v1", routerProfile);
 
-// Api Reservasi
+// Api Passenger
+const routerPassenger = require("./routes/route.passenger");
+app.use("/api/v1", routerPassenger);
+
+// Api Booking
 const routerBooking = require("./routes/route.booking");
 app.use("/api/v1", routerBooking);
 
-// 404 Halaman tidak ditemukan
+// 404 halaman tidak ditemukan
 app.use((req, res, next) => {
   return res.status(404).json({
     status: false,
@@ -72,8 +76,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.info(`App listening on port ${PORT}!`);
+app.listen(port, "0.0.0.0", () => {
+  console.log("app listening on port", port);
 });
 
 module.exports = app;
