@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { JWT_SECRET } = process.env;
-const { sendMail } = require("../libs/nodemailer");
+const { getHTML, sendMail } = require("../libs/nodemailer");
 
 module.exports = {
   register: async (req, res, next) => {
@@ -73,9 +73,11 @@ module.exports = {
         "host"
       )}/api/v1/auth/verifikasi?token=${token}`;
       console.info(url);
-      let emailContent = `Tautan verifikasi Email: ${url}`;
+      let html = await getHTML("verification-email.ejs", {
+        verification_url: url,
+      });
 
-      await sendMail(user.email, "Verifikasi Email", emailContent);
+      await sendMail(user.email, "Verifikasi Email", html);
       delete user.password;
 
       res.status(200).json({
@@ -133,9 +135,11 @@ module.exports = {
           "host"
         )}/api/v1/auth/verifikasi?token=${token}`;
         console.info(url);
-        let emailContent = `Tautan verifikasi Email: ${url}`;
+        let html = await getHTML("verification-email.ejs", {
+          verification_url: url,
+        });
 
-        await sendMail(user.email, "Verifikasi Email", emailContent);
+        await sendMail(user.email, "Verifikasi Email", html);
 
         return res.status(400).json({
           status: false,
@@ -222,11 +226,14 @@ module.exports = {
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
       let resetPassUrl = `${req.protocol}://${req.get(
         "host"
-      )}/api/v1/auth/reset-password?token=${token}`;
+      )}/api/v1/auth/mengatur-ulang-kata-sandi?token=${token}`;
       console.info(resetPassUrl);
-      let emailContent = `Tautan mengatur ulang kata sandi: ${resetPassUrl}`;
+      let html = await getHTML("reset-password.ejs", {
+        token: token,
+        verification_url: resetPassUrl,
+      });
 
-      await sendMail(user.email, "Mengatur ulang kata sandi", emailContent);
+      await sendMail(user.email, "Mengatur ulang kata sandi", html);
 
       return res.status(200).json({
         status: true,
@@ -239,63 +246,71 @@ module.exports = {
   },
 
   resetPassword: async (req, res, next) => {
-    try {
-      const { token } = req.query;
-      const { password, confirmPassword } = req.body;
+    if (req.method === "GET") {
+      return res.render(
+        `${protocol}://${host}/api/v1/auth/mengatur-ulang-kata-sandi`
+      );
+    }
 
-      if (!password || !confirmPassword) {
-        return res.status(400).json({
-          status: false,
-          message: "Kata sandi baru diperlukan!",
-          data: null,
-        });
-      }
-
-      if (password !== confirmPassword) {
-        return res.status(400).json({
-          status: false,
-          message: "Kata sandi tidak cocok!",
-          data: null,
-        });
-      }
-
-      let decodedToken;
+    if (req.method === "POST") {
       try {
-        decodedToken = jwt.verify(token, JWT_SECRET);
+        const { token } = req.query;
+        const { password, confirmPassword } = req.body;
+
+        if (!password || !confirmPassword) {
+          return res.status(400).json({
+            status: false,
+            message: "Kata sandi baru diperlukan!",
+            data: null,
+          });
+        }
+
+        if (password !== confirmPassword) {
+          return res.status(400).json({
+            status: false,
+            message: "Kata sandi tidak cocok!",
+            data: null,
+          });
+        }
+
+        let decodedToken;
+        try {
+          decodedToken = jwt.verify(token, JWT_SECRET);
+        } catch (error) {
+          return res.status(400).json({
+            status: false,
+            message: "Token tidak valid atau sudah kedaluwarsa!",
+            data: null,
+          });
+        }
+
+        const user = await prisma.user.findUnique({
+          where: { id: decodedToken.id },
+        });
+
+        if (!user) {
+          return res.status(404).json({
+            status: false,
+            message: "Pengguna tidak ditemukan!",
+            data: null,
+          });
+        }
+
+        const encryptPassword = await bcrypt.hash(password, 10);
+
+        await prisma.user.update({
+          where: { id: decodedToken.id },
+          data: { password: encryptPassword },
+        });
+
+        return res.status(201).json({
+          status: true,
+          message: "Berhasil mengubah kata sandi!",
+          data: null,
+        });
       } catch (error) {
-        return res.status(400).json({
-          status: false,
-          message: "Token tidak valid atau sudah kedaluwarsa!",
-          data: null,
-        });
+        next(error);
       }
-
-      const user = await prisma.user.findUnique({
-        where: { id: decodedToken.id },
-      });
-
-      if (!user) {
-        return res.status(404).json({
-          status: false,
-          message: "Pengguna tidak ditemukan!",
-          data: null,
-        });
-      }
-
-      const encryptPassword = await bcrypt.hash(password, 10);
-
-      await prisma.user.update({
-        where: { id: decodedToken.id },
-        data: { password: encryptPassword },
-      });
-
-      return res.status(201).json({
-        status: true,
-        message: "Berhasil mengubah kata sandi!",
-        data: null,
-      });
-    } catch (error) {
-      next(error);
     }
   },
 

@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
+const ejs = require("ejs");
 
 require("dotenv").config();
 
@@ -33,5 +34,17 @@ module.exports = {
     } catch (error) {
       next(error);
     }
+  },
+
+  getHTML: (fileName, data) => {
+    return new Promise((resolve, reject) => {
+      const path = `${__dirname}/../views/${fileName}`;
+      ejs.renderFile(path, data, (err, data) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(data);
+      });
+    });
   },
 };

@@ -5,7 +5,6 @@ const {
   createBooking,
   getBooking,
 } = require("../controllers/booking.controllers");
-
 const { restrict } = require("../middleware/restrict");
 
 // membuat data reservasi

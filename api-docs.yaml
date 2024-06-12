@@ -215,8 +215,6 @@ paths:
       tags:
         - "Selamat Datang"
       summary: Selamat datang di Infotiket.in
-      security:
-        - BearerAuth: []
 
       responses:
         200:
@@ -367,8 +365,6 @@ paths:
       tags:
         - "Dapatkan Profil"
       summary: "Profil"
-      security:
-        - BearerAuth: []
 
       responses:
         200:
@@ -430,8 +426,6 @@ paths:
       tags:
         - "Memperbaharui profil:"
       summary: "Profil"
-      security:
-        - BearerAuth: []
       requestBody:
         content:
           multipart/form-data:
@@ -531,8 +525,6 @@ paths:
       tags:
         - "Dapatkan Reservasi"
       summary: "Reservasi"
-      security:
-        - BearerAuth: []
 
       responses:
         200:
@@ -885,10 +877,6 @@ paths:
                     example: null
 components:
   securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
     google_oauth:
       type: oauth2
       flows:
@@ -1117,4 +1105,3 @@ components:
 
 security:
   - google_oauth: []
-  - BearerAuth: []

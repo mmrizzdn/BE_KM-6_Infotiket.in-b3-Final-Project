@@ -1,11 +1,12 @@
 ### get profile
 GET http://localhost:3000/api/v1/profil
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYsImlhdCI6MTcxNjg3MTIzNn0.
+Cookie: token "isi token disini"
+
 
 
 ### update profile
 PUT http://localhost:3000/api/v1/profil
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYsImlhdCI6MTcxNjg3MTIzNn0.
+Cookie: token "isi token disini"
 Content-Type: application/json
 
 {
