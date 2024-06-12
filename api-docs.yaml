@@ -1,0 +1,1120 @@
+openapi: 3.0.0
+info:
+  title: Dokumentasi API Infotiket.in
+  description: Infotiket.in adalah website penyedia pemesanan tiket pesawat terbang!
+  version: 1.0.0
+  contact:
+    email: Infotiket.in@gmail.com
+servers:
+  - url: http://localhost:3000/api/v1/
+    description: URL localhost
+  - url: https://be-km-6-infotiket-in-b3-final-project-qkllke67j.vercel.app/api/v1/
+    description: URL Develop
+
+paths:
+  /auth/daftar-sekarang:
+    post:
+      tags:
+        - "Mendaftar"
+      summary: Mendaftarkan Pengguna Baru
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Mendaftar"
+
+      responses:
+        201:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Akun berhasil dibuat. Silahkan periksa email Anda untuk verifikasi!
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      first_name:
+                        type: string
+                        example: BE3
+                      last_name:
+                        type: string
+                        example: Infotiket.in
+                      email:
+                        type: string
+                        example: infotiketin@gmail.com
+                      is_verified:
+                        type: boolean
+                        example: false
+                      image_url:
+                        type: string
+                        example: null
+                      role:
+                        type: string
+                        example: user
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Email sudah digunakan sebelumnya!
+                  data:
+                    type: string
+                    example: null
+
+  /auth/masuk:
+    post:
+      tags:
+        - "Masuk"
+      summary: Login dengan email dan kata sandi
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Anda telah berhasil masuk!
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      first_name:
+                        type: string
+                        example: BE3
+                      last_name:
+                        type: string
+                        example: Infotiket.in
+                      email:
+                        type: string
+                        example: infotiketin@gmail.com
+                      is_verified:
+                        type: boolean
+                        example: false
+                      image_url:
+                        type: string
+                        example: null
+                      role:
+                        type: string
+                        example: user
+                      token:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzE2NzI1ODMyfQ.b19b_5Os8Tbj_ltRoGyOkD8KfxZ-S-12312scwasr23
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      status:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+                        example: Silahkan verifikasi email Anda. Tautan verifikasi telah dikirim ke email Anda!
+                      data:
+                        type: string
+                        example: null
+                  - type: object
+                    properties:
+                      status:
+                        type: boolean
+                        example: false
+                      message:
+                        type: string
+                        example: Email atau kata sandi tidak valid!
+                      data:
+                        type: string
+                        example: null
+
+  /auth/verifikasi:
+    get:
+      tags:
+        - "Verifikasi Email"
+      summary: "Verifikasi Email"
+      parameters:
+        - schema:
+            type: string
+          name: token
+          in: "query"
+          description: "Token autentikasi"
+          required: true
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Verifikasi Sukses
+                  data:
+                    type: string
+                    example: null
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Gagal diverifikasi
+                  data:
+                    type: string
+                    example: null
+
+  /auth/halaman-utama:
+    get:
+      tags:
+        - "Selamat Datang"
+      summary: Selamat datang di Infotiket.in
+      security:
+        - BearerAuth: []
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Selamat Datang di website Infotiket.in!
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Tidak ada token!
+                  data:
+                    type: string
+                    example: null
+
+  /auth/lupa-kata-sandi:
+    post:
+      tags:
+        - "Lupa kata sandi"
+      summary: Lupa sandi dengan email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: infotiketin@gmail.com
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Silahkan periksa email Anda untuk atur ulang kata sandi!
+                  data:
+                    type: string
+                    example: null
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Pengguna tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+
+  /auth/mengatur-ulang-kata-sandi:
+    post:
+      tags:
+        - "Setel ulang kata sandi"
+      summary: "Setel ulang kata sandi"
+      parameters:
+        - schema:
+            type: string
+          name: token
+          in: "query"
+          description: "Token autentikasi"
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  example: tes
+                confirmPassword:
+                  type: string
+                  example: tes
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mengubah kata sandi!
+                  data:
+                    type: string
+                    example: null
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Token tidak valid atau sudah kedaluwarsa!
+                  data:
+                    type: string
+                    example: null
+
+  /profil:
+    get:
+      tags:
+        - "Dapatkan Profil"
+      summary: "Profil"
+      security:
+        - BearerAuth: []
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mengambil data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      first_name:
+                        type: string
+                        example: BE3
+                      last_name:
+                        type: string
+                        example: Infotiket.in
+                      email:
+                        type: string
+                        example: infotiketin@gmail.com
+                      is_verified:
+                        type: boolean
+                        example: true
+                      image_url:
+                        type: string
+                        example: null
+                      role:
+                        type: string
+                        example: user
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Tidak ada token!
+                  data:
+                    type: string
+                    example: null
+
+    put:
+      tags:
+        - "Memperbaharui profil:"
+      summary: "Profil"
+      security:
+        - BearerAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  example: x
+                last_name:
+                  type: string
+                  example: x
+                password:
+                  type: string
+                  example: x
+                confirmPassword:
+                  type: string
+                  example: x
+                gambar_url:
+                  type: string
+                  format: binary
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil memperbaharui profil
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      first_name:
+                        type: string
+                        example: BE3
+                      last_name:
+                        type: string
+                        example: Infotiket.in
+                      email:
+                        type: string
+                        example: infotiketin@gmail.com
+                      is_verified:
+                        type: boolean
+                        example: true
+                      image_url:
+                        type: string
+                        example: https://ik.imagekit.io/gis/1716888675180_3hjYL9i1u.jpg
+                      role:
+                        type: string
+                        example: user
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Kata sandi tidak cocok!
+                  data:
+                    type: string
+                    example: null
+
+        500:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Gagal mengunggah gambar!
+                  data:
+                    type: string
+                    example: null
+
+  /reservasi:
+    get:
+      tags:
+        - "Dapatkan Reservasi"
+      summary: "Reservasi"
+      security:
+        - BearerAuth: []
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mengambil data
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      first_name:
+                        type: string
+                        example: BE3
+                      last_name:
+                        type: string
+                        example: Infotiket.in
+                      email:
+                        type: string
+                        example: infotiketin@gmail.com
+                      is_verified:
+                        type: boolean
+                        example: true
+                      image_url:
+                        type: string
+                        example: null
+                      role:
+                        type: string
+                        example: user
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Tidak ada token!
+                  data:
+                    type: string
+                    example: null
+
+  /bandara:
+    get:
+      tags:
+        - "Bandara"
+      summary: Daftar Semua Data Bandara
+      responses:
+        201:
+          description: sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        name_airport:
+                          type: string
+                        city:
+                          type: string
+                        province:
+                          type: string
+                        time_zone:
+                          type: string
+                        iata_code:
+                          type: string
+                        from_flights:
+                          type: array
+                        to_flights:
+                          type: array
+
+              examples:
+                responses:
+                  value:
+                    status: true
+                    message: Berhasil menampilkan semua data Bandara
+                    data:
+                      - id: 1
+                        name_airport: APT Pranoto Airport
+                        city: Samarinda
+                        province: Kalimantan Timur
+                        time_zone: UTC+8
+                        iata_code: AAP
+                        from_flights: []
+                        to_flights: []
+                      - id: 2
+                        name_airport: Abdul Rachman Saleh
+                        city: Malang
+                        province: Jawa Timur
+                        time_zone: UTC+7
+                        iata_code: MLG
+                        from_flights: []
+                        to_flights: []
+
+        404:
+          description: Halaman Tidak Ditemukan 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Halaman Tidak Ditemukan 404
+                  err:
+                    type: string
+                    example: Cannot find /api/v1/bandaraa
+                  data:
+                    type: string
+                    example: null
+
+  /bandara/{id}:
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+
+    get:
+      tags:
+        - "Bandara"
+      summary: Daftar Data Bandara ID
+
+      responses:
+        200:
+          description: sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil menampilkan semua data Bandara
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Bandara"
+
+        404:
+          description: Halaman Tidak Ditemukan 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data Airport tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+  /airlines:
+    get:
+      tags:
+        - "Maskapai"
+      summary: Daftar Semua Data Maskapai
+      responses:
+        200:
+          description: sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil menampilkan semua data maskapai
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Maskapai"
+        404:
+          description: Halaman Tidak Ditemukan 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data maskapai tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+  /airlines/{id}:
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    get:
+      tags:
+        - "Maskapai"
+      summary: Data Maskapai by Id
+      responses:
+        200:
+          description: sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mendapatkan data maskapai
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Maskapai"
+        404:
+          description: Halaman Tidak Ditemukan 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data maskapai tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+  /airplanes:
+    get:
+      tags:
+        - "Pesawat"
+      summary: Daftar Semua Data Pesawat
+      responses:
+        200:
+          description: sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mendapatkan data pesawat
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Pesawat"
+        404:
+          description: Halaman Tidak Ditemukan 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data pesawat tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+  /airplanes/{id}:
+    parameters:
+      - schema:
+          type: integer
+        name: id
+        in: path
+        required: true
+    get:
+      tags:
+        - "Pesawat"
+      summary: Data Pesawat by Id
+      responses:
+        200:
+          description: sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mendapatkan data pesawat
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Pesawat"
+        404:
+          description: Halaman Tidak Ditemukan 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data pesawat tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    google_oauth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: http://localhost:3000/api/v1/auth/google
+          tokenUrl: https://oauth2.googleapis.com/token
+          scopes:
+            email: Access to your email
+            profile: Access to your profile
+  schemas:
+    Mendaftar:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: BE3
+        last_name:
+          type: string
+          example: Infotiket.in
+        email:
+          type: string
+          example: infotiketin@gmail.com
+        password:
+          type: string
+          example: password123
+        confirmPassword:
+          type: string
+          example: password123
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+          example: infotiketin@gmail.com
+        password:
+          type: string
+          example: password123
+    Bandara:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name_airport:
+          type: string
+          example: APT Pranoto Airport
+        city:
+          type: string
+          example: Samarinda
+        province:
+          type: string
+          example: Kalimantan Timur
+        time_zone:
+          type: string
+          example: UTC+8
+        iata_code:
+          type: string
+          example: AAP
+        from_flights:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 245
+              departure_airport_id:
+                type: integer
+                example: 1
+              arrival_airport_id:
+                type: integer
+                example: 25
+              airline_id:
+                type: integer
+                example: 1
+              departure_time:
+                type: string
+                example: "10:55"
+              arrival_time:
+                type: string
+                example: "11:25"
+              price:
+                type: number
+                example: 1315385
+              flight_number:
+                type: string
+                example: "QG-461"
+              free_baggage:
+                type: integer
+                example: 20
+              cabin_baggage:
+                type: integer
+                example: 7
+              duration_minute:
+                type: integer
+                example: 90
+              class:
+                type: string
+                example: "ECONOMY"
+              is_sunday:
+                type: boolean
+                example: true
+              is_monday:
+                type: boolean
+                example: false
+              is_tuesday:
+                type: boolean
+                example: false
+              is_wednesday:
+                type: boolean
+                example: false
+              is_thursday:
+                type: boolean
+                example: false
+              is_friday:
+                type: boolean
+                example: false
+              is_saturday:
+                type: boolean
+                example: false
+        to_flights:
+          type: array
+          example: []
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 385
+              departure_airport_id:
+                type: integer
+                example: 25
+              arrival_airport_id:
+                type: integer
+                example: 1
+              airline_id:
+                type: integer
+                example: 1
+              departure_time:
+                type: string
+                example: "06:55"
+              arrival_time:
+                type: string
+                example: "09:35"
+              price:
+                type: number
+                example: 1405265
+              flight_number:
+                type: string
+                example: "QG-460"
+              free_baggage:
+                type: integer
+                example: 20
+              cabin_baggage:
+                type: integer
+                example: 7
+              duration_minute:
+                type: integer
+                example: 100
+              class:
+                type: string
+                example: "ECONOMY"
+              is_sunday:
+                type: boolean
+                example: false
+              is_monday:
+                type: boolean
+                example: true
+              is_tuesday:
+                type: boolean
+                example: false
+              is_wednesday:
+                type: boolean
+                example: false
+              is_thursday:
+                type: boolean
+                example: false
+              is_friday:
+                type: boolean
+                example: false
+              is_saturday:
+                type: boolean
+                example: false
+    Maskapai:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Citilink
+        short_name:
+          type: string
+          example: Citilink
+        icon_url:
+          type: string
+          example:
+        iata_code:
+          type: string
+          example: QG
+    Pesawat:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        model:
+          type: string
+          example: Airbus A320
+        seat_layout:
+          type: string
+          example: 3-3
+        seat_pitch:
+          type: integer
+          example: 29
+        seat_type:
+          type: string
+          example: STANDARD_LEGROOM
+        seat_amount:
+          type: integer
+          example: 120
+        airline_id:
+          type: integer
+          example: 1
+
+security:
+  - google_oauth: []
+  - BearerAuth: []

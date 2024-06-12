@@ -1,0 +1,11 @@
+### add passenger
+POST http://localhost:3000/api/v1/passengers
+Content-Type: application/json
+
+{
+    "full_name": "infotiketin",
+	"birth_date": "2023-11-1",
+	"type": "adult",
+	"id_passport_number": "123456789",
+	"citizenship": "indonesia"
+}

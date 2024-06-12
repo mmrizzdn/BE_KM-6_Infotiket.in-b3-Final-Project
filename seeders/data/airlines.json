@@ -1,0 +1,92 @@
+[
+	{
+		"name": "Citilink",
+		"short_name": "Citilink",
+		"icon_url": "",
+		"iata_code": "QG"
+	},
+	{
+		"name": "Pelita Air",
+		"short_name": "Pelita",
+		"icon_url": "",
+		"iata_code": "IP"
+	},
+	{
+		"name": "Air Asia",
+		"short_name": "AirAsia",
+		"icon_url": "",
+		"iata_code": "QZ"
+	},
+	{
+		"name": "Trans Nusa",
+		"short_name": "TransNusa",
+		"icon_url": "",
+		"iata_code": "8B"
+	},
+	{
+		"name": "Garuda Indonesia",
+		"short_name": "Garuda",
+		"icon_url": "",
+		"iata_code": "GA"
+	},
+	{
+		"name": "Lion Air",
+		"short_name": "Lion",
+		"icon_url": "",
+		"iata_code": "JT"
+	},
+	{
+		"name": "Batik Air",
+		"short_name": "Batik",
+		"icon_url": "",
+		"iata_code": "ID"
+	},
+	{
+		"name": "Super Air Jet",
+		"short_name": "Super Air Jet",
+		"icon_url": "",
+		"iata_code": "IU"
+	},
+	{
+		"name": "Sriwijaya Air",
+		"short_name": "Sriwijaya",
+		"icon_url": "",
+		"iata_code": "SJ"
+	},
+	{
+		"name": "NAM Air",
+		"short_name": "NAM",
+		"icon_url": "",
+		"iata_code": "NM"
+	},
+	{
+		"name": "Wings Air",
+		"short_name": "Wings",
+		"icon_url": "",
+		"iata_code": "IW"
+	},
+	{
+		"name": "Trigana Air",
+		"short_name": "Trigana",
+		"icon_url": "",
+		"iata_code": "IL"
+	},
+	{
+		"name": "Scoot",
+		"short_name": "Scoot",
+		"icon_url": "",
+		"iata_code": "TZ"
+	},
+	{
+		"name": "Scoot",
+		"short_name": "Scoot",
+		"icon_url": "",
+		"iata_code": "TR"
+	},
+	{
+		"name": "Firefly",
+		"short_name": "Firefly",
+		"icon_url": "",
+		"iata_code": "FY"
+	}
+]

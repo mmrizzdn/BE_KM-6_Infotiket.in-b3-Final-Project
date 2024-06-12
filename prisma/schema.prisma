@@ -1,0 +1,176 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  first_name  String
+  last_name   String
+  email       String    @unique
+  password    String?
+  is_verified Boolean   @default(false)
+  image_url   String?
+  google_id   String?
+  booking     Booking[]
+  role        Role      @default(user)
+
+  @@map("users")
+}
+
+enum Role {
+  user
+  admin
+}
+
+model Airport {
+  id                    Int        @id @default(autoincrement())
+  name_airport          String
+  city                  String
+  province              String
+  time_zone             String
+  iata_code             String
+  from_flights          Flight[]   @relation("DepartureAirport")
+  to_flights            Flight[]   @relation("ArrivalAirport")
+  schedule_from_flights Schedule[] @relation("DepartureAirport")
+  schedule_to_flights   Schedule[] @relation("ArrivalAirport")
+
+  @@map("airport")
+}
+
+model Flight {
+  id                   Int     @id @default(autoincrement())
+  departure_airport_id Int
+  arrival_airport_id   Int
+  airline_id           Int
+  departure_time       String
+  arrival_time         String
+  price                Float
+  flight_number        String
+  free_baggage         Int
+  cabin_baggage        Int
+  duration_minute      Int
+  class                String
+  is_sunday            Boolean
+  is_monday            Boolean
+  is_tuesday           Boolean
+  is_wednesday         Boolean
+  is_thursday          Boolean
+  is_friday            Boolean
+  is_saturday          Boolean
+  departure_airport    Airport @relation("DepartureAirport", fields: [departure_airport_id], references: [id])
+  arrival_airport      Airport @relation("ArrivalAirport", fields: [arrival_airport_id], references: [id])
+  airline              Airline @relation(fields: [airline_id], references: [id])
+
+  @@map("flight")
+}
+
+model Airline {
+  id         Int        @id @default(autoincrement())
+  name       String
+  short_name String
+  icon_url   String?
+  iata_code  String
+  flights    Flight[]
+  schedule   Schedule[]
+  airplanes  Airplane[]
+
+  @@map("airline")
+}
+
+model Airplane {
+  id          Int     @id @default(autoincrement())
+  model       String
+  seat_layout String?
+  seat_pitch  Int?
+  seat_type   String?
+  seat_amount Int
+  airline_id  Int
+  airline     Airline @relation(fields: [airline_id], references: [id])
+
+  @@map("airplane")
+}
+
+model Schedule {
+  id                   Int      @id @default(autoincrement())
+  departure_airport_id Int
+  arrival_airport_id   Int
+  airline_id           Int
+  departure_time       String
+  arrival_time         String
+  price                Float
+  flight_number        String
+  free_baggage         Int
+  cabin_baggage        Int
+  duration_minute      Int
+  class                String
+  Date                 DateTime @db.Date
+  seat_available       Int      @default(25)
+  is_available         Boolean
+  departure_airport    Airport  @relation("DepartureAirport", fields: [departure_airport_id], references: [id])
+  arrival_airport      Airport  @relation("ArrivalAirport", fields: [arrival_airport_id], references: [id])
+  airline              Airline  @relation(fields: [airline_id], references: [id])
+  tickets              Ticket[]
+
+  @@map("schedule")
+}
+
+model Booking {
+  id              Int       @id @default(autoincrement())
+  user_id         Int
+  ticket_id       Int
+  booking_date    DateTime
+  total_passenger Int
+  status          String
+  user            User      @relation(fields: [user_id], references: [id])
+  ticket          Ticket    @relation(fields: [ticket_id], references: [id])
+  payments        Payment[]
+
+  @@map("booking")
+}
+
+model Ticket {
+  id            Int       @id @default(autoincrement())
+  passenger_id  Int
+  schedule_id   Int
+  ticket_number String
+  passenger     Passenger @relation(fields: [passenger_id], references: [id])
+  schedule      Schedule  @relation(fields: [schedule_id], references: [id])
+  bookings      Booking[]
+
+  @@map("ticket")
+}
+
+model Passenger {
+  id                 Int      @id @default(autoincrement())
+  full_name          String
+  birth_date         DateTime
+  type               String
+  id_passport_number String
+  citizenship        String
+  tickets            Ticket[]
+
+  @@map("passenger")
+}
+
+model Payment {
+  id             Int      @id @default(autoincrement())
+  booking_id     Int
+  payment_date   DateTime
+  amount         Float
+  payment_method String
+  status         String
+  booking        Booking  @relation(fields: [booking_id], references: [id])
+
+  @@map("payment")
+}

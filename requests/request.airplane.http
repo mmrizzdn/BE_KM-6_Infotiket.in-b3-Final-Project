@@ -1,0 +1,7 @@
+### get all data airplane 
+GET http://localhost:3000/api/v1/airplanes
+Content-Type: application/json
+
+### get detail airplane
+GET http://localhost:3000/api/v1/airplanes/1
+Content-Type: application/json
