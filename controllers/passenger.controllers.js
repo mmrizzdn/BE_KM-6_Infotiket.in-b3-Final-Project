@@ -1,8 +1,9 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
+const moment = require("moment-timezone");
 
 module.exports = {
-  addPassenger: async (req, res) => {
+  addPassenger: async (req, res, next) => {
     try {
       let { full_name, birth_date, type, id_passport_number, citizenship } =
         req.body;
@@ -21,7 +22,7 @@ module.exports = {
         });
       }
 
-      await prisma.passenger.create({
+      passenger = await prisma.passenger.create({
         data: {
           full_name,
           birth_date,
@@ -31,10 +32,10 @@ module.exports = {
         },
       });
 
-      return res.status(200).json({
+      return res.status(201).json({
         status: true,
         message: "Berhasil menambahkan data penumpang",
-        data: null,
+        data: passenger,
       });
     } catch (error) {
       next(error);
