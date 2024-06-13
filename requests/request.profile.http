@@ -2,8 +2,6 @@
 GET http://localhost:3000/api/v1/profil
 Cookie: token "isi token disini"
 
-
-
 ### update profile
 PUT http://localhost:3000/api/v1/profil
 Cookie: token "isi token disini"
