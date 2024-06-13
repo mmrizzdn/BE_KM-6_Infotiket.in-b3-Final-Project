@@ -55,5 +55,5 @@ const generateFlightSchedules = async() => {
 generateFlightSchedules();
 
 // Atur tugas cron untuk menjalankan setiap hari pukul 00:00
-let task = cron.schedule('*/1 * * * *', generateFlightSchedules, { timezone: 'Asia/Jakarta' });
+let task = cron.schedule('0 0 * * *', generateFlightSchedules, { timezone: 'Asia/Jakarta' });
 task.start();
