@@ -152,7 +152,7 @@ module.exports = {
       delete user.password;
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
       res.cookie("token", token, { httpOnly: true });
-      return res.redirect("http://localhost:5173/api/v1/auth/halaman-utama");
+      return res.redirect("http://localhost:5173");
     } catch (error) {
       next(error);
     }
