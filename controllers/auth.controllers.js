@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require("uuid");
 const { JWT_SECRET } = process.env;
 const { getHTML, sendMail } = require("../libs/nodemailer");
 
@@ -150,14 +151,21 @@ module.exports = {
       }
 
       delete user.password;
-      let token = jwt.sign({ id: user.id }, JWT_SECRET);
+      let token = jwt.sign({ id: user.id }, JWT_SECRET, {
+        expiresIn: "1d",
+      });
+      let expiredToken = jwt.sign(
+        { userId: user.id, expiredAt: Date.now() + 2 * 24 * 60 * 60 * 1000 },
+        JWT_SECRET
+      );
+
       res.cookie("token", token, { httpOnly: true });
+      res.cookie("expired_token", expiredToken, { httpOnly: true });
       const protocol = req.protocol;
       const host = req.get("host");
       const redirectUrl = `${protocol}://${host}/api/v1/auth/halaman-utama`;
-      res.cookie("token", token, { httpOnly: true });
       console.info(token);
-      return res.redirect(redirectUrl);
+      return res.status(200).json({ redirectUrl });
       // return res.redirect("http://localhost:5173");
     } catch (error) {
       next(error);
