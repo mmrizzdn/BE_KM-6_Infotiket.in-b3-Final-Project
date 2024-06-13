@@ -14,12 +14,8 @@ module.exports = {
           data: null,
         });
       }
-      const userId = await prisma.user.findUnique({
-        where: { id: parseInt(user_id) },
-      });
-      const ticketId = await prisma.ticket.findUnique({
-        where: { id: parseInt(ticket_id) },
-      });
+      let userId = Number(req.headers.user_id);
+      let ticketId = Number(req.params.ticket_id);
 
       if (!userId) {
         return res.status(400).json({

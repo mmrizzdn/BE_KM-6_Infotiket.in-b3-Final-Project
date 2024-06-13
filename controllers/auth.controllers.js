@@ -149,13 +149,14 @@ module.exports = {
         });
       }
 
-      let token = jwt.sign({ id: user.id }, JWT_SECRET);
       delete user.password;
+      let token = jwt.sign({ id: user.id }, JWT_SECRET);
 
-      res.cookie("token", token, { httpOnly: true });
       const protocol = req.protocol;
       const host = req.get("host");
       const redirectUrl = `${protocol}://${host}/api/v1/auth/halaman-utama`;
+      res.cookie("token", token, { httpOnly: true });
+      console.info(token);
       return res.redirect(redirectUrl);
     } catch (error) {
       next(error);
@@ -167,7 +168,6 @@ module.exports = {
       res.json({
         status: true,
         message: "Selamat Datang di website Infotiket.in!",
-        data: req.user,
       });
     } catch (error) {
       next(error);
@@ -195,7 +195,9 @@ module.exports = {
         res.status(200).json({
           status: true,
           message: "Verifikasi Sukses",
-          data: null,
+          data: {
+            token,
+          },
         });
       });
     } catch (error) {

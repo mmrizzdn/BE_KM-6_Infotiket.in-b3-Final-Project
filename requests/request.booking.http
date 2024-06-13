@@ -1,6 +1,6 @@
 ### post booking
 POST http://localhost:3000/api/v1/reservasi
-Cookie: token "isi token disini"
+Cookie: token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 Content-Type: application/json 
 
 {
@@ -13,5 +13,4 @@ Content-Type: application/json
 
 ### get booking
 GET http://localhost:3000/api/v1/reservasi
-Cookie: token "isi token disini"
-
+Cookie: token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
