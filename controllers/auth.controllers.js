@@ -230,8 +230,7 @@ module.exports = {
         "host"
       )}/api/v1/auth/mengatur-ulang-kata-sandi?token=${token}`;
       console.info(resetPassUrl);
-      let html = await getHTML("reset-password.ejs", {
-        token: token,
+      let html = await getHTML("forgot-password.ejs", {
         verification_url: resetPassUrl,
       });
 
@@ -249,17 +248,19 @@ module.exports = {
 
   resetPassword: async (req, res, next) => {
     if (req.method === "GET") {
-      return res.render(
-        `${protocol}://${host}/api/v1/auth/mengatur-ulang-kata-sandi`
-      );
+      const token = req.query.token;
+      return res.render("reset-password.ejs", { token: token });
     }
 
     if (req.method === "POST") {
       try {
-        const { token } = req.query;
-        const { password, confirmPassword } = req.body;
+        const { token, password, confirmPassword } = req.body;
 
-        if (!password || !confirmPassword) {
+        console.info(token);
+        console.info(password);
+        console.info(confirmPassword);
+
+        if (!token || !password || !confirmPassword) {
           return res.status(400).json({
             status: false,
             message: "Kata sandi baru diperlukan!",
@@ -305,10 +306,12 @@ module.exports = {
           data: { password: encryptPassword },
         });
 
-        return res.status(201).json({
+        return res.status(200).json({
           status: true,
-          message: "Berhasil mengubah kata sandi!",
-          data: null,
+          message: "Kata sandi berhasil direset!",
+          data: {
+            token,
+          },
         });
       } catch (error) {
         next(error);

@@ -4,6 +4,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 const port = process.env.PORT || 3000;
 
 const app = express();
@@ -11,6 +12,10 @@ app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(express.urlencoded());
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
 // Swagger
 const swaggerUI = require("swagger-ui-express");

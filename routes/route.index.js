@@ -32,6 +32,7 @@ router.get("/verifikasi", verifyEmail);
 router.post("/lupa-kata-sandi", forgotPassword);
 
 // router api reset password
+router.get("/mengatur-ulang-kata-sandi", resetPassword);
 router.post("/mengatur-ulang-kata-sandi", resetPassword);
 
 // router api google Oauth
