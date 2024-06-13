@@ -1,14 +1,16 @@
 ### post booking
 POST http://localhost:3000/api/v1/reservasi
+Cookie: token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 Content-Type: application/json 
 
 {
-    "user_id": "1",
-    "ticket_id": "1",
-    "booking_date": "tanggal",
-    "total_passenger": 1,
-    "status": "verified"
+  "user_id": 1,
+  "ticket_id": 1,
+  "booking_date": "2024-06-15T14:00:00.000Z",
+  "total_passenger": 3,
+  "status": "confirmed"
 }
 
 ### get booking
 GET http://localhost:3000/api/v1/reservasi
+Cookie: token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9

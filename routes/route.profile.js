@@ -10,10 +10,10 @@ const { restrict } = require("../middleware/restrict");
 
 // all router api profile
 
-// get profile
+// router api get profil
 router.get("/profil", restrict, profileGet);
 
-// update profile
+// router api update profile
 router.put("/profil", restrict, image.single("gambar_url"), profilePut);
 
 module.exports = router;

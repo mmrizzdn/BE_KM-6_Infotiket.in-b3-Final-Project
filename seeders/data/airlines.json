@@ -1,92 +1,92 @@
 [
-	{
-		"name": "Citilink",
-		"short_name": "Citilink",
-		"icon_url": "",
-		"iata_code": "QG"
-	},
-	{
-		"name": "Pelita Air",
-		"short_name": "Pelita",
-		"icon_url": "",
-		"iata_code": "IP"
-	},
-	{
-		"name": "Air Asia",
-		"short_name": "AirAsia",
-		"icon_url": "",
-		"iata_code": "QZ"
-	},
-	{
-		"name": "Trans Nusa",
-		"short_name": "TransNusa",
-		"icon_url": "",
-		"iata_code": "8B"
-	},
-	{
-		"name": "Garuda Indonesia",
-		"short_name": "Garuda",
-		"icon_url": "",
-		"iata_code": "GA"
-	},
-	{
-		"name": "Lion Air",
-		"short_name": "Lion",
-		"icon_url": "",
-		"iata_code": "JT"
-	},
-	{
-		"name": "Batik Air",
-		"short_name": "Batik",
-		"icon_url": "",
-		"iata_code": "ID"
-	},
-	{
-		"name": "Super Air Jet",
-		"short_name": "Super Air Jet",
-		"icon_url": "",
-		"iata_code": "IU"
-	},
-	{
-		"name": "Sriwijaya Air",
-		"short_name": "Sriwijaya",
-		"icon_url": "",
-		"iata_code": "SJ"
-	},
-	{
-		"name": "NAM Air",
-		"short_name": "NAM",
-		"icon_url": "",
-		"iata_code": "NM"
-	},
-	{
-		"name": "Wings Air",
-		"short_name": "Wings",
-		"icon_url": "",
-		"iata_code": "IW"
-	},
-	{
-		"name": "Trigana Air",
-		"short_name": "Trigana",
-		"icon_url": "",
-		"iata_code": "IL"
-	},
-	{
-		"name": "Scoot",
-		"short_name": "Scoot",
-		"icon_url": "",
-		"iata_code": "TZ"
-	},
-	{
-		"name": "Scoot",
-		"short_name": "Scoot",
-		"icon_url": "",
-		"iata_code": "TR"
-	},
-	{
-		"name": "Firefly",
-		"short_name": "Firefly",
-		"icon_url": "",
-		"iata_code": "FY"
-	}
+  {
+    "name": "Citilink",
+    "short_name": "Citilink",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/commons/d/d4/2012_Citilink_Logo.svg",
+    "iata_code": "QG"
+  },
+  {
+    "name": "Pelita Air",
+    "short_name": "Pelita",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Pelita_Air_%282022_Logo%29.png/1920px-Pelita_Air_%282022_Logo%29.png",
+    "iata_code": "IP"
+  },
+  {
+    "name": "Air Asia",
+    "short_name": "AirAsia",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/AirAsia_New_Logo.svg/1024px-AirAsia_New_Logo.svg.png",
+    "iata_code": "QZ"
+  },
+  {
+    "name": "Trans Nusa",
+    "short_name": "TransNusa",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Logo_TransNusa_LinkAsia.png",
+    "iata_code": "8B"
+  },
+  {
+    "name": "Garuda Indonesia",
+    "short_name": "Garuda",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/en/thumb/f/fe/Garuda_Indonesia_Logo.svg/1920px-Garuda_Indonesia_Logo.svg.png",
+    "iata_code": "GA"
+  },
+  {
+    "name": "Lion Air",
+    "short_name": "Lion",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/en/thumb/5/59/Lion_Air.svg/330px-Lion_Air.svg.png",
+    "iata_code": "JT"
+  },
+  {
+    "name": "Batik Air",
+    "short_name": "Batik",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/en/thumb/9/9e/Batik_Air_logo.svg/1920px-Batik_Air_logo.svg.png",
+    "iata_code": "ID"
+  },
+  {
+    "name": "Super Air Jet",
+    "short_name": "Super Air Jet",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Logo_Super_Air_Jet.svg/1920px-Logo_Super_Air_Jet.svg.png",
+    "iata_code": "IU"
+  },
+  {
+    "name": "Sriwijaya Air",
+    "short_name": "Sriwijaya",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/en/5/54/Sriwijaya_Air_Logo_Horizontal.png",
+    "iata_code": "SJ"
+  },
+  {
+    "name": "NAM Air",
+    "short_name": "NAM",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/LOGO_NAM_HORIZONTAL.png/1920px-LOGO_NAM_HORIZONTAL.png",
+    "iata_code": "NM"
+  },
+  {
+    "name": "Wings Air",
+    "short_name": "Wings",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/en/thumb/a/a9/Wings_Air.svg/1280px-Wings_Air.svg.png",
+    "iata_code": "IW"
+  },
+  {
+    "name": "Trigana Air",
+    "short_name": "Trigana",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/en/9/94/Trigana_Air_Logo.png",
+    "iata_code": "IL"
+  },
+  {
+    "name": "Scoot",
+    "short_name": "Scoot",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Scoot_logo.svg/1024px-Scoot_logo.svg.png",
+    "iata_code": "TZ"
+  },
+  {
+    "name": "Scoot",
+    "short_name": "Scoot",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Scoot_logo.svg/1024px-Scoot_logo.svg.png",
+    "iata_code": "TR"
+  },
+  {
+    "name": "Firefly",
+    "short_name": "Firefly",
+    "icon_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Firefly_Logo.svg/1920px-Firefly_Logo.svg.png",
+    "iata_code": "FY"
+  }
 ]

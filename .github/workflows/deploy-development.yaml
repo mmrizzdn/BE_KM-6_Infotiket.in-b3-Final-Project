@@ -28,14 +28,15 @@ jobs:
         run: npm i prisma
 
       - name: Run Migration
-        run: | 
+        run: |
           export DATABASE_URL="${{ secrets.DEV_DATABASE_URL }}"
           npx prisma migrate deploy
           npx prisma migrate reset --force
-          node seeders/seed.js
 
       - name: Run Seeder
-        run: node seeders/seed.js
+        run: |
+          export DATABASE_URL="${{ secrets.DEV_DATABASE_URL }}"
+          node seeders/seed.js
 
       - name: Deploy to Railway
         run: railway up --service ${{ secrets.RAILWAY_DEV_SERVICE_ID }}
