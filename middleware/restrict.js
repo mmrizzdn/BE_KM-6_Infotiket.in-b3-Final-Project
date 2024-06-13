@@ -6,6 +6,10 @@ const prisma = new PrismaClient();
 module.exports = {
   restrict: (req, res, next) => {
     let { token } = req.cookies;
+
+    if (req.originalUrl === "/api/v1/auth/halaman-utama") {
+      return next();
+    }
     if (!token) {
       return res.status(401).json({
         status: false,

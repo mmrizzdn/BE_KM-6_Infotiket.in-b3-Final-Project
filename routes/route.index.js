@@ -13,6 +13,7 @@ const {
 } = require("../controllers/auth.controllers");
 
 let passport = require("../libs/passport");
+const { restrict } = require("../middleware/restrict");
 
 // all router api auth
 
@@ -23,7 +24,7 @@ router.post("/daftar-sekarang", register);
 router.post("/masuk", login);
 
 // router api halaman utama
-router.get("/halaman-utama", firstPage);
+router.get("/halaman-utama", restrict, firstPage);
 
 // router api verifikasi email
 router.get("/verifikasi", verifyEmail);

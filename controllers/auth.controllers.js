@@ -165,7 +165,13 @@ module.exports = {
       const host = req.get("host");
       const redirectUrl = `${protocol}://${host}/api/v1/auth/halaman-utama`;
       console.info(token);
-      return res.status(200).json({ redirectUrl });
+      return res.status(200).json({
+        status: true,
+        message: "Berhasil Login",
+        data: { ...user },
+        redirectUrl,
+        token,
+      });
       // return res.redirect("http://localhost:5173");
     } catch (error) {
       next(error);
@@ -174,9 +180,22 @@ module.exports = {
 
   firstPage: async (req, res, next) => {
     try {
+      const token =
+        req.cookies.token ||
+        (req.headers.authorization &&
+          req.headers.authorization.replace("Bearer ", ""));
+      if (!token) {
+        return res.json({
+          status: true,
+          message:
+            "Selamat Datang di website Infotiket.in! Anda dapat melihat halaman ini tanpa login.",
+          data: null,
+        });
+      }
       res.json({
         status: true,
         message: "Selamat Datang di website Infotiket.in!",
+        data: { token: token },
       });
     } catch (error) {
       next(error);
