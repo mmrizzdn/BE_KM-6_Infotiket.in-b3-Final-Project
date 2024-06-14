@@ -27,11 +27,11 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // Swagger
-const swaggerUI = require("swagger-ui-express");
-const YAML = require("yaml");
-const fs = require("fs");
-const file = fs.readFileSync("./api-docs.yaml", "utf-8");
-const swaggerDocument = YAML.parse(file);
+// const swaggerUI = require("swagger-ui-express");
+// const YAML = require("yaml");
+// const fs = require("fs");
+// const file = fs.readFileSync("./api-docs.yaml", "utf-8");
+// const swaggerDocument = YAML.parse(file);
 
 // All Routers
 // Api Docs
