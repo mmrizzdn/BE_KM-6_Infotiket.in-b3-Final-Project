@@ -35,7 +35,7 @@ app.set("view engine", "ejs");
 
 // All Routers
 // Api Docs
-app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+// app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // Api Login and Register
 const authRouter = require("./routes/route.index");
