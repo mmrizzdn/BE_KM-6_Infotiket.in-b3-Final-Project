@@ -247,6 +247,8 @@ paths:
                   data:
                     type: string
                     example: null
+      security:
+        - bearerAuth: []
 
   /auth/lupa-kata-sandi:
     post:
@@ -421,6 +423,8 @@ paths:
                   data:
                     type: string
                     example: null
+      security:
+        - bearerAuth: []
 
     put:
       tags:
@@ -519,6 +523,8 @@ paths:
                   data:
                     type: string
                     example: null
+      security:
+        - bearerAuth: []
 
   /reservasi:
     get:
@@ -877,6 +883,10 @@ paths:
                     example: null
 components:
   securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
     google_oauth:
       type: oauth2
       flows:

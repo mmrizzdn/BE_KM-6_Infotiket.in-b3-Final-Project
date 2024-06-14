@@ -154,13 +154,6 @@ module.exports = {
       let token = jwt.sign({ id: user.id }, JWT_SECRET, {
         expiresIn: "1d",
       });
-      let expiredToken = jwt.sign(
-        { userId: user.id, expiredAt: Date.now() + 2 * 24 * 60 * 60 * 1000 },
-        JWT_SECRET
-      );
-
-      res.cookie("token", token, { httpOnly: true });
-      res.cookie("expired_token", expiredToken, { httpOnly: true });
       const protocol = req.protocol;
       const host = req.get("host");
       const redirectUrl = `${protocol}://${host}/api/v1/auth/halaman-utama`;
@@ -181,9 +174,8 @@ module.exports = {
   firstPage: async (req, res, next) => {
     try {
       const token =
-        req.cookies.token ||
-        (req.headers.authorization &&
-          req.headers.authorization.replace("Bearer ", ""));
+        req.headers.authorization &&
+        req.headers.authorization.replace("Bearer ", "");
       if (!token) {
         return res.json({
           status: true,
