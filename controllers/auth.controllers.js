@@ -256,7 +256,9 @@ module.exports = {
       return res.status(200).json({
         status: true,
         message: "Silahkan periksa email Anda untuk atur ulang kata sandi!",
-        data: null,
+        data: {
+          token,
+        },
       });
     } catch (error) {
       next(error);
