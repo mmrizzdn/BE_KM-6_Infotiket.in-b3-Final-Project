@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
+const session = require("express-session");
 const port = process.env.PORT || 3000;
 
 const app = express();
@@ -25,6 +26,13 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+app.use(
+  session({
+    secret: "rahasia123",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 // Swagger
 const swaggerUI = require("swagger-ui-express");
