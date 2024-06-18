@@ -273,7 +273,6 @@ module.exports = {
     try {
       const token = req.query.token;
       const { password, confirmPassword } = req.body;
-
       console.log(token);
       console.log(password);
       console.log(confirmPassword);
