@@ -69,9 +69,7 @@ module.exports = {
       let user = await prisma.user.create({ data: userData });
 
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
-      let url = `${req.protocol}://${req.get(
-        "host"
-      )}/api/v1/auth/verifikasi?token=${token}`;
+      let url = `http://localhost:5173/verifikasi-email?token=${token}`;
       console.info(url);
       let html = await getHTML("verification-email.ejs", {
         verification_url: url,
@@ -131,9 +129,7 @@ module.exports = {
 
       if (!user.is_verified) {
         let token = jwt.sign({ id: user.id }, JWT_SECRET);
-        let url = `${req.protocol}://${req.get(
-          "host"
-        )}/api/v1/auth/verifikasi?token=${token}`;
+        let url = `http://localhost:5173/verifikasi-email?token=${token}`;
         console.info(url);
         let html = await getHTML("verification-email.ejs", {
           verification_url: url,
