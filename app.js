@@ -6,9 +6,6 @@ const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
-const session = require("express-session");
-const passport = require("passport");
-
 const port = process.env.PORT || 3000;
 
 const app = express();
@@ -29,16 +26,6 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-app.use(
-  session({
-    secret: "rahasia123",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Swagger
 const swaggerUI = require("swagger-ui-express");
