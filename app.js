@@ -1,11 +1,14 @@
 require("dotenv").config();
 require("./libs/cron");
+
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const session = require("express-session");
+const passport = require("passport");
+
 const port = process.env.PORT || 3000;
 
 const app = express();
@@ -33,6 +36,9 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Swagger
 const swaggerUI = require("swagger-ui-express");
