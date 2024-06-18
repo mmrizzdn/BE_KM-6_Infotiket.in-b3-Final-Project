@@ -271,7 +271,12 @@ module.exports = {
 
     // if (req.method === "POST") {
     try {
-      const { token, password, confirmPassword } = req.body;
+      const token = req.query.token;
+      const { password, confirmPassword } = req.body;
+
+      console.log(token);
+      console.log(password);
+      console.log(confirmPassword);
 
       if (!token || !password || !confirmPassword) {
         return res.status(400).json({
