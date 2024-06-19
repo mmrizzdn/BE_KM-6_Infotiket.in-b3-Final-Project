@@ -2,9 +2,11 @@ require("dotenv").config();
 require("./libs/cron");
 
 const express = require("express");
+const session = require("express-session");
 const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const passport = require("./libs/passport");
 const path = require("path");
 const port = process.env.PORT || 3000;
 
@@ -18,6 +20,18 @@ app.use(
     allowedHeaders: "Content-Type, Authorization",
   })
 );
+
+app.use(
+  session({
+    secret: "fpinfotiketin",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(cookieParser());
 app.use(morgan("dev"));
