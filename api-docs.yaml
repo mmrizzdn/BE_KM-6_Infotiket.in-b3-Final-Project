@@ -673,6 +673,71 @@ paths:
       security:
         - bearerAuth: []
 
+  /flights:
+    get:
+      tags:
+        - "Search - Mengambil data penerbangan"
+      summary: Ambil informasi penerbangan
+      description: Ambil informasi penerbangan berdasarkan bandara keberangkatan, bandara kedatangan, tanggal keberangkatan, dan kelas penerbangan.
+      parameters:
+        - in: query
+          name: departureAirport
+          schema:
+            type: string
+          required: true
+          description: DPS
+        - in: query
+          name: arrivalAirport
+          schema:
+            type: string
+          required: true
+          description: CGK
+        - in: query
+          name: departureDate
+          schema:
+            type: string
+            format: date
+          required: true
+          description: 2024-06-12
+        - in: query
+          name: flightClass
+          schema:
+            type: string
+          required: true
+          description: EKONOMI
+      responses:
+        "200":
+          description: Berhasil mengambil informasi penerbangan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  flights:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        flightNumber:
+                          type: string
+                          description: Nomor penerbangan
+                        departureTime:
+                          type: string
+                          description: Waktu keberangkatan
+                        arrivalTime:
+                          type: string
+                          description: Waktu kedatangan
+                        duration:
+                          type: string
+                          description: Durasi penerbangan
+                        price:
+                          type: number
+                          description: Harga tiket
+        "400":
+          description: parameter yang diperlukan tidak ada atau format tidak valid
+        "500":
+          description: Kesalahan server
+
   /bandara:
     get:
       tags:
