@@ -526,6 +526,89 @@ paths:
       security:
         - bearerAuth: []
 
+  /passengers:
+    post:
+      tags:
+        - "Membuat data penumpang"
+      summary: data penumpang
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  example: infotiketin
+                birth_date:
+                  type: string
+                  example: 2023-06-12T15:00:00Z
+                type:
+                  type: string
+                  example: adult
+                id_passport_number:
+                  type: string
+                  example: 123456789
+                citizenship:
+                  type: string
+                  example: Indonesia
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil menambahkan data penumpang
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      full_name:
+                        type: string
+                        example: infotiketin
+                      birth_date:
+                        type: string
+                        example: 2023-06-12T15:00:00Z
+                      type:
+                        type: string
+                        example: adult
+                      id_passport_number:
+                        type: string
+                        example: 123456789
+                      citizenship:
+                        type: string
+                        example: Indonesia
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Pengguna tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+      security:
+        - bearerAuth: []
+
   /reservasi:
     get:
       tags:
@@ -587,6 +670,8 @@ paths:
                   data:
                     type: string
                     example: null
+      security:
+        - bearerAuth: []
 
   /bandara:
     get:
