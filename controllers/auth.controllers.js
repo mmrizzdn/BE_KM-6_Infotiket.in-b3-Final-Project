@@ -70,6 +70,7 @@ module.exports = {
 
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
       let url = `http://localhost:5173/verifikasi-email?token=${token}`;
+      console.info(token);
       let html = await getHTML("verification-email.ejs", {
         verification_url: url,
       });
@@ -83,8 +84,8 @@ module.exports = {
           "Akun berhasil dibuat. Silahkan periksa email Anda untuk verifikasi!",
         data: user,
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   },
 
@@ -160,8 +161,8 @@ module.exports = {
         token,
       });
       // return res.redirect("http://localhost:5173");
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   },
 
@@ -214,8 +215,8 @@ module.exports = {
           },
         });
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   },
 
@@ -255,8 +256,8 @@ module.exports = {
           token,
         },
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   },
 
@@ -327,8 +328,8 @@ module.exports = {
           token,
         },
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
     // }
   },
@@ -354,8 +355,8 @@ module.exports = {
         redirectUrl,
         token,
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   },
 
@@ -368,8 +369,8 @@ module.exports = {
         }
         res.redirect("/");
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   },
 };
