@@ -698,13 +698,21 @@ paths:
             type: string
             format: date
           required: true
-          description: 2024-06-12
+          description: 2024-06-19
+        - in: query
+          name: returnDate
+          schema:
+            type: string
+            format: date
+          required: false
+          description: 2024-06-23 "Opsinal"
         - in: query
           name: flightClass
           schema:
             type: string
+            enum: [EKONOMI, BISNIS, FIRST]
           required: true
-          description: EKONOMI
+          description: Pilih
       responses:
         "200":
           description: Berhasil mengambil informasi penerbangan
