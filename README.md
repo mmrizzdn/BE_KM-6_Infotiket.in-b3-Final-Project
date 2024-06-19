@@ -1,16 +1,16 @@
-<br />
+<!-- <br />
 <br />
 <br />
 <p align="center">
-    <a href="hhttps://github.com/mmrizzdn/BE_KM-6_Infotiket.in-b3-Final-Project"> 
-    <img src="./public/stylesheets/logo-infotiketinjpg.jpg" alt="Logo" 
+    <a href="hhttps://github.com/mmrizzdn/BE_KM-6_Infotiket.in-b3-Final-Project">
+    <img src="./public/stylesheets/logo-infotiketinjpg.jpg" alt="Logo"
     </a>
 </p>
 
 <h1 align="center">Team BE-3 Infotiketin </h1>
 
 <p align="center">
-   <a href="https://infotiket.in" target="_blank" rel="noopener">View Demo</a> 
+   <a href="https://infotiket.in" target="_blank" rel="noopener">View Demo</a>
 </p>
 
 ## Daftar isi
@@ -203,7 +203,7 @@ Anda dapat menjalankan proyek ini secara lokal untuk mencobanya.
 
 ### _Repository Github Frontend_ : _[Front End](https://github.com/RegisSRifaldi/)_
 
-### _Repository Github Backend_ : _[Back End](https://github.com/RegisSRifaldi/)_
+### _Repository Github Backend_ : _[Back End](https://github.com/mmrizzdn/BE_KM-6_Infotiket.in-b3-Final-Project/)_
 
 ## Catatan
 
@@ -224,4 +224,4 @@ Anda dapat menjalankan proyek ini secara lokal untuk mencobanya.
 - [Stand Up Harian Tim B3 Binar KM6](https://docs.google.com/spreadsheets/d/1GUb8tJedR4y00KAKUNpKsjDaM0C3rOnuyjOEHsynucA/edit?gid=594962013#gid=594962013)
 - [Trello Tim B3 Binar KM6](https://trello.com/b/1MU48LGZ/fp-binar-b3)
 - [Deployment Frontend](https://trello.com/b/1MU48LGZ/fp-binar-b3)
-- [Deployment Backend](https://expressjs-develop-b4d1.up.railway.app/api/v1/api-docs/)
+- [Deployment Backend](https://expressjs-develop-b4d1.up.railway.app/api/v1/api-docs/) -->
