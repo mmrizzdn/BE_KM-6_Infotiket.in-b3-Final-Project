@@ -70,7 +70,6 @@ module.exports = {
 
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
       let url = `http://localhost:5173/verifikasi-email?token=${token}`;
-      console.info(url);
       let html = await getHTML("verification-email.ejs", {
         verification_url: url,
       });
