@@ -71,7 +71,7 @@ const routerBooking = require("./routes/route.booking");
 app.use("/api/v1", routerBooking);
 
 // 404 halaman tidak ditemukan
-app.use((req, res, next) => {
+app.use((req, res) => {
   return res.status(404).json({
     status: false,
     message: "Halaman Tidak Ditemukan 404 ",
@@ -81,8 +81,7 @@ app.use((req, res, next) => {
 });
 
 // 500 Kesalahan Server Internal
-app.use((err, req, res, next) => {
-  console.info(err);
+app.use((err, req, res) => {
   return res.status(500).json({
     status: false,
     message: "Kesalahan Server Internal",
