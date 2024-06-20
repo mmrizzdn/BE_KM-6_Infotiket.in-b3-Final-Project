@@ -1,13 +1,12 @@
-const pasport = require("passport");
+const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { PrismaClient } = require("@prisma/client");
-const passport = require("passport");
 const prisma = new PrismaClient();
 
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_CALLBACK_URL } =
   process.env;
 
-pasport.use(
+passport.use(
   new GoogleStrategy(
     {
       clientID: GOOGLE_CLIENT_ID,
@@ -36,5 +35,18 @@ pasport.use(
     }
   )
 );
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await prisma.user.findUnique({ where: { id } });
+    done(null, user);
+  } catch (err) {
+    done(err, null);
+  }
+});
 
 module.exports = passport;

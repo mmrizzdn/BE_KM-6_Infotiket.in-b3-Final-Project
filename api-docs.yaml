@@ -6,10 +6,10 @@ info:
   contact:
     email: Infotiket.in@gmail.com
 servers:
-  - url: http://localhost:3000/api/v1/
-    description: URL localhost
   - url: https://expressjs-develop-b4d1.up.railway.app/api/v1/
     description: URL Develop
+  - url: http://localhost:3000/api/v1/
+    description: URL localhost
 
 paths:
   /auth/daftar-sekarang:
@@ -247,6 +247,8 @@ paths:
                   data:
                     type: string
                     example: null
+      security:
+        - bearerAuth: []
 
   /auth/lupa-kata-sandi:
     post:
@@ -421,6 +423,8 @@ paths:
                   data:
                     type: string
                     example: null
+      security:
+        - bearerAuth: []
 
     put:
       tags:
@@ -519,6 +523,91 @@ paths:
                   data:
                     type: string
                     example: null
+      security:
+        - bearerAuth: []
+
+  /passengers:
+    post:
+      tags:
+        - "Membuat data penumpang"
+      summary: data penumpang
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                full_name:
+                  type: string
+                  example: infotiketin
+                birth_date:
+                  type: string
+                  example: 2023-06-12T15:00:00Z
+                type:
+                  type: string
+                  example: adult
+                id_passport_number:
+                  type: string
+                  example: 123456789
+                citizenship:
+                  type: string
+                  example: Indonesia
+
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil menambahkan data penumpang
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      full_name:
+                        type: string
+                        example: infotiketin
+                      birth_date:
+                        type: string
+                        example: 2023-06-12T15:00:00Z
+                      type:
+                        type: string
+                        example: adult
+                      id_passport_number:
+                        type: string
+                        example: 123456789
+                      citizenship:
+                        type: string
+                        example: Indonesia
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Pengguna tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+      security:
+        - bearerAuth: []
 
   /reservasi:
     get:
@@ -581,6 +670,81 @@ paths:
                   data:
                     type: string
                     example: null
+      security:
+        - bearerAuth: []
+
+  /flights:
+    get:
+      tags:
+        - "Search - Mengambil data penerbangan"
+      summary: Ambil informasi penerbangan
+      description: Ambil informasi penerbangan berdasarkan bandara keberangkatan, bandara kedatangan, tanggal keberangkatan, dan kelas penerbangan.
+      parameters:
+        - in: query
+          name: departureAirport
+          schema:
+            type: string
+          required: true
+          description: DPS
+        - in: query
+          name: arrivalAirport
+          schema:
+            type: string
+          required: true
+          description: CGK
+        - in: query
+          name: departureDate
+          schema:
+            type: string
+            format: date
+          required: true
+          description: 2024-06-19
+        - in: query
+          name: returnDate
+          schema:
+            type: string
+            format: date
+          required: false
+          description: 2024-06-23 "Opsinal"
+        - in: query
+          name: flightClass
+          schema:
+            type: string
+            enum: [EKONOMI, BISNIS, FIRST]
+          required: true
+          description: Pilih
+      responses:
+        "200":
+          description: Berhasil mengambil informasi penerbangan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  flights:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        flightNumber:
+                          type: string
+                          description: Nomor penerbangan
+                        departureTime:
+                          type: string
+                          description: Waktu keberangkatan
+                        arrivalTime:
+                          type: string
+                          description: Waktu kedatangan
+                        duration:
+                          type: string
+                          description: Durasi penerbangan
+                        price:
+                          type: number
+                          description: Harga tiket
+        "400":
+          description: parameter yang diperlukan tidak ada atau format tidak valid
+        "500":
+          description: Kesalahan server
 
   /bandara:
     get:
@@ -877,6 +1041,10 @@ paths:
                     example: null
 components:
   securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
     google_oauth:
       type: oauth2
       flows:
