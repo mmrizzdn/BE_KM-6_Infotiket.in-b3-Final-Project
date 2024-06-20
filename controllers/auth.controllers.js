@@ -350,7 +350,7 @@ module.exports = {
       console.info(token);
       return res.status(200).json({
         status: true,
-        message: "Berhasil Login",
+        message: "Selamat datang, anda berhasil login",
         data: { ...user },
         redirectUrl,
         token,

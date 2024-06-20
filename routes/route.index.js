@@ -45,7 +45,7 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     failureRedirect: "/api/v1/auth/google",
-    session: false,
+    session: true,
   }),
   googleOauth2
 );
