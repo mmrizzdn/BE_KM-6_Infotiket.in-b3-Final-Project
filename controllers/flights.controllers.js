@@ -24,16 +24,15 @@ const getFlights = async (req, res) => {
     });
 
     if (!departureAirportRecord || !arrivalAirportRecord) {
-      return res.status(404).json({ error: "Airport not found" });
+      return res.status(404).json({ error: "Bandara Tidak Ditemukan" });
     }
 
     const departureAirportId = departureAirportRecord.id;
     const arrivalAirportId = arrivalAirportRecord.id;
 
-    // Filter based on flight class
     const classFilter = flightClass ? { class: flightClass.toUpperCase() } : {};
 
-    // Cari jadwal penerbangan berdasarkan ID bandara dan tanggal keberangkatan
+
     const departureFlights = await prisma.schedule.findMany({
       where: {
         departure_airport_id: departureAirportId,
@@ -66,7 +65,7 @@ const getFlights = async (req, res) => {
     }
 
     if (departureFlights.length === 0 && returnFlights.length === 0) {
-      return res.status(404).json({ error: "Flight not found" });
+      return res.status(404).json({ error: "Jadwal Tidak Ditemukan" });
     }
 
     res.json({

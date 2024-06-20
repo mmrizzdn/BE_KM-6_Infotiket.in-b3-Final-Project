@@ -60,6 +60,11 @@ app.use("/api/v1", routerPassenger);
 const routerBooking = require("./routes/route.booking");
 app.use("/api/v1", routerBooking);
 
+// Api Transaction
+const routerTransaction = require("./routes/route.transaction");
+app.use("/api/v1", routerTransaction);
+
+
 // 404 halaman tidak ditemukan
 app.use((req, res, next) => {
   return res.status(404).json({

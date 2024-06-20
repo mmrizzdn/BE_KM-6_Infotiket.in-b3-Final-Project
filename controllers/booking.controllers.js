@@ -3,10 +3,11 @@ const prisma = new PrismaClient();
 
 module.exports = {
   createBooking: async (req, res, next) => {
-    const { user_id, ticket_id, booking_date, total_passenger, status } =
-      req.body;
+    const { user_id, booking_date, total_passenger, status } = req.body;
+    const { schedule_id } = req.query;
+
     try {
-      let user = await prisma.user.findUnique({ where: { id: req.user.id } });
+      const user = await prisma.user.findUnique({ where: { id: req.user.id } });
       if (!user) {
         return res.status(400).json({
           status: false,
@@ -14,31 +15,22 @@ module.exports = {
           data: null,
         });
       }
-      let userId = Number(req.headers.user_id);
-      let ticketId = Number(req.params.ticket_id);
 
-      if (!userId) {
+      if (!user_id) {
         return res.status(400).json({
           status: false,
-          message: "User tidak ditemukan",
+          message: "User ID tidak ditemukan",
           data: null,
         });
       }
 
-      if (!ticketId) {
-        return res.status(400).json({
-          status: false,
-          message: "Ticket tidak ditemukan",
-          data: null,
-        });
-      }
       const booking = await prisma.booking.create({
         data: {
           user_id: parseInt(user_id),
-          ticket_id: parseInt(ticket_id),
           booking_date: new Date(booking_date),
           total_passenger,
-          status,
+          status: 'PENDING',
+          schedule_id: parseInt(schedule_id)
         },
       });
 
@@ -54,7 +46,7 @@ module.exports = {
 
   getBooking: async (req, res, next) => {
     try {
-      let user = await prisma.user.findUnique({ where: { id: req.user.id } });
+      const user = await prisma.user.findUnique({ where: { id: req.user.id } });
       if (!user) {
         return res.status(400).json({
           status: false,
@@ -62,15 +54,20 @@ module.exports = {
           data: null,
         });
       }
+
       const bookings = await prisma.booking.findMany({
+        where: { user_id: user.id },
         include: {
           user: true,
-          ticket: true,
+          schedule: true,
+          passengers: true,
+          payments: true,
         },
       });
-      return res.status(201).json({
+
+      return res.status(200).json({
         status: true,
-        message: "Berhasil membuat data Booking",
+        message: "Berhasil mengambil data Booking",
         data: bookings,
       });
     } catch (error) {
