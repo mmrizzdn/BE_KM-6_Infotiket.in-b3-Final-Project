@@ -1,0 +1,43 @@
+### Add Passenger
+POST http://localhost:3000/api/passenger
+Content-Type: application/json
+
+{
+  "full_name": "John Doe",
+  "birth_date": "1985-06-15",
+  "type": "Adult",
+  "id_passport_number": "A12345678",
+  "citizenship": "USA"
+}
+
+###
+
+### Get Payment Methods
+GET http://localhost:3000/api/v1/get-payment-list
+Authorization: Bearer YOUR_AUTH_TOKEN
+
+###
+
+### Create Booking
+POST http://localhost:3000/api/booking?flight_id=1
+Content-Type: application/json
+Authorization: Bearer YOUR_AUTH_TOKEN
+
+{
+  "user_id": 1,
+  "ticket_id": 1,
+  "booking_date": "2024-06-19",
+  "total_passenger": 2,
+  "status": "PENDING"
+}
+
+###
+
+### Handle Tripay Webhook
+POST http://localhost:3000/tripay-webhook
+Content-Type: application/json
+
+{
+  "merchant_ref": "ORDER-12345",
+  "status": "PAID"
+}

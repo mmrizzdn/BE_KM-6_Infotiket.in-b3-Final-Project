@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Tickets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .details {
+            margin: 20px 0;
+        }
+        .ticket {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        .footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Ticket Confirmation</h1>
+        </div>
+        <div class="details">
+            <h2>Hello, <%= tickets[0].booking.user.name %></h2>
+            <p>Thank you for booking with us. Here are your ticket details:</p>
+        </div>
+        <% tickets.forEach(ticket => { %>
+            <div class="ticket">
+                <h3>Ticket Number: <%= ticket.ticket_number %></h3>
+                <p><strong>Passenger Name:</strong> <%= ticket.passenger.full_name %></p>
+                <p><strong>Flight:</strong> <%= ticket.schedule.flight_number %></p>
+                <p><strong>Departure:</strong> <%= ticket.schedule.departure %> - <%= ticket.schedule.departure_time %></p>
+                <p><strong>Arrival:</strong> <%= ticket.schedule.arrival %> - <%= ticket.schedule.arrival_time %></p>
+            </div>
+        <% }); %>
+        <div class="footer">
+            <p>If you have any questions, please contact our support.</p>
+            <p>Safe travels!</p>
+        </div>
+    </div>
+</body>
+</html>

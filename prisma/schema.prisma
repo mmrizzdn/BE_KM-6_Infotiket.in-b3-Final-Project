@@ -102,7 +102,7 @@ model Airplane {
 }
 
 model Schedule {
-  id                   Int      @id @default(autoincrement())
+  id                   Int       @id @default(autoincrement())
   departure_airport_id Int
   arrival_airport_id   Int
   airline_id           Int
@@ -114,27 +114,30 @@ model Schedule {
   cabin_baggage        Int
   duration_minute      Int
   class                String
-  Date                 DateTime @db.Date
-  seat_available       Int      @default(25)
+  Date                 DateTime  @db.Date
+  seat_available       Int       @default(25)
   is_available         Boolean
-  departure_airport    Airport  @relation("DepartureAirport", fields: [departure_airport_id], references: [id])
-  arrival_airport      Airport  @relation("ArrivalAirport", fields: [arrival_airport_id], references: [id])
-  airline              Airline  @relation(fields: [airline_id], references: [id])
+  departure_airport    Airport   @relation("DepartureAirport", fields: [departure_airport_id], references: [id])
+  arrival_airport      Airport   @relation("ArrivalAirport", fields: [arrival_airport_id], references: [id])
+  airline              Airline   @relation(fields: [airline_id], references: [id])
   tickets              Ticket[]
+  bookings             Booking[]
 
   @@map("schedule")
 }
 
 model Booking {
-  id              Int       @id @default(autoincrement())
+  id              Int         @id @default(autoincrement())
   user_id         Int
-  ticket_id       Int
+  schedule_id     Int
   booking_date    DateTime
   total_passenger Int
   status          String
-  user            User      @relation(fields: [user_id], references: [id])
-  ticket          Ticket    @relation(fields: [ticket_id], references: [id])
+  user            User        @relation(fields: [user_id], references: [id])
+  schedule        Schedule    @relation(fields: [schedule_id], references: [id])
   payments        Payment[]
+  tickets         Ticket[]
+  passenggers     Passenger[]
 
   @@map("booking")
 }
@@ -143,21 +146,24 @@ model Ticket {
   id            Int       @id @default(autoincrement())
   passenger_id  Int
   schedule_id   Int
+  booking_id    Int
   ticket_number String
   passenger     Passenger @relation(fields: [passenger_id], references: [id])
   schedule      Schedule  @relation(fields: [schedule_id], references: [id])
-  bookings      Booking[]
+  booking       Booking   @relation(fields: [booking_id], references: [id])
 
   @@map("ticket")
 }
 
 model Passenger {
   id                 Int      @id @default(autoincrement())
+  booking_id         Int
   full_name          String
   birth_date         DateTime
   type               String
-  id_passport_number String
-  citizenship        String
+  id_passport_number String?
+  citizenship        String?
+  booking            Booking  @relation(fields: [booking_id], references: [id])
   tickets            Ticket[]
 
   @@map("passenger")

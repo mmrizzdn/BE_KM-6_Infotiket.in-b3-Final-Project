@@ -13,28 +13,30 @@ const {
 } = require("../controllers/auth.controllers");
 
 let passport = require("../libs/passport");
+const { restrict } = require("../middleware/restrict");
 
 // all router api auth
 
-// register
+// router api daftar sekarang
 router.post("/daftar-sekarang", register);
 
-// login
+// router api masuk
 router.post("/masuk", login);
 
-// firstPage
-router.get("/halaman-utama", firstPage);
+// router api halaman utama
+router.get("/halaman-utama", restrict, firstPage);
 
-// verifikasi email
+// router api verifikasi email
 router.get("/verifikasi", verifyEmail);
 
-// forgot password
+// router api forgot password
 router.post("/lupa-kata-sandi", forgotPassword);
 
-// reset password
+// router api reset password
+router.get("/mengatur-ulang-kata-sandi", resetPassword);
 router.post("/mengatur-ulang-kata-sandi", resetPassword);
 
-// google Oauth
+// router api google Oauth
 router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
@@ -43,11 +45,11 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     failureRedirect: "/api/v1/auth/google",
-    session: false,
+    session: true,
   }),
   googleOauth2
 );
 
-// logout
+// router api keluar
 router.get("/keluar", logout);
 module.exports = router;

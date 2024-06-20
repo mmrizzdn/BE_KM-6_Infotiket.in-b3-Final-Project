@@ -1,27 +1,56 @@
 require("dotenv").config();
 require("./libs/cron");
+
 const express = require("express");
+const session = require("express-session");
 const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const PORT = 3000 || process.env;
+const passport = require("./libs/passport");
+const path = require("path");
+const port = process.env.PORT || 3000;
 
 const app = express();
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "Content-Type, Authorization",
+  })
+);
+
+app.use(
+  session({
+    secret: "fpinfotiketin",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cookieParser());
+
+app.use(express.urlencoded());
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
 // Swagger
-// const swaggerUI = require("swagger-ui-express");
-// const YAML = require("yaml");
+const swaggerUI = require("swagger-ui-express");
+const YAML = require("yaml");
 const fs = require("fs");
-// const file = fs.readFileSync("./api-docs.yaml", "utf-8");
-// const swaggerDocument = YAML.parse(file);
+const file = fs.readFileSync("./api-docs.yaml", "utf-8");
+const swaggerDocument = YAML.parse(file);
 
 // All Routers
 // Api Docs
-// app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 // Api Login and Register
 const authRouter = require("./routes/route.index");
@@ -47,9 +76,18 @@ app.use("/api/v1", routerFlights);
 const routerProfile = require("./routes/route.profile");
 app.use("/api/v1", routerProfile);
 
+// Api Passenger
+const routerPassenger = require("./routes/route.passenger");
+app.use("/api/v1", routerPassenger);
+
 // Api Booking
 const routerBooking = require("./routes/route.booking");
 app.use("/api/v1", routerBooking);
+
+// Api Transaction
+const routerTransaction = require("./routes/route.transaction");
+app.use("/api/v1", routerTransaction);
+
 
 // 404 halaman tidak ditemukan
 app.use((req, res, next) => {
@@ -63,7 +101,6 @@ app.use((req, res, next) => {
 
 // 500 Kesalahan Server Internal
 app.use((err, req, res, next) => {
-  console.info(err);
   return res.status(500).json({
     status: false,
     message: "Kesalahan Server Internal",
@@ -72,6 +109,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => console.info(`App listening on port ${PORT}!`));
+app.listen(port, "0.0.0.0", () => {
+  console.log("app listening on port", port);
+});
 
 module.exports = app;

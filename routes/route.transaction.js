@@ -2,9 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const { restrict } = require("../middleware/restrict");
-const { addPassenger } = require("../controllers/passenger.controllers");
+const { getPaymentMethods, pay, checkPaymentStatus } = require("../controllers/transaction.controllers");
 
 // router api penumpang
-router.post("/passengers", restrict, addPassenger);
+router.get("/get-payment-list", restrict, getPaymentMethods);
 
 module.exports = router;

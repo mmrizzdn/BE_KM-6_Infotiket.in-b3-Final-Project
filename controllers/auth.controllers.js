@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const { JWT_SECRET } = process.env;
-const { sendMail } = require("../libs/nodemailer");
+const { getHTML, sendMail } = require("../libs/nodemailer");
 
 module.exports = {
   register: async (req, res, next) => {
@@ -69,13 +69,13 @@ module.exports = {
       let user = await prisma.user.create({ data: userData });
 
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
-      let url = `${req.protocol}://${req.get(
-        "host"
-      )}/verifikasi?token=${token}`;
+      let url = `http://localhost:5173/verifikasi-email?token=${token}`;
       console.info(url);
-      let emailContent = `Tautan verifikasi Email: ${url}`;
+      let html = await getHTML("verification-email.ejs", {
+        verification_url: url,
+      });
 
-      await sendMail(user.email, "Verifikasi Email", emailContent);
+      await sendMail(user.email, "Verifikasi Email", html);
       delete user.password;
 
       res.status(200).json({
@@ -84,8 +84,8 @@ module.exports = {
           "Akun berhasil dibuat. Silahkan periksa email Anda untuk verifikasi!",
         data: user,
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   },
 
@@ -129,13 +129,13 @@ module.exports = {
 
       if (!user.is_verified) {
         let token = jwt.sign({ id: user.id }, JWT_SECRET);
-        let url = `${req.protocol}://${req.get(
-          "host"
-        )}/verifikasi?token=${token}`;
+        let url = `http://localhost:5173/verifikasi-email?token=${token}`;
         console.info(url);
-        let emailContent = `Tautan verifikasi Email: ${url}`;
+        let html = await getHTML("verification-email.ejs", {
+          verification_url: url,
+        });
 
-        await sendMail(user.email, "Verifikasi Email", emailContent);
+        await sendMail(user.email, "Verifikasi Email", html);
 
         return res.status(400).json({
           status: false,
@@ -145,25 +145,44 @@ module.exports = {
         });
       }
 
-      let token = jwt.sign({ id: user.id }, JWT_SECRET);
       delete user.password;
-
-      res.cookie("token", token, { httpOnly: true });
+      let token = jwt.sign({ id: user.id }, JWT_SECRET, {
+        expiresIn: "1d",
+      });
       const protocol = req.protocol;
       const host = req.get("host");
       const redirectUrl = `${protocol}://${host}/api/v1/auth/halaman-utama`;
-      return res.redirect(redirectUrl);
-    } catch (error) {
-      next(error);
+      console.info(token);
+      return res.status(200).json({
+        status: true,
+        message: "Berhasil Login",
+        data: { ...user },
+        redirectUrl,
+        token,
+      });
+      // return res.redirect("http://localhost:5173");
+    } catch (err) {
+      next(err);
     }
   },
 
   firstPage: async (req, res, next) => {
     try {
+      const token =
+        req.headers.authorization &&
+        req.headers.authorization.replace("Bearer ", "");
+      if (!token) {
+        return res.json({
+          status: true,
+          message:
+            "Selamat Datang di website Infotiket.in! Anda dapat melihat halaman ini tanpa login.",
+          data: null,
+        });
+      }
       res.json({
         status: true,
         message: "Selamat Datang di website Infotiket.in!",
-        data: req.user,
+        data: { token: token },
       });
     } catch (error) {
       next(error);
@@ -191,11 +210,13 @@ module.exports = {
         res.status(200).json({
           status: true,
           message: "Verifikasi Sukses",
-          data: null,
+          data: {
+            token,
+          },
         });
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   },
 
@@ -220,30 +241,41 @@ module.exports = {
       }
 
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
-      let resetPassUrl = `${req.protocol}://${req.get(
-        "host"
-      )}/reset-password?token=${token}`;
+      let resetPassUrl = `http://localhost:5173/mengatur-ulang-kata-sandi?token=${token}`;
       console.info(resetPassUrl);
-      let emailContent = `Tautan mengatur ulang kata sandi: ${resetPassUrl}`;
+      let html = await getHTML("forgot-password.ejs", {
+        verification_url: resetPassUrl,
+      });
 
-      await sendMail(user.email, "Mengatur ulang kata sandi", emailContent);
+      await sendMail(user.email, "Mengatur ulang kata sandi", html);
 
       return res.status(200).json({
         status: true,
         message: "Silahkan periksa email Anda untuk atur ulang kata sandi!",
-        data: null,
+        data: {
+          token,
+        },
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   },
 
   resetPassword: async (req, res, next) => {
-    try {
-      const { token } = req.query;
-      const { password, confirmPassword } = req.body;
+    // if (req.method === "GET") {
+    //   const token = req.query.token;
+    //   return res.render("reset-password.ejs", { token: token });
+    // }
 
-      if (!password || !confirmPassword) {
+    // if (req.method === "POST") {
+    try {
+      const token = req.query.token;
+      const { password, confirmPassword } = req.body;
+      console.log(token);
+      console.log(password);
+      console.log(confirmPassword);
+
+      if (!token || !password || !confirmPassword) {
         return res.status(400).json({
           status: false,
           message: "Kata sandi baru diperlukan!",
@@ -289,26 +321,42 @@ module.exports = {
         data: { password: encryptPassword },
       });
 
-      return res.status(201).json({
+      return res.status(200).json({
         status: true,
-        message: "Berhasil mengubah kata sandi!",
-        data: null,
+        message: "Kata sandi berhasil direset!",
+        data: {
+          token,
+        },
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
+    // }
   },
 
   googleOauth2: (req, res) => {
     try {
-      let token = jwt.sign({ id: req.user.id }, JWT_SECRET);
-      res.cookie("token", token, { httpOnly: true });
+      const user = req.user;
+
+      delete user.password;
+
+      let token = jwt.sign({ id: req.user.id }, JWT_SECRET, {
+        expiresIn: "1d",
+      });
+
       const protocol = req.protocol;
       const host = req.get("host");
       const redirectUrl = `${protocol}://${host}/api/v1/auth/halaman-utama`;
-      return res.redirect(redirectUrl);
-    } catch (error) {
-      next(error);
+      console.info(token);
+      return res.status(200).json({
+        status: true,
+        message: "Selamat datang, anda berhasil login",
+        data: { ...user },
+        redirectUrl,
+        token,
+      });
+    } catch (err) {
+      next(err);
     }
   },
 
@@ -321,8 +369,8 @@ module.exports = {
         }
         res.redirect("/");
       });
-    } catch (error) {
-      next(error);
+    } catch (err) {
+      next(err);
     }
   },
 };

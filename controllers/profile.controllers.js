@@ -2,6 +2,8 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcrypt");
 const imageKit = require("../libs/imageKit");
+const jwt = require("jsonwebtoken");
+const { JWT_SECRET } = process.env;
 const path = require("path");
 
 module.exports = {
@@ -17,12 +19,12 @@ module.exports = {
       }
 
       delete user.password;
-
+      let token = jwt.sign({ id: user.id }, JWT_SECRET);
       const { first_name, last_name, email, image_url } = user;
       return res.status(200).json({
         status: true,
         message: "Berhasil mengambil data",
-        data: user,
+        data: { user, token },
       });
     } catch (error) {
       next(error);
@@ -83,11 +85,12 @@ module.exports = {
       });
 
       delete userUpdate.password;
+      let token = jwt.sign({ id: user.id }, JWT_SECRET);
 
       return res.status(200).json({
         status: true,
         message: "Berhasil memperbaharui profil",
-        data: userUpdate,
+        data: { userUpdate, token },
       });
     } catch (error) {
       next(error);
