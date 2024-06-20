@@ -340,7 +340,7 @@ module.exports = {
 
       delete user.password;
 
-      let token = jwt.sign({ id: user.id }, JWT_SECRET, {
+      let token = jwt.sign({ id: req.user.id }, JWT_SECRET, {
         expiresIn: "1d",
       });
 
