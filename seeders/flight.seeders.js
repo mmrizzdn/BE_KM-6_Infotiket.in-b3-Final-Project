@@ -6,9 +6,9 @@ const path = require("path");
 
 function getRandomClass() {
   const classes = [
-    { name: "EKONOMI", weight: 70 },
-    { name: "BISNIS", weight: 20 },
-    { name: "KELAS SATU", weight: 10 },
+    { name: "EKONOMI", weight: 50 },
+    { name: "BISNIS", weight: 30 },
+    { name: "EKSEKUTIF", weight: 20 },
   ];
 
   const totalWeight = classes.reduce((total, item) => total + item.weight, 0);
