@@ -63,20 +63,14 @@ module.exports = {
         }
       }
 
-      const {
-        first_name,
-        last_name,
-        email,
-        password,
-        confirmPassword,
-        image_url,
-      } = req.body;
+      const { first_name, last_name, email, password, confirmPassword } =
+        req.body;
 
       let updateData = {};
       if (first_name) updateData.first_name = first_name;
       if (last_name) updateData.last_name = last_name;
       if (email) updateData.email = email;
-      if (image_url) updateData.image_url = image_url;
+      updateData.image_url = imageUrl;
 
       if (password) {
         if (password !== confirmPassword) {
