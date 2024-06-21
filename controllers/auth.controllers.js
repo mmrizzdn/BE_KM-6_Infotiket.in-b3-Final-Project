@@ -128,6 +128,21 @@ module.exports = {
       }
 
       if (!user.is_verified) {
+        const now = new Date();
+        const ONE_MINUTE = 60 * 1000;
+        if (
+          user.email_verification_attempts >= 3 &&
+          user.last_verification_attempt &&
+          now - user.last_verification_attempt < ONE_MINUTE
+        ) {
+          return res.status(429).json({
+            status: false,
+            message:
+              "Anda telah mencapai batas verifikasi. Silakan coba lagi dalam 1 menit.",
+            data: null,
+          });
+        }
+
         let token = jwt.sign({ id: user.id }, JWT_SECRET);
         let url = `http://localhost:5173/verifikasi-email?token=${token}`;
         console.info(url);
@@ -137,7 +152,17 @@ module.exports = {
 
         await sendMail(user.email, "Verifikasi Email", html);
 
-        return res.status(400).json({
+        await prisma.user.update({
+          where: { id: user.id },
+          data: {
+            email_verification_attempts: {
+              increment: 1,
+            },
+            last_verification_attempt: now,
+          },
+        });
+
+        return res.status(200).json({
           status: false,
           message:
             "Silahkan verifikasi email Anda. Tautan verifikasi telah dikirim ke email Anda",

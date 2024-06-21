@@ -66,16 +66,20 @@ module.exports = {
       const { first_name, last_name, email, password, confirmPassword } =
         req.body;
 
-      if (password && password !== confirmPassword) {
-        return res.status(400).json({
-          status: false,
-          message: "Kata sandi tidak cocok!",
-          data: null,
-        });
-      }
+      let updateData = {};
+      if (first_name) updateData.first_name = first_name;
+      if (last_name) updateData.last_name = last_name;
+      if (email) updateData.email = email;
+      updateData.image_url = imageUrl;
 
-      let updateData = { first_name, last_name, email, image_url: imageUrl };
       if (password) {
+        if (password !== confirmPassword) {
+          return res.status(400).json({
+            status: false,
+            message: "Kata sandi tidak cocok!",
+            data: null,
+          });
+        }
         updateData.password = await bcrypt.hash(password, 10);
       }
 
