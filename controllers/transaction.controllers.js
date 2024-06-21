@@ -2,6 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const { v4: uuidv4 } = require('uuid');
 const { ClosedTransaction } = require('tripay-node/closed-transaction'); 
+const { Merchant } = require ('tripay-node/merchant');
 
 const tripay = new ClosedTransaction({
   apiKey: 'DEV-icNoDdrKBqe5wAp7LdROtrg0jzPhgcyd1vbKkeh1',
@@ -9,10 +10,15 @@ const tripay = new ClosedTransaction({
   privateKey: 'LvgVc-yIoY5-zaRmD-c5qHr-E2Ayr'
 });
 
+const tripayMerchant = new Merchant({
+  apiToken: 'DEV-icNoDdrKBqe5wAp7LdROtrg0jzPhgcyd1vbKkeh1',
+  sandbox: true
+});
+
 module.exports = {
   getPaymentMethods: async (req, res) => {
     try {
-      const methods = await tripay.getPaymentChannels();
+      const methods = await tripayMerchant.paymentChannel();
       res.json(methods);
     } catch (error) {
       console.error(error);

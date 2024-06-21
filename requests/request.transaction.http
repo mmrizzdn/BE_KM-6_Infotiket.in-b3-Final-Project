@@ -14,7 +14,7 @@ Content-Type: application/json
 
 ### Get Payment Methods
 GET http://localhost:3000/api/v1/get-payment-list
-Authorization: Bearer YOUR_AUTH_TOKEN
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE4ODk0MjQ4LCJleHAiOjE3MTg5ODA2NDh9.fUdc8131lfLmyH0r_pERPBleKmx24_IM-MYv6yR28qo
 
 ###
 
