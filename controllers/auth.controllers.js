@@ -265,6 +265,31 @@ module.exports = {
         });
       }
 
+      const now = new Date();
+      const ONE_MINUTE = 60 * 1000;
+      if (
+        user.email_verification_attempts >= 3 &&
+        user.last_verification_attempt &&
+        now - user.last_verification_attempt < ONE_MINUTE
+      ) {
+        return res.status(429).json({
+          status: false,
+          message:
+            "Anda telah mencapai batas verifikasi. Silakan coba lagi dalam 1 menit.",
+          data: null,
+        });
+      }
+
+      await prisma.user.update({
+        where: { id: user.id },
+        data: {
+          email_verification_attempts: {
+            increment: 1,
+          },
+          last_verification_attempt: now,
+        },
+      });
+
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
       let resetPassUrl = `http://localhost:5173/mengatur-ulang-kata-sandi?token=${token}`;
       console.info(resetPassUrl);
