@@ -1,18 +1,18 @@
 const multer = require("multer");
-const path = require("path");
 
-// Validasi maximum file size
 const generateFileFilter = (mimeTypes, maxFileSize) => {
   return (req, file, callback) => {
     const fileSize = file.size;
 
     if (!mimeTypes.includes(file.mimetype)) {
-      const error = new Error(`Only ${mimeTypes} are allowed to upload`);
+      const error = new Error(
+        `Hanya ${mimeTypes} yang diperbolehkan untuk diunggah`
+      );
       return callback(error, false);
     }
 
     if (fileSize > maxFileSize) {
-      const err = new Error("Maximum file size extended!");
+      const err = new Error("Ukuran file terlalu besar");
       return callback(err, false);
     }
 
@@ -24,7 +24,7 @@ module.exports = {
   image: multer({
     fileFilter: generateFileFilter(
       ["image/png", "image/jpg", "image/jpeg"],
-      2000000 // Max upload image 2 MB!
+      2000000
     ),
     onError: (error, next) => {
       next(error);

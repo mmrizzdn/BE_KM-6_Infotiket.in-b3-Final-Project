@@ -3,7 +3,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const generateFlightSchedules = async () => {
-  console.log("Generate Flight Schedules...");
+  console.log("Hasilkan Jadwal Penerbangan...");
   try {
     const today = new Date();
     const daysOfWeek = [
