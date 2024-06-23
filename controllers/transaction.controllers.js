@@ -3,17 +3,18 @@ const prisma = new PrismaClient();
 const { v4: uuidv4 } = require('uuid');
 const { ClosedTransaction } = require('tripay-node/closed-transaction');
 const { Merchant } = require('tripay-node/merchant');
+require('dotenv').config();
 
 const tripayTransaction = new ClosedTransaction({
   apiToken: 'DEV-icNoDdrKBqe5wAp7LdROtrg0jzPhgcyd1vbKkeh1',
   merchantCode: 'T32335',
   privateKey: 'LvgVc-yIoY5-zaRmD-c5qHr-E2Ayr',
-  sandbox: true  // Mengaktifkan mode sandbox
+  sandbox: true
 });
 
 const tripayMerchant = new Merchant({
   apiToken: 'DEV-icNoDdrKBqe5wAp7LdROtrg0jzPhgcyd1vbKkeh1',
-  sandbox: true  // Mengaktifkan mode sandbox
+  sandbox: true 
 });
 
 module.exports = {
@@ -70,8 +71,8 @@ module.exports = {
         customer_email: booking.user.email,
         customer_phone: '0823246821838291',
         expired_time: Math.floor(Date.now() / 1000) + 3600, // 1 hour expiration
-        callback_url: "http://localhost:3000/api/v1/webhook",
-        return_url: "http://localhost:3000/api/v1/payment-confirmation",
+        callback_url: "${process.env.DOMAIN}/api/v1/webhook",
+        return_url: "${process.env.DOMAIN}/api/v1/payment-confirmation",
       });
 
       await prisma.payment.create({

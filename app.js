@@ -8,7 +8,8 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const passport = require("./libs/passport");
 const path = require("path");
-const port = process.env.PORT || 3000;
+const DOMAIN = process.env.DOMAIN || 'http://localhost:3000';
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
@@ -117,8 +118,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(port, "0.0.0.0", () => {
-  console.log("app listening on port", port);
+app.listen(PORT, () => {
+  console.log(`Server running at port ${PORT}`);
 });
 
 module.exports = app;
