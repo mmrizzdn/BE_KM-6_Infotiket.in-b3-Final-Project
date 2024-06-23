@@ -111,4 +111,96 @@ module.exports = {
       res.status(500).json({ error: "Terjadi kesalahan saat memeriksa status pembayaran." });
     }
   },
+  getPaymentsByUserId: async (req, res, next) => {
+    try {
+      const userId = req.user.id;
+
+      if (!userId) {
+        return res.status(400).json({
+          status: false,
+          message: "User ID tidak ditemukan atau anda belum login",
+          data: null,
+        });
+      }
+
+      const payments = await prisma.payment.findMany({
+        where: {
+          booking: {
+            user_id: userId
+          }
+        },
+        include: {
+          booking: true
+        }
+      });
+
+      if (!payments || payments.length === 0) {
+        return res.status(404).json({
+          status: false,
+          message: "Tidak ada pembayaran yang ditemukan untuk user ini",
+          data: null,
+        });
+      }
+
+      return res.status(200).json({
+        status: true,
+        message: "Berhasil mendapatkan pembayaran",
+        data: payments,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        status: false,
+        message: "Terjadi kesalahan saat mendapatkan pembayaran",
+        data: null,
+      });
+    }
+  },
+
+  getPendingPaymentsByUserId: async (req, res, next) => {
+    try {
+      const userId = req.user.id;
+
+      if (!userId) {
+        return res.status(400).json({
+          status: false,
+          message: "User ID tidak ditemukan atau anda belum login",
+          data: null,
+        });
+      }
+
+      const payments = await prisma.payment.findMany({
+        where: {
+          booking: {
+            user_id: userId
+          },
+          status: 'PENDING'
+        },
+        include: {
+          booking: true
+        }
+      });
+
+      if (!payments || payments.length === 0) {
+        return res.status(404).json({
+          status: false,
+          message: "Tidak ada pembayaran yang ditemukan untuk user ini",
+          data: null,
+        });
+      }
+
+      return res.status(200).json({
+        status: true,
+        message: "Berhasil mendapatkan pembayaran yang pending",
+        data: payments,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        status: false,
+        message: "Terjadi kesalahan saat mendapatkan pembayaran yang pending",
+        data: null,
+      });
+    }
+  }
 };

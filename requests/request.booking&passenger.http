@@ -25,3 +25,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxN
     }
   ]
 }
+
+### get all booking
+GET http://localhost:3000/api/v1/get-booking
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE5MTExMTg4LCJleHAiOjE3MTkxOTc1ODh9.tEfno50q4YNcsEMbRDDOxRzL6ZlrXQmV7InkA3KaPkg
+
+### get all booking
+GET http://localhost:3000/api/v1/get-pending-booking
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE5MTExMTg4LCJleHAiOjE3MTkxOTc1ODh9.tEfno50q4YNcsEMbRDDOxRzL6ZlrXQmV7InkA3KaPkg
+
