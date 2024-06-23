@@ -1,0 +1,27 @@
+
+
+### Membuat Booking dan Menambahkan Penumpang
+POST http://localhost:3000/api/v1/booking?schedule_id=8B-5114_4
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE5MTExMTg4LCJleHAiOjE3MTkxOTc1ODh9.tEfno50q4YNcsEMbRDDOxRzL6ZlrXQmV7InkA3KaPkg
+
+{
+  "booking_date": "2024-06-22",
+  "total_passenger": 2,
+  "passengers": [
+    {
+      "full_name": "mamat",
+      "birth_date": "1990-01-01",
+      "type": "Adult",
+      "id_passport_number": "A1234567",
+      "citizenship": "USA"
+    },
+    {
+      "full_name": "mumut",
+      "birth_date": "1992-02-02",
+      "type": "Adult",
+      "id_passport_number": "B7654321",
+      "citizenship": "USA"
+    }
+  ]
+}

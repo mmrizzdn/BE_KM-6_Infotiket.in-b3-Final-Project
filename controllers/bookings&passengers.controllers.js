@@ -2,8 +2,8 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 module.exports = {
-  createBooking: async (req, res, next) => {
-    const { booking_date, total_passenger } = req.body;
+  createBookingWithPassengers: async (req, res, next) => {
+    const { booking_date, total_passenger, passengers } = req.body;
     const { schedule_id } = req.query;
 
     try {
@@ -17,7 +17,6 @@ module.exports = {
         });
       }
 
-      // Validasi schedule_id
       if (!schedule_id) {
         return res.status(400).json({
           status: false,
@@ -26,7 +25,6 @@ module.exports = {
         });
       }
 
-      // Validasi booking_date
       if (!booking_date) {
         return res.status(400).json({
           status: false,
@@ -35,7 +33,6 @@ module.exports = {
         });
       }
 
-      // Validasi total_passenger
       if (!total_passenger || total_passenger <= 0) {
         return res.status(400).json({
           status: false,
@@ -50,57 +47,35 @@ module.exports = {
           booking_date: new Date(booking_date),
           total_passenger,
           status: 'PENDING',
-          schedule_id: parseInt(schedule_id)
+          schedule_id: schedule_id
         },
       });
 
+      const passengerPromises = passengers.map((passenger) =>
+        prisma.passenger.create({
+          data: {
+            booking_id: booking.id,
+            full_name: passenger.full_name,
+            birth_date: new Date(passenger.birth_date),
+            type: passenger.type,
+            id_passport_number: passenger.id_passport_number,
+            citizenship: passenger.citizenship,
+          },
+        })
+      );
+
+      await Promise.all(passengerPromises);
+
       return res.status(201).json({
         status: true,
-        message: "Berhasil membuat data Booking",
+        message: "Berhasil membuat booking dan menambahkan penumpang",
         data: booking,
       });
     } catch (error) {
       console.error(error);
       return res.status(500).json({
         status: false,
-        message: "Terjadi kesalahan saat membuat data Booking",
-        data: null,
-      });
-    }
-  },
-
-  getBooking: async (req, res, next) => {
-    try {
-      const userId = req.user.id;
-
-      if (!userId) {
-        return res.status(400).json({
-          status: false,
-          message: "User tidak ditemukan",
-          data: null,
-        });
-      }
-
-      const bookings = await prisma.booking.findMany({
-        where: { user_id: userId },
-        include: {
-          user: true,
-          schedule: true,
-          passengers: true,
-          payments: true,
-        },
-      });
-
-      return res.status(200).json({
-        status: true,
-        message: "Berhasil mengambil data Booking",
-        data: bookings,
-      });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({
-        status: false,
-        message: "Terjadi kesalahan saat mengambil data Booking",
+        message: "Terjadi kesalahan saat membuat booking dan menambahkan penumpang",
         data: null,
       });
     }

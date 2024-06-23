@@ -84,9 +84,17 @@ app.use("/api/v1", routerPassenger);
 const routerBooking = require("./routes/route.booking");
 app.use("/api/v1", routerBooking);
 
+// Api BookingWithPassengers
+const routerBookingWithPassengers = require("./routes/route.booking&passenger");
+app.use("/api/v1", routerBookingWithPassengers);
+
 // Api Transaction
 const routerTransaction = require("./routes/route.transaction");
 app.use("/api/v1", routerTransaction);
+
+// Api ticket and webhook
+const routerWebhookTicket = require("./routes/route.webhook_ticket");
+app.use("/api/v1", routerWebhookTicket);
 
 
 // 404 halaman tidak ditemukan

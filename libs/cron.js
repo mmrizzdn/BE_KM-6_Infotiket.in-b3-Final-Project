@@ -30,7 +30,9 @@ const generateFlightSchedules = async () => {
 
       flightTemplates.forEach((template) => {
         if (template[`is_${dayOfWeek.toLowerCase()}`]) {
-          flightSchedules.push({
+          const uniqueId = `${template.flight_number}_${template.airline_id}`;
+          const scheduleData = {
+            id: uniqueId,
             departure_airport_id: template.departure_airport_id,
             arrival_airport_id: template.arrival_airport_id,
             airline_id: template.airline_id,
@@ -45,11 +47,15 @@ const generateFlightSchedules = async () => {
             Date: new Date(date),
             seat_available: 25,
             is_available: true,
-          });
+          };
+
+          // Pastikan id unik sebelum dimasukkan
+          if (!flightSchedules.some(schedule => schedule.id === uniqueId)) {
+            flightSchedules.push(scheduleData);
+          }
         }
       });
     }
-
     await prisma.schedule.createMany({
       data: flightSchedules,
     });
