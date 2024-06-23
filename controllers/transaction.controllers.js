@@ -71,10 +71,9 @@ module.exports = {
         customer_email: booking.user.email,
         customer_phone: '0823246821838291',
         expired_time: Math.floor(Date.now() / 1000) + 3600, // 1 hour expiration
-        callback_url: "${process.env.DOMAIN}/api/v1/webhook",
-        return_url: "${process.env.DOMAIN}/api/v1/payment-confirmation",
+        callback_url: `${process.env.DOMAIN}/api/v1/webhook`,
+        return_url: `${process.env.DOMAIN}/api/v1/payment-confirmation`,
       });
-
       await prisma.payment.create({
         data: {
           booking_id: booking.id,
@@ -85,7 +84,6 @@ module.exports = {
           merchant_ref: transaction.merchant_ref,
         },
       });
-
       res.json(transaction);
     } catch (error) {
       console.error(error);
