@@ -6,22 +6,70 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE5MTExMTg4LCJleHAiOjE3MTkxOTc1ODh9.tEfno50q4YNcsEMbRDDOxRzL6ZlrXQmV7InkA3KaPkg
 
 {
-  "booking_date": "2024-06-22",
-  "total_passenger": 2,
+  "booking_date": "2024-07-01",
+  "total_passenger": 3,
   "passengers": [
     {
-      "full_name": "mamat",
       "birth_date": "1990-01-01",
       "type": "Adult",
       "id_passport_number": "A1234567",
-      "citizenship": "USA"
+      "citizenship": "Indonesia",
+      "gender": "Male",
+      "first_name": "John",
+      "last_name": "Doe",
+      "phone_number": "08123456789"
     },
     {
-      "full_name": "mumut",
-      "birth_date": "1992-02-02",
-      "type": "Adult",
+      "birth_date": "2010-01-01",
+      "type": "Child",
+      "id_passport_number": "B2345678",
+      "citizenship": "Indonesia",
+      "gender": "Female",
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "phone_number": "08129876543"
+    },
+    {
+      "birth_date": "2022-01-01",
+      "type": "Infant",
+      "id_passport_number": "C3456789",
+      "citizenship": "Indonesia",
+      "gender": "Male",
+      "first_name": "Baby",
+      "last_name": "Doe",
+      "phone_number": "08127654321"
+    }
+  ]
+}
+
+### Membuat Booking Pulang-Pergi
+POST http://localhost:3000/api/v1/booking?schedule_id=8B-5114_4&return_schedule_id=GA-416_5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE5MzIzODE4LCJleHAiOjE3MTk0MTAyMTh9.MNuaWW6rXjw3M1CUUq_RmyOk2pz9HzcQcfm-tmeW174
+
+{
+  "booking_date": "2024-07-01",
+  "total_passenger": 2,
+  "passengers": [
+    {
+      "birth_date": "1990-01-01",
+      "type": "ADULT",
+      "id_passport_number": "A1234567",
+      "citizenship": "ID",
+      "gender": "MALE",
+      "first_name": "John",
+      "last_name": "Doe",
+      "phone_number": "08123456789"
+    },
+    {
+      "birth_date": "1995-05-05",
+      "type": "ADULT",
       "id_passport_number": "B7654321",
-      "citizenship": "USA"
+      "citizenship": "ID",
+      "gender": "FEMALE",
+      "first_name": "Jane",
+      "last_name": "Doe",
+      "phone_number": "08129876543"
     }
   ]
 }

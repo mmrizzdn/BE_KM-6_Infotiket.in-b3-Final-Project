@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 module.exports = {
   createBookingWithPassengers: async (req, res, next) => {
     const { booking_date, total_passenger, passengers } = req.body;
-    const { schedule_id } = req.query;
+    const { schedule_id, return_schedule_id } = req.query;
 
     try {
       const userId = req.user.id;
@@ -41,25 +41,34 @@ module.exports = {
         });
       }
 
+      const bookingData = {
+        user_id: userId,
+        booking_date: new Date(booking_date),
+        total_passenger,
+        status: 'PENDING',
+        schedule_id: schedule_id,
+      };
+
+      if (return_schedule_id) {
+        bookingData.return_schedule_id = return_schedule_id;
+      }
+
       const booking = await prisma.booking.create({
-        data: {
-          user_id: userId,
-          booking_date: new Date(booking_date),
-          total_passenger,
-          status: 'PENDING',
-          schedule_id: schedule_id
-        },
+        data: bookingData,
       });
 
       const passengerPromises = passengers.map((passenger) =>
         prisma.passenger.create({
           data: {
             booking_id: booking.id,
-            full_name: passenger.full_name,
             birth_date: new Date(passenger.birth_date),
             type: passenger.type,
             id_passport_number: passenger.id_passport_number,
             citizenship: passenger.citizenship,
+            gender: passenger.gender,
+            first_name: passenger.first_name,
+            last_name: passenger.last_name,
+            phone_number: passenger.phone_number,
           },
         })
       );

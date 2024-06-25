@@ -6,14 +6,14 @@ const { Merchant } = require('tripay-node/merchant');
 require('dotenv').config();
 
 const tripayTransaction = new ClosedTransaction({
-  apiToken: 'DEV-icNoDdrKBqe5wAp7LdROtrg0jzPhgcyd1vbKkeh1',
-  merchantCode: 'T32335',
-  privateKey: 'LvgVc-yIoY5-zaRmD-c5qHr-E2Ayr',
+  apiToken: process.env.TRIPAY_API_TOKEN,
+  merchantCode: process.env.TRIPAY_MERCHANT_CODE,
+  privateKey: process.env.TRIPAY_PRIVATE_KEY,
   sandbox: true
 });
 
 const tripayMerchant = new Merchant({
-  apiToken: 'DEV-icNoDdrKBqe5wAp7LdROtrg0jzPhgcyd1vbKkeh1',
+  apiToken: process.env.TRIPAY_API_TOKEN,
   sandbox: true 
 });
 
@@ -49,42 +49,105 @@ module.exports = {
         return res.status(404).json({ error: "Schedule tidak ditemukan" });
       }
 
-      const amount = booking.total_passenger * schedule.price;
+      let returnSchedule = null;
+      if (booking.return_schedule_id) {
+        returnSchedule = await prisma.schedule.findUnique({
+          where: { id: booking.return_schedule_id },
+        });
 
-      // Menambahkan item pesanan
+        if (!returnSchedule) {
+          return res.status(404).json({ error: "Return Schedule tidak ditemukan" });
+        }
+      }
+
+      const ticketPrice = booking.total_passenger * schedule.price;
+      const returnTicketPrice = returnSchedule ? booking.total_passenger * returnSchedule.price : 0;
+      const totalTicketPrice = ticketPrice + returnTicketPrice;
+      const adminTax = totalTicketPrice * 0.02;
+      const ppn = totalTicketPrice * 0.10;
+      const totalPrice = totalTicketPrice + adminTax + ppn;
+
+      // Menambahkan item pesanan untuk jadwal keberangkatan
       tripayTransaction.addOrderItem({
         name: schedule.flight_number,
         price: schedule.price,
         quantity: booking.total_passenger,
         sku: schedule.id.toString(),
-        subtotal: amount,
+        subtotal: ticketPrice,
+        image_url: 'http://image.com',
+        product_url: 'http://product.com',
+      });
+      tripayTransaction.addOrderItem({
+        name: 'pajak admin',
+        price: adminTax,
+        quantity: 1,
+        sku: schedule.id.toString(),
+        subtotal: adminTax,
+        image_url: 'http://image.com',
+        product_url: 'http://product.com',
+      });
+      tripayTransaction.addOrderItem({
+        name: 'pajak ppn',
+        price: ppn,
+        quantity: 1,
+        sku: schedule.id.toString(),
+        subtotal: ppn,
         image_url: 'http://image.com',
         product_url: 'http://product.com',
       });
 
+      // Menambahkan item pesanan untuk jadwal kepulangan (jika ada)
+      if (returnSchedule) {
+        tripayTransaction.addOrderItem({
+          name: returnSchedule.flight_number,
+          price: returnSchedule.price,
+          quantity: booking.total_passenger,
+          sku: returnSchedule.id.toString(),
+          subtotal: returnTicketPrice,
+          image_url: 'http://image.com',
+          product_url: 'http://product.com',
+        });
+      }
+
+      // Periksa apakah jumlah total item pesanan cocok dengan jumlah total transaksi
+      const orderItemsTotal = ticketPrice + returnTicketPrice;
+      if (orderItemsTotal !== totalTicketPrice) {
+        return res.status(400).json({ error: "Inconsistent order items total" });
+      }
+
       // Membuat transaksi
       const transaction = await tripayTransaction.create({
-        amount,
+        amount: totalPrice,
         method: payment_method,
         merchant_ref: uuidv4(),
         customer_name: `${booking.user.first_name} ${booking.user.last_name}`,
         customer_email: booking.user.email,
-        customer_phone: '0823246821838291',
-        expired_time: Math.floor(Date.now() / 1000) + 3600, // 1 hour expiration
+        customer_phone: booking.user.phone_number,
+        expired_time: Math.floor(Date.now() / 1000) + 3600,
         callback_url: `${process.env.DOMAIN}/api/v1/webhook`,
-        return_url: `${process.env.DOMAIN}/api/v1/payment-confirmation`,
+        return_url: `http://localhost:5173/konfirmasi-pembayaran`,
       });
+
       await prisma.payment.create({
         data: {
           booking_id: booking.id,
           payment_date: new Date(),
-          amount,
+          amount: totalPrice,
           payment_method,
           status: "PENDING",
           merchant_ref: transaction.merchant_ref,
+          admin_tax: adminTax,
+          ppn_tax: ppn,
         },
       });
-      res.json(transaction);
+
+      res.json({
+        transaction,
+        ticket_price: totalTicketPrice,
+        admin_tax: adminTax,
+        ppn,
+        total_price: totalPrice
+      });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Terjadi kesalahan saat memproses pembayaran." });
@@ -109,6 +172,7 @@ module.exports = {
       res.status(500).json({ error: "Terjadi kesalahan saat memeriksa status pembayaran." });
     }
   },
+
   getPaymentsByUserId: async (req, res, next) => {
     try {
       const userId = req.user.id;
