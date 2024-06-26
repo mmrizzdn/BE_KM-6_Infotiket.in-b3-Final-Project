@@ -30,8 +30,9 @@ jobs:
       - name: Run Migration
         run: |
           export DATABASE_URL="${{ secrets.DEV_DATABASE_URL }}"
-          npx prisma migrate deploy
           npx prisma migrate reset --force
+          npx prisma migrate deploy
+
 
       - name: Run Seeder
         run: |

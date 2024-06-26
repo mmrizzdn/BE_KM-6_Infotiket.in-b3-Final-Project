@@ -12,7 +12,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxN
 
 ### get all payment
 GET http://localhost:3000/api/v1/get-payments
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE5MTExMTg4LCJleHAiOjE3MTkxOTc1ODh9.tEfno50q4YNcsEMbRDDOxRzL6ZlrXQmV7InkA3KaPkg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE5MzIzODE4LCJleHAiOjE3MTk0MTAyMTh9.MNuaWW6rXjw3M1CUUq_RmyOk2pz9HzcQcfm-tmeW174
 
 ### get payment data pending only
 GET http://localhost:3000/api/v1/get-pending-payments
