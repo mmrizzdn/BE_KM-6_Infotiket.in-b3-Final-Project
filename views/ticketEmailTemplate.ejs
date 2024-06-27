@@ -61,10 +61,14 @@
         <% tickets.forEach(ticket => { %>
             <div class="ticket">
                 <h3>Ticket Number: <%= ticket.ticket_number %></h3>
-                <p><strong>Passenger Name:</strong> <%= ticket.passenger.full_name %></p>
-                <p><strong>Flight:</strong> <%= ticket.schedule.flight_number %></p>
-                <p><strong>Departure:</strong> <%= ticket.schedule.departure %> - <%= ticket.schedule.departure_time %></p>
-                <p><strong>Arrival:</strong> <%= ticket.schedule.arrival %> - <%= ticket.schedule.arrival_time %></p>
+                <p><strong>Passenger Name:</strong> <%= ticket.passenger.first_name %> <%= ticket.passenger.last_name %></p>
+                <% if (ticket.schedule) { %>
+                    <p><strong>Flight:</strong> <%= ticket.schedule.flight_number %></p>
+                    <p><strong>Departure:</strong> <%= ticket.schedule.departure %> - <%= ticket.schedule.departure_time %></p>
+                    <p><strong>Arrival:</strong> <%= ticket.schedule.arrival %> - <%= ticket.schedule.arrival_time %></p>
+                <% } else { %>
+                    <p><strong>Flight:</strong> Schedule data not available</p>
+                <% } %>
             </div>
         <% }); %>
         <div class="footer">

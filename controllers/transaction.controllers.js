@@ -3,6 +3,7 @@ const prisma = new PrismaClient();
 const { v4: uuidv4 } = require('uuid');
 const { ClosedTransaction } = require('tripay-node/closed-transaction');
 const { Merchant } = require('tripay-node/merchant');
+const crypto = require('crypto');
 require('dotenv').config();
 
 const tripayTransaction = new ClosedTransaction({
@@ -16,6 +17,12 @@ const tripayMerchant = new Merchant({
   apiToken: process.env.TRIPAY_API_TOKEN,
   sandbox: true 
 });
+
+function generateSignature(merchantCode, merchantRef, amount, privateKey) {
+  return crypto.createHmac('sha256', privateKey)
+               .update(`${merchantCode}${merchantRef}${amount}`)
+               .digest('hex');
+}
 
 module.exports = {
   getPaymentMethods: async (req, res) => {
@@ -109,23 +116,22 @@ module.exports = {
         });
       }
 
-      // Periksa apakah jumlah total item pesanan cocok dengan jumlah total transaksi
-      const orderItemsTotal = ticketPrice + returnTicketPrice;
-      if (orderItemsTotal !== totalTicketPrice) {
-        return res.status(400).json({ error: "Inconsistent order items total" });
-      }
+      // Membuat merchant reference yang unik
+      const merchantRef = `ORDER-${booking_id}-${Date.now()}`;
+      const signature = generateSignature(process.env.TRIPAY_MERCHANT_CODE, merchantRef, totalPrice, process.env.TRIPAY_PRIVATE_KEY);
 
       // Membuat transaksi
       const transaction = await tripayTransaction.create({
         amount: totalPrice,
         method: payment_method,
-        merchant_ref: uuidv4(),
+        merchant_ref: merchantRef,
         customer_name: `${booking.user.first_name} ${booking.user.last_name}`,
         customer_email: booking.user.email,
         customer_phone: booking.user.phone_number,
         expired_time: Math.floor(Date.now() / 1000) + 3600,
         callback_url: `${process.env.DOMAIN}/api/v1/webhook`,
         return_url: `http://localhost:5173/konfirmasi-pembayaran`,
+        signature
       });
 
       await prisma.payment.create({
