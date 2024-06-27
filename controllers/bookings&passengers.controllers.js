@@ -92,7 +92,7 @@ module.exports = {
   getPendingBookingsByUserId: async (req, res, next) => {
     try {
       const userId = req.user.id;
-
+  
       if (!userId) {
         return res.status(400).json({
           status: false,
@@ -100,7 +100,7 @@ module.exports = {
           data: null,
         });
       }
-
+  
       const bookings = await prisma.booking.findMany({
         where: {
           user_id: userId,
@@ -110,7 +110,7 @@ module.exports = {
           passengers: true,
         },
       });
-
+  
       if (!bookings || bookings.length === 0) {
         return res.status(404).json({
           status: false,
@@ -118,19 +118,25 @@ module.exports = {
           data: null,
         });
       }
-
-      // Get schedule details for each booking
-      const bookingsWithSchedule = await Promise.all(bookings.map(async booking => {
+  
+      // Get schedule and return schedule details for each booking
+      const bookingsWithSchedules = await Promise.all(bookings.map(async booking => {
         const schedule = await prisma.schedule.findUnique({
           where: { id: booking.schedule_id },
         });
-        return { ...booking, schedule };
+        let returnSchedule = null;
+        if (booking.return_schedule_id) {
+          returnSchedule = await prisma.schedule.findUnique({
+            where: { id: booking.return_schedule_id },
+          });
+        }
+        return { ...booking, schedule, returnSchedule };
       }));
-
+  
       return res.status(200).json({
         status: true,
         message: "Berhasil mendapatkan booking",
-        data: bookingsWithSchedule,
+        data: bookingsWithSchedules,
       });
     } catch (error) {
       console.error(error);
@@ -144,7 +150,7 @@ module.exports = {
   getBookingsByUserId: async (req, res, next) => {
     try {
       const userId = req.user.id;
-
+  
       if (!userId) {
         return res.status(400).json({
           status: false,
@@ -152,14 +158,14 @@ module.exports = {
           data: null,
         });
       }
-
+  
       const bookings = await prisma.booking.findMany({
         where: { user_id: userId },
         include: {
           passengers: true,
         },
       });
-
+  
       if (!bookings || bookings.length === 0) {
         return res.status(404).json({
           status: false,
@@ -167,19 +173,25 @@ module.exports = {
           data: null,
         });
       }
-
-      // Get schedule details for each booking
-      const bookingsWithSchedule = await Promise.all(bookings.map(async booking => {
+  
+      // Get schedule and return schedule details for each booking
+      const bookingsWithSchedules = await Promise.all(bookings.map(async booking => {
         const schedule = await prisma.schedule.findUnique({
           where: { id: booking.schedule_id },
         });
-        return { ...booking, schedule };
+        let returnSchedule = null;
+        if (booking.return_schedule_id) {
+          returnSchedule = await prisma.schedule.findUnique({
+            where: { id: booking.return_schedule_id },
+          });
+        }
+        return { ...booking, schedule, returnSchedule };
       }));
-
+  
       return res.status(200).json({
         status: true,
         message: "Berhasil mendapatkan booking",
-        data: bookingsWithSchedule,
+        data: bookingsWithSchedules,
       });
     } catch (error) {
       console.error(error);
@@ -189,5 +201,5 @@ module.exports = {
         data: null,
       });
     }
-  }
+  }  
 };
