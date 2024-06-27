@@ -119,15 +119,25 @@ module.exports = {
         });
       }
   
-      // Get schedule and return schedule details for each booking
-      const bookingsWithSchedules = await Promise.all(bookings.map(async booking => {
+      // Get schedule, return schedule, airport, airline and airplane details for each booking
+      const bookingsWithDetails = await Promise.all(bookings.map(async booking => {
         const schedule = await prisma.schedule.findUnique({
           where: { id: booking.schedule_id },
+          include: {
+            departure_airport: true,
+            arrival_airport: true,
+            airline: true,
+          }
         });
         let returnSchedule = null;
         if (booking.return_schedule_id) {
           returnSchedule = await prisma.schedule.findUnique({
             where: { id: booking.return_schedule_id },
+            include: {
+              departure_airport: true,
+              arrival_airport: true,
+              airline: true,
+            }
           });
         }
         return { ...booking, schedule, returnSchedule };
@@ -136,7 +146,7 @@ module.exports = {
       return res.status(200).json({
         status: true,
         message: "Berhasil mendapatkan booking",
-        data: bookingsWithSchedules,
+        data: bookingsWithDetails,
       });
     } catch (error) {
       console.error(error);
@@ -146,7 +156,7 @@ module.exports = {
         data: null,
       });
     }
-  },
+  },  
   getBookingsByUserId: async (req, res, next) => {
     try {
       const userId = req.user.id;
@@ -174,15 +184,25 @@ module.exports = {
         });
       }
   
-      // Get schedule and return schedule details for each booking
-      const bookingsWithSchedules = await Promise.all(bookings.map(async booking => {
+      // Get schedule, return schedule, airport, airline and airplane details for each booking
+      const bookingsWithDetails = await Promise.all(bookings.map(async booking => {
         const schedule = await prisma.schedule.findUnique({
           where: { id: booking.schedule_id },
+          include: {
+            departure_airport: true,
+            arrival_airport: true,
+            airline: true,
+          }
         });
         let returnSchedule = null;
         if (booking.return_schedule_id) {
           returnSchedule = await prisma.schedule.findUnique({
             where: { id: booking.return_schedule_id },
+            include: {
+              departure_airport: true,
+              arrival_airport: true,
+              airline: true,
+            }
           });
         }
         return { ...booking, schedule, returnSchedule };
@@ -191,7 +211,7 @@ module.exports = {
       return res.status(200).json({
         status: true,
         message: "Berhasil mendapatkan booking",
-        data: bookingsWithSchedules,
+        data: bookingsWithDetails,
       });
     } catch (error) {
       console.error(error);
@@ -201,5 +221,5 @@ module.exports = {
         data: null,
       });
     }
-  }  
+  }    
 };
