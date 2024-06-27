@@ -8,14 +8,14 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const passport = require("./libs/passport");
 const path = require("path");
-const DOMAIN = process.env.DOMAIN || 'http://localhost:3000';
+const DOMAIN = process.env.DOMAIN || "http://localhost:3000";
 const PORT = process.env.PORT || 3000;
 
 const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://infotiket.in"],
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: "Content-Type, Authorization",
@@ -96,7 +96,6 @@ app.use("/api/v1", routerTransaction);
 // Api ticket and webhook
 const routerWebhookTicket = require("./routes/route.webhook_ticket");
 app.use("/api/v1", routerWebhookTicket);
-
 
 // 404 halaman tidak ditemukan
 app.use((req, res, next) => {

@@ -384,27 +384,41 @@ module.exports = {
     // }
   },
 
-  googleOauth2: (req, res) => {
+  googleOauth2: (req, res, next) => {
     try {
       const user = req.user;
-
       delete user.password;
 
       let token = jwt.sign({ id: req.user.id }, JWT_SECRET, {
         expiresIn: "1d",
       });
 
-      const protocol = req.protocol;
-      const host = req.get("host");
-      const redirectUrl = `${protocol}://${host}/api/v1/auth/halaman-utama`;
-      console.info(token);
-      return res.status(200).json({
-        status: true,
-        message: "Selamat datang, anda berhasil login",
-        data: { ...user },
-        redirectUrl,
-        token,
-      });
+      const messageSuccess = "Selamat datang, Anda berhasil login";
+      const statusSuccess = true;
+
+      const messageFailure =
+        "Gagal melakukan autentikasi dengan Google OAuth2, Silahkan untuk mencoba lagi!";
+      const statusFailure = false;
+
+      const redirectUrlSuccess = `http://localhost:5173/auth-callback?token=${encodeURIComponent(
+        token
+      )}&user=${encodeURIComponent(
+        JSON.stringify(user)
+      )}&message=${encodeURIComponent(
+        JSON.stringify(messageSuccess)
+      )}&status=${encodeURIComponent(JSON.stringify(statusSuccess))}`;
+
+      const redirectUrlFailure = `http://localhost:5173/auth-callback?message=${encodeURIComponent(
+        JSON.stringify(messageFailure)
+      )}&status=${encodeURIComponent(JSON.stringify(statusFailure))}`;
+
+      const isSuccess = true;
+
+      if (isSuccess) {
+        return res.redirect(redirectUrlSuccess);
+      } else {
+        return res.redirect(redirectUrlFailure);
+      }
     } catch (err) {
       next(err);
     }
