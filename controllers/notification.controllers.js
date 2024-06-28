@@ -4,11 +4,18 @@ const prisma = new PrismaClient();
 module.exports = {
   getAllNotification: async (req, res, next) => {
     try {
-      const user_id = Number(req.user.id);
+      let user = await prisma.user.findUnique({ where: { id: req.user.id } });
+      if (!user) {
+        return res.status(404).json({
+          status: false,
+          message: "User tidak ditemukan",
+          data: null,
+        });
+      }
 
-      const notifications = await prisma.notification.findUnique({
+      const notifications = await prisma.notification.findMany({
         where: {
-          id: user_id,
+          user_id: req.user.id,
         },
       });
 
@@ -23,6 +30,7 @@ module.exports = {
       next(error);
     }
   },
+
   getIdNotification: async (req, res, next) => {
     try {
       const user_id = Number(req.params.id);

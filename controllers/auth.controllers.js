@@ -179,25 +179,16 @@ module.exports = {
       const host = req.get("host");
       const redirectUrl = `${protocol}://${host}/api/v1/auth/halaman-utama`;
 
-      const existingNotification = await prisma.notification.findFirst({
-        where: {
-          user_id: user.id,
+      const notification = await prisma.notification.create({
+        data: {
           title: "Pengguna Login",
+          message: `Hai ${user.first_name} ${user.last_name}, selamat datang di website Infotiket.in!`,
+          user_id: user.id,
         },
       });
-
-      if (!existingNotification) {
-        const notification = await prisma.notification.create({
-          data: {
-            title: "Pengguna Login",
-            message: `Hai ${user.first_name} ${user.last_name}, selamat datang di website Infotiket.in!`,
-            user_id: user.id,
-          },
-        });
-        const io = req.app.get("io");
-        io.emit(`login`, { first_name, last_name });
-        io.emit(`user-${user.id}`, notification);
-      }
+      const io = req.app.get("io");
+      io.emit(`login`, { first_name, last_name });
+      io.emit(`user-${user.id}`, notification);
 
       return res.status(200).json({
         status: true,

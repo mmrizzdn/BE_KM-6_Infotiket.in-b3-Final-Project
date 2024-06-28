@@ -15,7 +15,7 @@ paths:
   /auth/daftar-sekarang:
     post:
       tags:
-        - "Mendaftar"
+        - "Autentikasi"
       summary: Mendaftarkan Pengguna Baru
       requestBody:
         required: true
@@ -83,7 +83,7 @@ paths:
   /auth/masuk:
     post:
       tags:
-        - "Masuk"
+        - "Autentikasi"
       summary: Login dengan email dan kata sandi
       requestBody:
         required: true
@@ -165,7 +165,7 @@ paths:
   /auth/verifikasi:
     get:
       tags:
-        - "Verifikasi Email"
+        - "Autentikasi"
       summary: "Verifikasi Email"
       parameters:
         - schema:
@@ -213,7 +213,7 @@ paths:
   /auth/halaman-utama:
     get:
       tags:
-        - "Selamat Datang"
+        - "Autentikasi"
       summary: Selamat datang di Infotiket.in
 
       responses:
@@ -253,7 +253,7 @@ paths:
   /auth/lupa-kata-sandi:
     post:
       tags:
-        - "Lupa kata sandi"
+        - "Autentikasi"
       summary: Lupa sandi dengan email
       requestBody:
         required: true
@@ -304,7 +304,7 @@ paths:
   /auth/mengatur-ulang-kata-sandi:
     post:
       tags:
-        - "Setel ulang kata sandi"
+        - "Autentikasi"
       summary: "Setel ulang kata sandi"
       parameters:
         - schema:
@@ -365,8 +365,8 @@ paths:
   /profil:
     get:
       tags:
-        - "Dapatkan Profil"
-      summary: "Profil"
+        - "Profil"
+      summary: "Dapatkan Profil"
 
       responses:
         200:
@@ -428,8 +428,8 @@ paths:
 
     put:
       tags:
-        - "Memperbaharui profil:"
-      summary: "Profil"
+        - "Profil"
+      summary: "Memperbaharui profil"
       requestBody:
         content:
           multipart/form-data:
@@ -526,157 +526,10 @@ paths:
       security:
         - bearerAuth: []
 
-  /passengers:
-    post:
-      tags:
-        - "Membuat data penumpang"
-      summary: data penumpang
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                full_name:
-                  type: string
-                  example: infotiketin
-                birth_date:
-                  type: string
-                  example: 2023-06-12T15:00:00Z
-                type:
-                  type: string
-                  example: adult
-                id_passport_number:
-                  type: string
-                  example: 123456789
-                citizenship:
-                  type: string
-                  example: Indonesia
-
-      responses:
-        200:
-          description: Sukses
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: Berhasil menambahkan data penumpang
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: number
-                        example: 1
-                      full_name:
-                        type: string
-                        example: infotiketin
-                      birth_date:
-                        type: string
-                        example: 2023-06-12T15:00:00Z
-                      type:
-                        type: string
-                        example: adult
-                      id_passport_number:
-                        type: string
-                        example: 123456789
-                      citizenship:
-                        type: string
-                        example: Indonesia
-
-        400:
-          description: Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: false
-                  message:
-                    type: string
-                    example: Pengguna tidak ditemukan!
-                  data:
-                    type: string
-                    example: null
-      security:
-        - bearerAuth: []
-
-  /reservasi:
-    get:
-      tags:
-        - "Dapatkan Reservasi"
-      summary: "Reservasi"
-
-      responses:
-        200:
-          description: Sukses
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: Berhasil mengambil data
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: number
-                        example: 1
-                      first_name:
-                        type: string
-                        example: BE3
-                      last_name:
-                        type: string
-                        example: Infotiket.in
-                      email:
-                        type: string
-                        example: infotiketin@gmail.com
-                      is_verified:
-                        type: boolean
-                        example: true
-                      image_url:
-                        type: string
-                        example: null
-                      role:
-                        type: string
-                        example: user
-
-        400:
-          description: Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: false
-                  message:
-                    type: string
-                    example: Tidak ada token!
-                  data:
-                    type: string
-                    example: null
-      security:
-        - bearerAuth: []
-
   /flights:
     get:
       tags:
-        - "Search - Mengambil data penerbangan"
+        - "Penerbangan"
       summary: Ambil informasi penerbangan
       description: Ambil informasi penerbangan berdasarkan bandara keberangkatan, bandara kedatangan, tanggal keberangkatan, dan kelas penerbangan.
       parameters:
@@ -749,7 +602,7 @@ paths:
   /bandara:
     get:
       tags:
-        - "Bandara"
+        - "Penerbangan"
       summary: Daftar Semua Data Bandara
       responses:
         201:
@@ -838,7 +691,7 @@ paths:
 
     get:
       tags:
-        - "Bandara"
+        - "Penerbangan"
       summary: Daftar Data Bandara ID
 
       responses:
@@ -875,10 +728,11 @@ paths:
                   data:
                     type: string
                     example: null
+
   /airlines:
     get:
       tags:
-        - "Maskapai"
+        - "Penerbangan"
       summary: Daftar Semua Data Maskapai
       responses:
         200:
@@ -913,6 +767,7 @@ paths:
                   data:
                     type: string
                     example: null
+
   /airlines/{id}:
     parameters:
       - schema:
@@ -922,7 +777,7 @@ paths:
         required: true
     get:
       tags:
-        - "Maskapai"
+        - "Penerbangan"
       summary: Data Maskapai by Id
       responses:
         200:
@@ -957,10 +812,11 @@ paths:
                   data:
                     type: string
                     example: null
+
   /airplanes:
     get:
       tags:
-        - "Pesawat"
+        - "Penerbangan"
       summary: Daftar Semua Data Pesawat
       responses:
         200:
@@ -995,6 +851,7 @@ paths:
                   data:
                     type: string
                     example: null
+
   /airplanes/{id}:
     parameters:
       - schema:
@@ -1004,7 +861,7 @@ paths:
         required: true
     get:
       tags:
-        - "Pesawat"
+        - "Penerbangan"
       summary: Data Pesawat by Id
       responses:
         200:
@@ -1039,6 +896,81 @@ paths:
                   data:
                     type: string
                     example: null
+
+  /booking:
+    post:
+      tags:
+        - "Pemesanan dan Penumpang"
+      summary: Membuat Booking dan Menambahkan Penumpang
+      parameters:
+        - in: query
+          name: schedule_id
+          schema:
+            type: string
+          required: true
+          description: ID jadwal penerbangan yang akan dibooking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                booking_date:
+                  type: string
+                  format: date
+                  example: "2024-07-01"
+                total_passenger:
+                  type: integer
+                  example: 3
+                passengers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      birth_date:
+                        type: string
+                        format: date
+                        example: "1990-01-01"
+                      type:
+                        type: string
+                        enum:
+                          - Adult
+                          - Child
+                          - Infant
+                        example: "Adult"
+                      id_passport_number:
+                        type: string
+                        example: "A1234567"
+                      citizenship:
+                        type: string
+                        example: "Indonesia"
+                      gender:
+                        type: string
+                        enum:
+                          - Male
+                          - Female
+                        example: "Male"
+                      first_name:
+                        type: string
+                        example: "John"
+                      last_name:
+                        type: string
+                        example: "Doe"
+                      phone_number:
+                        type: string
+                        example: "08123456789"
+
+      responses:
+        "200":
+          description: Booking berhasil dibuat
+        "400":
+          description: Permintaan tidak valid
+        "404":
+          description: Jadwal penerbangan tidak ditemukan
+      security:
+        - bearerAuth: []
+
 components:
   securitySchemes:
     bearerAuth:
