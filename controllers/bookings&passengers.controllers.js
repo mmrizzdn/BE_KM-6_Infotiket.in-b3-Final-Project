@@ -45,7 +45,7 @@ module.exports = {
         user_id: userId,
         booking_date: new Date(booking_date),
         total_passenger,
-        status: 'PENDING',
+        status: "PENDING",
         schedule_id: schedule_id,
       };
 
@@ -84,7 +84,8 @@ module.exports = {
       console.error(error);
       return res.status(500).json({
         status: false,
-        message: "Terjadi kesalahan saat membuat booking dan menambahkan penumpang",
+        message:
+          "Terjadi kesalahan saat membuat booking dan menambahkan penumpang",
         data: null,
       });
     }
@@ -104,7 +105,7 @@ module.exports = {
       const bookings = await prisma.booking.findMany({
         where: {
           user_id: userId,
-          status: 'PENDING'
+          status: "PENDING",
         },
         include: {
           passengers: true,
@@ -120,12 +121,14 @@ module.exports = {
       }
 
       // Get schedule details for each booking
-      const bookingsWithSchedule = await Promise.all(bookings.map(async booking => {
-        const schedule = await prisma.schedule.findUnique({
-          where: { id: booking.schedule_id },
-        });
-        return { ...booking, schedule };
-      }));
+      const bookingsWithSchedule = await Promise.all(
+        bookings.map(async (booking) => {
+          const schedule = await prisma.schedule.findUnique({
+            where: { id: booking.schedule_id },
+          });
+          return { ...booking, schedule };
+        })
+      );
 
       return res.status(200).json({
         status: true,
@@ -169,12 +172,14 @@ module.exports = {
       }
 
       // Get schedule details for each booking
-      const bookingsWithSchedule = await Promise.all(bookings.map(async booking => {
-        const schedule = await prisma.schedule.findUnique({
-          where: { id: booking.schedule_id },
-        });
-        return { ...booking, schedule };
-      }));
+      const bookingsWithSchedule = await Promise.all(
+        bookings.map(async (booking) => {
+          const schedule = await prisma.schedule.findUnique({
+            where: { id: booking.schedule_id },
+          });
+          return { ...booking, schedule };
+        })
+      );
 
       return res.status(200).json({
         status: true,
@@ -189,5 +194,5 @@ module.exports = {
         data: null,
       });
     }
-  }
+  },
 };

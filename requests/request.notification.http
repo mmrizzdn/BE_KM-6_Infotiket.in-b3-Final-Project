@@ -1,0 +1,9 @@
+##
+GET http://localhost:3000/api/v1/notifikasi
+Content-Type: application/json
+Authorization: Bearer "isi token disini"
+
+### per id
+GET http://localhost:3000/api/v1/notifikasi/1
+Content-Type: application/json
+Authorization: Bearer "isi token disini"

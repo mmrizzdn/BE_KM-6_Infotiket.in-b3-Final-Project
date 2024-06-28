@@ -21,6 +21,26 @@ module.exports = {
       delete user.password;
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
       const { first_name, last_name, email, image_url } = user;
+
+      const existingNotification = await prisma.notification.findFirst({
+        where: {
+          user_id: user.id,
+          title: "Pengguna Memperbaharui Profil",
+        },
+      });
+
+      if (!existingNotification) {
+        const notification = await prisma.notification.create({
+          data: {
+            title: "Pengguna Memperbaharui Profil",
+            message: `Kamu telah memperbaharui Profil ${user.first_name} ${user.last_name}`,
+            user_id: user.id,
+          },
+        });
+        const io = req.app.get("io");
+        io.emit(`login`, { first_name, last_name });
+        io.emit(`user-${user.id}`, notification);
+      }
       return res.status(200).json({
         status: true,
         message: "Berhasil mengambil data",
