@@ -33,6 +33,7 @@ module.exports = {
 
   getIdNotification: async (req, res, next) => {
     try {
+      let { first_name, last_name } = req.body;
       const user_id = Number(req.params.id);
 
       const user = await prisma.user.findUnique({
@@ -53,6 +54,9 @@ module.exports = {
         },
       });
       console.info("Berhasil menyimpan notifikasi: ", notifications);
+      const io = req.app.get("io");
+      io.emit(`login`, { first_name, last_name });
+      io.emit(`user-${user.id}`, notifications);
       return res.status(200).json({
         status: true,
         message: "Berhasil menampilkan data notifikasi",

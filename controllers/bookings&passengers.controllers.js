@@ -3,7 +3,8 @@ const prisma = new PrismaClient();
 
 module.exports = {
   createBookingWithPassengers: async (req, res, next) => {
-    const { booking_date, total_passenger, passengers } = req.body;
+    const { booking_date, total_passenger, passengers, first_name, last_name } =
+      req.body;
     const { schedule_id, return_schedule_id } = req.query;
 
     try {
@@ -74,6 +75,17 @@ module.exports = {
       );
 
       await Promise.all(passengerPromises);
+
+      const notification = await prisma.notification.create({
+        data: {
+          title: "Pengguna membuat data Booking dan menambahkan data penumpang",
+          message: `Hai ${user.first_name} ${user.last_name}, anda telah membuat data booking dan menambahkan data penumpang!`,
+          user_id: user.id,
+        },
+      });
+      const io = req.app.get("io");
+      io.emit(`login`, { first_name, last_name });
+      io.emit(`user-${user.id}`, notification);
 
       return res.status(201).json({
         status: true,

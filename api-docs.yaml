@@ -362,6 +362,43 @@ paths:
                     type: string
                     example: null
 
+  /notifikasi/{id}:
+    get:
+      tags:
+        - "Notifikasi"
+      summary: Mendapatkan notifikasi berdasarkan ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: ID dari notifikasi yang ingin diperoleh
+      responses:
+        "200":
+          description: OK. Notifikasi berhasil ditemukan.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  subject:
+                    type: string
+                    example: "Pemberitahuan Penting"
+                  message:
+                    type: string
+                    example: "Silakan periksa informasi terbaru."
+        "404":
+          description: Not Found. Notifikasi tidak ditemukan.
+        "500":
+          description: Internal Server Error. Terjadi kesalahan pada server.
+      security:
+        - bearerAuth: []
+
   /profil:
     get:
       tags:
@@ -983,9 +1020,6 @@ components:
         authorizationCode:
           authorizationUrl: https://expressjs-develop-b4d1.up.railway.app/api/v1/auth/google
           tokenUrl: https://oauth2.googleapis.com/token
-          scopes:
-            email: Access to your email
-            profile: Access to your profile
   schemas:
     Mendaftar:
       type: object
