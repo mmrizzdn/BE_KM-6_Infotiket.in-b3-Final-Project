@@ -3,9 +3,11 @@ const prisma = new PrismaClient();
 
 module.exports = {
   createBookingWithPassengers: async (req, res, next) => {
-    const { booking_date, total_passenger, passengers, first_name, last_name } =
-      req.body;
+    const { booking_date, total_passenger, passengers } = req.body;
     const { schedule_id, return_schedule_id } = req.query;
+
+    const first_name = req.body.first_name || req.user.first_name;
+    const last_name = req.body.last_name || req.user.last_name;
 
     try {
       const userId = req.user.id;
