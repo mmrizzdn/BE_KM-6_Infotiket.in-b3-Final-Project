@@ -1218,6 +1218,39 @@
 									"response": []
 								},
 								{
+									"name": "Booking for return",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "https://expressjs-develop-b4d1.up.railway.app/api/v1/booking?schedule_id=8B-5114_4&return_schedule_id=GA-416_5",
+											"protocol": "https",
+											"host": [
+												"expressjs-develop-b4d1",
+												"up",
+												"railway",
+												"app"
+											],
+											"path": [
+												"api",
+												"v1",
+												"booking"
+											],
+											"query": [
+												{
+													"key": "schedule_id",
+													"value": "8B-5114_4"
+												},
+												{
+													"key": "return_schedule_id",
+													"value": "GA-416_5"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "Get All User Booking",
 									"request": {
 										"auth": {

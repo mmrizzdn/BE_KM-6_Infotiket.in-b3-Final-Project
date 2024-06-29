@@ -53,6 +53,10 @@ const swaggerDocument = YAML.parse(file);
 // Api Docs
 app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
+// Api Admin
+const routerAdmin = require("./routes/route.admin");
+app.use("/api/v1", routerAdmin);
+
 // Api Login and Register
 const authRouter = require("./routes/route.index");
 app.use("/api/v1/auth/", authRouter);
