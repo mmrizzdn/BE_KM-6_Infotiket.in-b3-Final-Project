@@ -79,13 +79,14 @@ module.exports = {
       const notification = await prisma.notification.create({
         data: {
           title: "Pengguna membuat data Booking dan menambahkan data penumpang",
-          message: `Hai ${user.first_name} ${user.last_name}, anda telah membuat data booking dan menambahkan data penumpang!`,
-          user_id: user.id,
+          message: `Hai ${first_name} ${last_name}, anda telah membuat data booking dan menambahkan data penumpang!`,
+          user_id: userId,
         },
       });
+
       const io = req.app.get("io");
       io.emit(`login`, { first_name, last_name });
-      io.emit(`user-${user.id}`, notification);
+      io.emit(`user-${userId}`, notification);
 
       return res.status(201).json({
         status: true,
@@ -102,6 +103,7 @@ module.exports = {
       });
     }
   },
+
   getPendingBookingsByUserId: async (req, res, next) => {
     try {
       const userId = req.user.id;
