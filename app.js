@@ -8,6 +8,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const passport = require("./libs/passport");
 const path = require("path");
+const helmet = require("helmet");
 const DOMAIN = process.env.DOMAIN || "http://localhost:3000";
 const PORT = process.env.PORT || 3000;
 
@@ -30,7 +31,7 @@ app.use(
     cookie: { secure: true },
   })
 );
-
+app.use(helmet());
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -104,6 +105,10 @@ app.use("/api/v1", routerWebhookTicket);
 // Api Notification
 const routerNotification = require("./routes/route.notification");
 app.use("/api/v1", routerNotification);
+
+// Api Groq
+const routerGroq = require("./routes/route.groq");
+app.use("/api/v1", routerGroq);
 
 // 404 halaman tidak ditemukan
 app.use((req, res, next) => {

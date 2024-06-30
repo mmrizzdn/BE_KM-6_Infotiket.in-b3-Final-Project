@@ -361,6 +361,7 @@ paths:
                   data:
                     type: string
                     example: null
+
   /admin:
     post:
       tags:
@@ -1934,6 +1935,49 @@ paths:
           description: Jadwal penerbangan tidak ditemukan
       security:
         - bearerAuth: []
+
+  /groq-chat-bot:
+    post:
+      tags:
+        - "Chat bot Groq"
+      summary: Mengirim permintaan ke Groq Chatbot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  example: "Apa itu Infotiket.in?"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil membuat permintaan ke server Groq!
+                  data:
+                    type: object
+                    example: Infotiket.in adalah sebuah platfom online berbasis teknologi informasi yang menawarkan jasa ticketing dan sistem booking untuk berbagai macam event, pertunjukan, konser, dan lain-lain. Mereka menawarkan fitur-fitur seperti penjualan tiket online, pembayaran online, sistem reservasi, dan pelacakan penjualan.\n\nDengan menggunakan Infotiket.in, pengguna dapat membeli tiket secara online dan langsung menerima konfirmasi pembelian melalui email. Platform ini juga memungkinkan pengguna untuk membuat acara sendiri, mengatur harga tiket, dan mengatur kapasitas peserta.\n\nInfotiket.in dapat digunakan oleh event organizer, venue, dan kontraktor untuk manajemen tiket dan pengelolaan acara. Mereka juga menawarkan integrasi dengan berbagai sistem dan aplikasi lainnya, seperti sistem tiket manajemen, sistem reservasi, dan sistem booking.\n\nDalam beberapa kata, Infotiket.in adalah sebuah platform ticketing online yang membantu mengurangi biaya operasional, meningkatkan efisiensi, serta meningkatkan kualitas pelayanan pelanggan untuk event dan pertunjukan.
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error"
 
 components:
   securitySchemes:

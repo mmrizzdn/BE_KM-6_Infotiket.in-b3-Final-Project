@@ -69,8 +69,9 @@ module.exports = {
       let user = await prisma.user.create({ data: userData });
 
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
-      let url = `http://localhost:5173/verifikasi-email?token=${token}`;
+      let url = `https://infotiket.in/verifikasi-email?token=${token}`;
       console.info(url);
+
       let html = await getHTML("verification-email.ejs", {
         verification_url: url,
       });
@@ -145,8 +146,9 @@ module.exports = {
         }
 
         let token = jwt.sign({ id: user.id }, JWT_SECRET);
-        let url = `http://localhost:5173/verifikasi-email?token=${token}`;
+        let url = `https://infotiket.in/verifikasi-email?token=${token}`;
         console.info(url);
+
         let html = await getHTML("verification-email.ejs", {
           verification_url: url,
         });
@@ -303,7 +305,7 @@ module.exports = {
       });
 
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
-      let resetPassUrl = `http://localhost:5173/mengatur-ulang-kata-sandi?token=${token}`;
+      let resetPassUrl = `https://infotiket.in/mengatur-ulang-kata-sandi?token=${token}`;
       console.info(resetPassUrl);
       let html = await getHTML("forgot-password.ejs", {
         verification_url: resetPassUrl,
@@ -413,7 +415,7 @@ module.exports = {
         "Gagal melakukan autentikasi dengan Google OAuth2, Silahkan untuk mencoba lagi!";
       const statusFailure = false;
 
-      const redirectUrlSuccess = `http://localhost:5173/auth-callback?token=${encodeURIComponent(
+      const redirectUrlSuccess = `https://infotiket.in/auth-callback?token=${encodeURIComponent(
         token
       )}&user=${encodeURIComponent(
         JSON.stringify(user)
@@ -421,7 +423,7 @@ module.exports = {
         JSON.stringify(messageSuccess)
       )}&status=${encodeURIComponent(JSON.stringify(statusSuccess))}`;
 
-      const redirectUrlFailure = `http://localhost:5173/auth-callback?message=${encodeURIComponent(
+      const redirectUrlFailure = `https://infotiket.in/auth-callback?message=${encodeURIComponent(
         JSON.stringify(messageFailure)
       )}&status=${encodeURIComponent(JSON.stringify(statusFailure))}`;
 
