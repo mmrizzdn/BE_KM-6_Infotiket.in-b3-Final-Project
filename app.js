@@ -8,6 +8,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const passport = require("./libs/passport");
 const path = require("path");
+const helmet = require("helmet");
 const DOMAIN = process.env.DOMAIN || "http://localhost:3000";
 const PORT = process.env.PORT || 3000;
 
@@ -30,7 +31,7 @@ app.use(
     cookie: { secure: true },
   })
 );
-
+app.use(helmet());
 app.use(passport.initialize());
 app.use(passport.session());
 
