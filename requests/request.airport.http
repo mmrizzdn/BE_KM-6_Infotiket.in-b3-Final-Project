@@ -1,7 +1,34 @@
-### get all data airports
+### Menambahkan 1 data Bandara
+POST http://localhost:3000/api/v1/bandara
+Content-Type: application/json
+
+{
+    "name_airport": "Nama Bandara Baru",
+    "city": "Kota Baru",
+    "province": "Provinsi Baru",
+    "time_zone": "Waktu Baru",
+    "iata_code": "Kode Baru"
+}
+
+### Mendapatkan semua data bandara
 GET http://localhost:3000/api/v1/bandara
 Content-Type: application/json
 
-### get detail airport
-GET http://localhost:3000/api/v1/bandara/1
+### Mendapatkan detail bandara berdasarkan id
+GET http://localhost:3000/api/v1/bandara/11
 Content-Type: application/json
+
+### Memperbaharui detail bandara berdasarkan id - Hanya admin yang bisa akses
+PUT http://localhost:3000/api/v1/bandara/11
+Content-Type: application/json
+
+{
+    "name_airport": "Nama Bandara Baru",
+    "city": "Kota Baru",
+    "province": "Provinsi Baru",
+    "time_zone": "Waktu Baru",
+    "iata_code": "Kode Baru"
+}
+
+### Menghaphus detail bandara berdasarkan id - Hanya admin yang bisa akses
+DELETE http://localhost:3000/api/v1/bandara/1

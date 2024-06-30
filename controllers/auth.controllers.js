@@ -91,7 +91,8 @@ module.exports = {
 
   login: async (req, res, next) => {
     try {
-      let { email, password } = req.body;
+      let { first_name, last_name, email, password } = req.body;
+      // validasi email dan password
       if (!email || !password) {
         return res.status(400).json({
           status: false,
@@ -177,7 +178,18 @@ module.exports = {
       const protocol = req.protocol;
       const host = req.get("host");
       const redirectUrl = `${protocol}://${host}/api/v1/auth/halaman-utama`;
-      console.info(token);
+
+      const notification = await prisma.notification.create({
+        data: {
+          title: "Pengguna Login",
+          message: `Hai ${user.first_name} ${user.last_name}, selamat datang di website Infotiket.in!`,
+          user_id: user.id,
+        },
+      });
+      const io = req.app.get("io");
+      io.emit(`login`, { first_name, last_name });
+      io.emit(`user-${user.id}`, notification);
+
       return res.status(200).json({
         status: true,
         message: "Berhasil Login",
@@ -384,8 +396,9 @@ module.exports = {
     // }
   },
 
-  googleOauth2: (req, res, next) => {
+  googleOauth2: async (req, res, next) => {
     try {
+      let { first_name, last_name } = req.body;
       const user = req.user;
       delete user.password;
 
@@ -412,6 +425,18 @@ module.exports = {
         JSON.stringify(messageFailure)
       )}&status=${encodeURIComponent(JSON.stringify(statusFailure))}`;
 
+      const notification = await prisma.notification.create({
+        data: {
+          title: "Pengguna Login",
+          message: `Hai ${user.first_name} ${user.last_name}, selamat datang di website Infotiket.in!`,
+          user_id: user.id,
+        },
+      });
+
+      const io = req.app.get("io");
+      io.emit(`login`, { first_name, last_name });
+      io.emit(`user-${user.id}`, notification);
+
       const isSuccess = true;
 
       if (isSuccess) {
@@ -424,14 +449,31 @@ module.exports = {
     }
   },
 
-  logout: (req, res) => {
+  logout: async (req, res, next) => {
     try {
-      req.logout((err) => {
-        if (err) {
-          console.error(err);
-          return res.redirect("/");
-        }
-        res.redirect("/");
+      if (!req.user || !req.user.id) {
+        return res.status(401).json({
+          status: false,
+          message: "Unauthorized. Please log in.",
+          data: null,
+        });
+      }
+
+      const user_id = req.user.id;
+
+      await prisma.notification.deleteMany({
+        where: {
+          user_id: user_id,
+        },
+      });
+
+      const io = req.app.get("io");
+      io.emit(`logout`, { user_id });
+
+      return res.status(200).json({
+        status: true,
+        message: "Berhasil Logout",
+        data: null,
       });
     } catch (err) {
       next(err);

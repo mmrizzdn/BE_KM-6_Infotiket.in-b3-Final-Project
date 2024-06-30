@@ -15,7 +15,7 @@ paths:
   /auth/daftar-sekarang:
     post:
       tags:
-        - "Mendaftar"
+        - "Autentikasi"
       summary: Mendaftarkan Pengguna Baru
       requestBody:
         required: true
@@ -83,7 +83,7 @@ paths:
   /auth/masuk:
     post:
       tags:
-        - "Masuk"
+        - "Autentikasi"
       summary: Login dengan email dan kata sandi
       requestBody:
         required: true
@@ -165,7 +165,7 @@ paths:
   /auth/verifikasi:
     get:
       tags:
-        - "Verifikasi Email"
+        - "Autentikasi"
       summary: "Verifikasi Email"
       parameters:
         - schema:
@@ -213,7 +213,7 @@ paths:
   /auth/halaman-utama:
     get:
       tags:
-        - "Selamat Datang"
+        - "Autentikasi"
       summary: Selamat datang di Infotiket.in
 
       responses:
@@ -253,7 +253,7 @@ paths:
   /auth/lupa-kata-sandi:
     post:
       tags:
-        - "Lupa kata sandi"
+        - "Autentikasi"
       summary: Lupa sandi dengan email
       requestBody:
         required: true
@@ -304,7 +304,7 @@ paths:
   /auth/mengatur-ulang-kata-sandi:
     post:
       tags:
-        - "Setel ulang kata sandi"
+        - "Autentikasi"
       summary: "Setel ulang kata sandi"
       parameters:
         - schema:
@@ -361,12 +361,588 @@ paths:
                   data:
                     type: string
                     example: null
+  /admin:
+    post:
+      tags:
+        - "Admin"
+      summary: Mendaftarkan Admin Baru - Akses hanya admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Mendaftar"
 
-  /profil:
+      responses:
+        201:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Akun berhasil dibuat. Silahkan periksa email Anda untuk verifikasi!
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      first_name:
+                        type: string
+                        example: BE3
+                      last_name:
+                        type: string
+                        example: Infotiket.in
+                      email:
+                        type: string
+                        example: infotiketin@gmail.com
+                      is_verified:
+                        type: boolean
+                        example: false
+                      image_url:
+                        type: string
+                        example: null
+                      role:
+                        type: string
+                        example: user
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Email sudah digunakan sebelumnya!
+                  data:
+                    type: string
+                    example: null
+      security:
+        - bearerAuth: []
+
+  /admin/{id}:
+    put:
+      tags:
+        - "Admin"
+      summary: Mengubah menjadi admin - Akses hanya Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: ID dari user yang ingin diperoleh
+      responses:
+        "200":
+          description: Berhasil mendapatkan data pengguna
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "x"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 7
+                      first_name:
+                        type: string
+                        example: "x"
+                      last_name:
+                        type: string
+                        example: "x"
+                      email:
+                        type: string
+                        format: email
+                        example: "x@gmail.com"
+                      password:
+                        type: string
+                        example: "x"
+                      is_verified:
+                        type: boolean
+                        example: true
+                      image_url:
+                        type: string
+                        nullable: true
+                        example: null
+                      google_id:
+                        type: string
+                        nullable: true
+                        example: null
+                      email_verification_attempts:
+                        type: integer
+                        example: 3
+                      last_verification_attempt:
+                        type: string
+                        format: date-time
+                        example: "x"
+                      role:
+                        type: string
+                        example: "admin"
+      security:
+        - bearerAuth: []
+
+  /users:
     get:
       tags:
-        - "Dapatkan Profil"
-      summary: "Profil"
+        - "Admin"
+      summary: Mengambil semua pengguna - Akses hanya Admin
+      description: Mengambil semua pengguna.
+      responses:
+        "200":
+          description: Berhasil mengambil semua pengguna
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mengambil semua pengguna
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        first_name:
+                          type: string
+                          example: Infotiketi.n
+                        last_name:
+                          type: string
+                          example: B3
+                        email:
+                          type: string
+                          example: xy@gmail.com
+                        password:
+                          type: string
+                          example: x
+                        is_verified:
+                          type: boolean
+                          example: true
+                        image_url:
+                          type: string
+                          nullable: true
+                          example: null
+                        google_id:
+                          type: string
+                          nullable: true
+                          example: null
+                        email_verification_attempts:
+                          type: integer
+                          example: 0
+                        last_verification_attempt:
+                          type: string
+                          nullable: true
+                          example: null
+                        role:
+                          type: string
+                          example: admi
+      security:
+        - bearerAuth: []
+
+  /users/{id}:
+    get:
+      tags:
+        - "Admin"
+      summary: Mendapatkan pengguna berdasarkan ID - Akses hanya Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: ID dari user yang ingin diperoleh
+      responses:
+        "200":
+          description: get user success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: get user success
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      first_name:
+                        type: string
+                        example: x
+                      last_name:
+                        type: string
+                        example: x
+                      email:
+                        type: string
+                        example: x@gmail.com
+                      password:
+                        type: string
+                        example: $x
+                      is_verified:
+                        type: boolean
+                        example: true
+                      image_url:
+                        type: string
+                        nullable: true
+                        example: null
+                      google_id:
+                        type: string
+                        nullable: true
+                        example: null
+                      email_verification_attempts:
+                        type: integer
+                        example: 0
+                      last_verification_attempt:
+                        type: string
+                        nullable: true
+                        example: null
+                      role:
+                        type: string
+                        example: admin
+      security:
+        - bearerAuth: []
+
+    delete:
+      tags:
+        - "Admin"
+      summary: Menghapus pengguna berdasarkan ID - Akses hanya Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: ID dari user yang ingin diperoleh
+      responses:
+        "200":
+          description: get user success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: get user success
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      first_name:
+                        type: string
+                        example: x
+                      last_name:
+                        type: string
+                        example: x
+                      email:
+                        type: string
+                        example: x@gmail.com
+                      password:
+                        type: string
+                        example: $x
+                      is_verified:
+                        type: boolean
+                        example: true
+                      image_url:
+                        type: string
+                        nullable: true
+                        example: null
+                      google_id:
+                        type: string
+                        nullable: true
+                        example: null
+                      email_verification_attempts:
+                        type: integer
+                        example: 0
+                      last_verification_attempt:
+                        type: string
+                        nullable: true
+                        example: null
+                      role:
+                        type: string
+                        example: admin
+      security:
+        - bearerAuth: []
+
+  /notifikasi:
+    get:
+      tags:
+        - "Notifikasi"
+      summary: Mendapatkan notifikasi
+      responses:
+        "200":
+          description: OK. Notifikasi berhasil ditemukan.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  subject:
+                    type: string
+                    example: "Pemberitahuan Penting"
+                  message:
+                    type: string
+                    example: "Silakan periksa informasi terbaru."
+        "404":
+          description: Not Found. Notifikasi tidak ditemukan.
+        "500":
+          description: Internal Server Error. Terjadi kesalahan pada server.
+      security:
+        - bearerAuth: []
+
+  /notifikasi/{id}:
+    get:
+      tags:
+        - "Notifikasi"
+      summary: Mendapatkan notifikasi berdasarkan ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+          description: ID dari notifikasi yang ingin diperoleh
+      responses:
+        "200":
+          description: OK. Notifikasi berhasil ditemukan.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  subject:
+                    type: string
+                    example: "Pemberitahuan Penting"
+                  message:
+                    type: string
+                    example: "Silakan periksa informasi terbaru."
+        "404":
+          description: Not Found. Notifikasi tidak ditemukan.
+        "500":
+          description: Internal Server Error. Terjadi kesalahan pada server.
+      security:
+        - bearerAuth: []
+
+  /profile:
+    get:
+      tags:
+        - "User atau Profil"
+      summary: "Dapatkan Semua Profil Pengguna - Akses hanya Admin"
+      description: Mengambil semua data profil pengguna
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Berhasil mengambil semua data profil pengguna
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil mengambil semua data profil pengguna
+                  data:
+                    type: object
+                    properties:
+                      users:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1
+                            first_name:
+                              type: string
+                              example: John
+                            last_name:
+                              type: string
+                              example: Doe
+                            email:
+                              type: string
+                              example: john.doe@example.com
+                            is_verified:
+                              type: boolean
+                              example: true
+                            image_url:
+                              type: string
+                              nullable: true
+                              example: null
+                            google_id:
+                              type: string
+                              nullable: true
+                              example: null
+                            email_verification_attempts:
+                              type: integer
+                              example: 0
+                            last_verification_attempt:
+                              type: string
+                              nullable: true
+                              example: null
+                            role:
+                              type: string
+                              example: user
+        "404":
+          description: User tidak ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: User tidak ditemukan
+                  data:
+                    type: object
+                    nullable: true
+                    example: null
+        "500":
+          description: Kesalahan Server Internal
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Kesalahan Server Internal
+                  err:
+                    type: string
+                    example: Error message
+                  data:
+                    type: object
+                    nullable: true
+                    example: null
+
+  /profil:
+    post:
+      tags:
+        - "User atau Profil"
+      summary: Mendaftarkan Pengguna Baru
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Mendaftar"
+
+      responses:
+        201:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Akun berhasil dibuat. Silahkan periksa email Anda untuk verifikasi!
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        example: 1
+                      first_name:
+                        type: string
+                        example: BE3
+                      last_name:
+                        type: string
+                        example: Infotiket.in
+                      email:
+                        type: string
+                        example: infotiketin@gmail.com
+                      is_verified:
+                        type: boolean
+                        example: false
+                      image_url:
+                        type: string
+                        example: null
+                      role:
+                        type: string
+                        example: user
+
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Email sudah digunakan sebelumnya!
+                  data:
+                    type: string
+                    example: null
+      security:
+        - bearerAuth: []
+
+    get:
+      tags:
+        - "User atau Profil"
+      summary: "Dapatkan Profil pengguna"
 
       responses:
         200:
@@ -428,8 +1004,8 @@ paths:
 
     put:
       tags:
-        - "Memperbaharui profil:"
-      summary: "Profil"
+        - "User atau Profil"
+      summary: "Memperbaharui profil pengguna"
       requestBody:
         content:
           multipart/form-data:
@@ -464,7 +1040,7 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: Berhasil memperbaharui profil
+                    example: Berhasil memperbaharui profil pengguna
                   data:
                     type: object
                     properties:
@@ -526,37 +1102,20 @@ paths:
       security:
         - bearerAuth: []
 
-  /passengers:
-    post:
+    delete:
       tags:
-        - "Membuat data penumpang"
-      summary: data penumpang
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                full_name:
-                  type: string
-                  example: infotiketin
-                birth_date:
-                  type: string
-                  example: 2023-06-12T15:00:00Z
-                type:
-                  type: string
-                  example: adult
-                id_passport_number:
-                  type: string
-                  example: 123456789
-                citizenship:
-                  type: string
-                  example: Indonesia
-
+        - "User atau Profil"
+      summary: Menghapus pengguna profil pengguna - Akses hanya Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the user to delete
       responses:
-        200:
-          description: Sukses
+        "200":
+          description: User profile successfully deleted
           content:
             application/json:
               schema:
@@ -567,95 +1126,48 @@ paths:
                     example: true
                   message:
                     type: string
-                    example: Berhasil menambahkan data penumpang
+                    example: Berhasil menghapus profil
                   data:
                     type: object
                     properties:
                       id:
-                        type: number
-                        example: 1
-                      full_name:
-                        type: string
-                        example: infotiketin
-                      birth_date:
-                        type: string
-                        example: 2023-06-12T15:00:00Z
-                      type:
-                        type: string
-                        example: adult
-                      id_passport_number:
-                        type: string
-                        example: 123456789
-                      citizenship:
-                        type: string
-                        example: Indonesia
-
-        400:
-          description: Error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: false
-                  message:
-                    type: string
-                    example: Pengguna tidak ditemukan!
-                  data:
-                    type: string
-                    example: null
-      security:
-        - bearerAuth: []
-
-  /reservasi:
-    get:
-      tags:
-        - "Dapatkan Reservasi"
-      summary: "Reservasi"
-
-      responses:
-        200:
-          description: Sukses
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: boolean
-                    example: true
-                  message:
-                    type: string
-                    example: Berhasil mengambil data
-                  data:
-                    type: object
-                    properties:
-                      id:
-                        type: number
+                        type: integer
                         example: 1
                       first_name:
                         type: string
-                        example: BE3
+                        example: x
                       last_name:
                         type: string
-                        example: Infotiket.in
+                        example: x
                       email:
                         type: string
-                        example: infotiketin@gmail.com
+                        example: x@gmail.com
+                      password:
+                        type: string
+                        example: $x
                       is_verified:
                         type: boolean
                         example: true
                       image_url:
                         type: string
+                        nullable: true
+                        example: null
+                      google_id:
+                        type: string
+                        nullable: true
+                        example: null
+                      email_verification_attempts:
+                        type: integer
+                        example: 0
+                      last_verification_attempt:
+                        type: string
+                        nullable: true
                         example: null
                       role:
                         type: string
-                        example: user
-
-        400:
-          description: Error
+                        example: admin
+        "404":
+          description: User not found
           content:
             application/json:
               schema:
@@ -666,17 +1178,30 @@ paths:
                     example: false
                   message:
                     type: string
-                    example: Tidak ada token!
-                  data:
+                    example: user not found
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
                     type: string
-                    example: null
+                    example: Kesalahan Server Internal
+                  err:
+                    type: string
+                    example: error message
       security:
         - bearerAuth: []
 
   /flights:
     get:
       tags:
-        - "Search - Mengambil data penerbangan"
+        - "Penerbangan"
       summary: Ambil informasi penerbangan
       description: Ambil informasi penerbangan berdasarkan bandara keberangkatan, bandara kedatangan, tanggal keberangkatan, dan kelas penerbangan.
       parameters:
@@ -747,6 +1272,108 @@ paths:
           description: Kesalahan server
 
   /bandara:
+    post:
+      tags:
+        - "Bandara"
+      summary: Membuat data Bandara - Akses hanya Admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name_airport:
+                  type: string
+                  example: Bandara Internasional Soekarno-Hatta
+                city:
+                  type: string
+                  example: Tangerang
+                province:
+                  type: string
+                  example: Banten
+                time_zone:
+                  type: string
+                  example: Waktu Indonesia Barat
+                iata_code:
+                  type: string
+                  example: CGK
+              required:
+                - name_airport
+                - city
+                - province
+                - time_zone
+                - iata_code
+      responses:
+        "201":
+          description: Airport successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil membuat data bandara
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name_airport:
+                        type: string
+                        example: Bandara Internasional Soekarno-Hatta
+                      city:
+                        type: string
+                        example: Tangerang
+                      province:
+                        type: string
+                        example: Banten
+                      time_zone:
+                        type: string
+                        example: Waktu Indonesia Barat
+                      iata_code:
+                        type: string
+                        example: CGK
+        "400":
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Request body tidak valid
+                  err:
+                    type: string
+                    example: error message
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Kesalahan Server Internal
+                  err:
+                    type: string
+                    example: error message
+      security:
+        - bearerAuth: []
+
     get:
       tags:
         - "Bandara"
@@ -839,7 +1466,7 @@ paths:
     get:
       tags:
         - "Bandara"
-      summary: Daftar Data Bandara ID
+      summary: Daftar Data Bandara dengan ID
 
       responses:
         200:
@@ -875,10 +1502,201 @@ paths:
                   data:
                     type: string
                     example: null
+
+    put:
+      tags:
+        - "Bandara"
+      summary: Memperbaharui Data Bandara dengan ID - Akses hanya Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the airport to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name_airport:
+                  type: string
+                  example: Nama Bandara Baru
+                city:
+                  type: string
+                  example: Kota Baru
+                province:
+                  type: string
+                  example: Provinsi Baru
+                time_zone:
+                  type: string
+                  example: Waktu Baru
+                iata_code:
+                  type: string
+                  example: Kode Baru
+      responses:
+        "200":
+          description: Airport details successfully updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil memperbarui data bandara
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name_airport:
+                        type: string
+                        example: Nama Bandara Baru
+                      city:
+                        type: string
+                        example: Kota Baru
+                      province:
+                        type: string
+                        example: Provinsi Baru
+                      time_zone:
+                        type: string
+                        example: Waktu Baru
+                      iata_code:
+                        type: string
+                        example: Kode Baru
+        "404":
+          description: Airport not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data Airport tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Kesalahan Server Internal
+                  err:
+                    type: string
+                    example: error message
+                  data:
+                    type: string
+                    example: null
+      security:
+        - bearerAuth: []
+
+    delete:
+      tags:
+        - "Bandara"
+      summary: Menghapus Data Bandara dengan ID - Akses hanya Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the airport to delete
+      responses:
+        "200":
+          description: Data bandara berhasil dihapus
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil menghapus data bandara
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name_airport:
+                        type: string
+                        example: Nama Bandara Baru
+                      city:
+                        type: string
+                        example: Kota Baru
+                      province:
+                        type: string
+                        example: Provinsi Baru
+                      time_zone:
+                        type: string
+                        example: Waktu Baru
+                      iata_code:
+                        type: string
+                        example: Kode Baru
+        "404":
+          description: Airport not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data Airport tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Kesalahan Server Internal
+                  err:
+                    type: string
+                    example: error message
+                  data:
+                    type: string
+                    example: null
+      security:
+        - bearerAuth: []
+
   /airlines:
     get:
       tags:
-        - "Maskapai"
+        - "Penerbangan"
       summary: Daftar Semua Data Maskapai
       responses:
         200:
@@ -913,6 +1731,7 @@ paths:
                   data:
                     type: string
                     example: null
+
   /airlines/{id}:
     parameters:
       - schema:
@@ -922,7 +1741,7 @@ paths:
         required: true
     get:
       tags:
-        - "Maskapai"
+        - "Penerbangan"
       summary: Data Maskapai by Id
       responses:
         200:
@@ -957,10 +1776,11 @@ paths:
                   data:
                     type: string
                     example: null
+
   /airplanes:
     get:
       tags:
-        - "Pesawat"
+        - "Penerbangan"
       summary: Daftar Semua Data Pesawat
       responses:
         200:
@@ -995,6 +1815,7 @@ paths:
                   data:
                     type: string
                     example: null
+
   /airplanes/{id}:
     parameters:
       - schema:
@@ -1004,7 +1825,7 @@ paths:
         required: true
     get:
       tags:
-        - "Pesawat"
+        - "Penerbangan"
       summary: Data Pesawat by Id
       responses:
         200:
@@ -1039,6 +1860,81 @@ paths:
                   data:
                     type: string
                     example: null
+
+  /booking:
+    post:
+      tags:
+        - "Pemesanan dan Penumpang"
+      summary: Membuat Booking dan Menambahkan Penumpang
+      parameters:
+        - in: query
+          name: schedule_id
+          schema:
+            type: string
+          required: true
+          description: ID jadwal penerbangan yang akan dibooking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                booking_date:
+                  type: string
+                  format: date
+                  example: "2024-07-01"
+                total_passenger:
+                  type: integer
+                  example: 3
+                passengers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      birth_date:
+                        type: string
+                        format: date
+                        example: "1990-01-01"
+                      type:
+                        type: string
+                        enum:
+                          - Adult
+                          - Child
+                          - Infant
+                        example: "Adult"
+                      id_passport_number:
+                        type: string
+                        example: "A1234567"
+                      citizenship:
+                        type: string
+                        example: "Indonesia"
+                      gender:
+                        type: string
+                        enum:
+                          - Male
+                          - Female
+                        example: "Male"
+                      first_name:
+                        type: string
+                        example: "John"
+                      last_name:
+                        type: string
+                        example: "Doe"
+                      phone_number:
+                        type: string
+                        example: "08123456789"
+
+      responses:
+        "200":
+          description: Booking berhasil dibuat
+        "400":
+          description: Permintaan tidak valid
+        "404":
+          description: Jadwal penerbangan tidak ditemukan
+      security:
+        - bearerAuth: []
+
 components:
   securitySchemes:
     bearerAuth:
@@ -1051,9 +1947,6 @@ components:
         authorizationCode:
           authorizationUrl: https://expressjs-develop-b4d1.up.railway.app/api/v1/auth/google
           tokenUrl: https://oauth2.googleapis.com/token
-          scopes:
-            email: Access to your email
-            profile: Access to your profile
   schemas:
     Mendaftar:
       type: object

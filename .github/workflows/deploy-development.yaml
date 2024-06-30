@@ -30,14 +30,7 @@ jobs:
       - name: Run Migration
         run: |
           export DATABASE_URL="${{ secrets.DEV_DATABASE_URL }}"
-          npx prisma migrate reset --force
           npx prisma migrate deploy
-
-
-      - name: Run Seeder
-        run: |
-          export DATABASE_URL="${{ secrets.DEV_DATABASE_URL }}"
-          node seeders/seed.js
 
       - name: Deploy to Railway
         run: railway up --service ${{ secrets.RAILWAY_DEV_SERVICE_ID }}

@@ -6,6 +6,9 @@ module.exports = {
     const { booking_date, total_passenger, passengers } = req.body;
     const { schedule_id, return_schedule_id } = req.query;
 
+    const first_name = req.body.first_name || req.user.first_name;
+    const last_name = req.body.last_name || req.user.last_name;
+
     try {
       const userId = req.user.id;
 
@@ -45,7 +48,7 @@ module.exports = {
         user_id: userId,
         booking_date: new Date(booking_date),
         total_passenger,
-        status: 'PENDING',
+        status: "PENDING",
         schedule_id: schedule_id,
       };
 
@@ -75,6 +78,18 @@ module.exports = {
 
       await Promise.all(passengerPromises);
 
+      const notification = await prisma.notification.create({
+        data: {
+          title: "Pengguna membuat data Booking dan menambahkan data penumpang",
+          message: `Hai ${first_name} ${last_name}, anda telah membuat data booking dan menambahkan data penumpang!`,
+          user_id: userId,
+        },
+      });
+
+      const io = req.app.get("io");
+      io.emit(`login`, { first_name, last_name });
+      io.emit(`user-${userId}`, notification);
+
       return res.status(201).json({
         status: true,
         message: "Berhasil membuat booking dan menambahkan penumpang",
@@ -84,15 +99,17 @@ module.exports = {
       console.error(error);
       return res.status(500).json({
         status: false,
-        message: "Terjadi kesalahan saat membuat booking dan menambahkan penumpang",
+        message:
+          "Terjadi kesalahan saat membuat booking dan menambahkan penumpang",
         data: null,
       });
     }
   },
+
   getPendingBookingsByUserId: async (req, res, next) => {
     try {
       const userId = req.user.id;
-  
+
       if (!userId) {
         return res.status(400).json({
           status: false,
@@ -100,17 +117,17 @@ module.exports = {
           data: null,
         });
       }
-  
+
       const bookings = await prisma.booking.findMany({
         where: {
           user_id: userId,
-          status: 'PENDING'
+          status: "PENDING",
         },
         include: {
           passengers: true,
         },
       });
-  
+
       if (!bookings || bookings.length === 0) {
         return res.status(404).json({
           status: false,
@@ -118,31 +135,33 @@ module.exports = {
           data: null,
         });
       }
-  
+
       // Get schedule, return schedule, airport, airline and airplane details for each booking
-      const bookingsWithDetails = await Promise.all(bookings.map(async booking => {
-        const schedule = await prisma.schedule.findUnique({
-          where: { id: booking.schedule_id },
-          include: {
-            departure_airport: true,
-            arrival_airport: true,
-            airline: true,
-          }
-        });
-        let returnSchedule = null;
-        if (booking.return_schedule_id) {
-          returnSchedule = await prisma.schedule.findUnique({
-            where: { id: booking.return_schedule_id },
+      const bookingsWithDetails = await Promise.all(
+        bookings.map(async (booking) => {
+          const schedule = await prisma.schedule.findUnique({
+            where: { id: booking.schedule_id },
             include: {
               departure_airport: true,
               arrival_airport: true,
               airline: true,
-            }
+            },
           });
-        }
-        return { ...booking, schedule, returnSchedule };
-      }));
-  
+          let returnSchedule = null;
+          if (booking.return_schedule_id) {
+            returnSchedule = await prisma.schedule.findUnique({
+              where: { id: booking.return_schedule_id },
+              include: {
+                departure_airport: true,
+                arrival_airport: true,
+                airline: true,
+              },
+            });
+          }
+          return { ...booking, schedule, returnSchedule };
+        })
+      );
+
       return res.status(200).json({
         status: true,
         message: "Berhasil mendapatkan booking",
@@ -156,11 +175,11 @@ module.exports = {
         data: null,
       });
     }
-  },  
+  },
   getBookingsByUserId: async (req, res, next) => {
     try {
       const userId = req.user.id;
-  
+
       if (!userId) {
         return res.status(400).json({
           status: false,
@@ -168,14 +187,14 @@ module.exports = {
           data: null,
         });
       }
-  
+
       const bookings = await prisma.booking.findMany({
         where: { user_id: userId },
         include: {
           passengers: true,
         },
       });
-  
+
       if (!bookings || bookings.length === 0) {
         return res.status(404).json({
           status: false,
@@ -183,31 +202,33 @@ module.exports = {
           data: null,
         });
       }
-  
+
       // Get schedule, return schedule, airport, airline and airplane details for each booking
-      const bookingsWithDetails = await Promise.all(bookings.map(async booking => {
-        const schedule = await prisma.schedule.findUnique({
-          where: { id: booking.schedule_id },
-          include: {
-            departure_airport: true,
-            arrival_airport: true,
-            airline: true,
-          }
-        });
-        let returnSchedule = null;
-        if (booking.return_schedule_id) {
-          returnSchedule = await prisma.schedule.findUnique({
-            where: { id: booking.return_schedule_id },
+      const bookingsWithDetails = await Promise.all(
+        bookings.map(async (booking) => {
+          const schedule = await prisma.schedule.findUnique({
+            where: { id: booking.schedule_id },
             include: {
               departure_airport: true,
               arrival_airport: true,
               airline: true,
-            }
+            },
           });
-        }
-        return { ...booking, schedule, returnSchedule };
-      }));
-  
+          let returnSchedule = null;
+          if (booking.return_schedule_id) {
+            returnSchedule = await prisma.schedule.findUnique({
+              where: { id: booking.return_schedule_id },
+              include: {
+                departure_airport: true,
+                arrival_airport: true,
+                airline: true,
+              },
+            });
+          }
+          return { ...booking, schedule, returnSchedule };
+        })
+      );
+
       return res.status(200).json({
         status: true,
         message: "Berhasil mendapatkan booking",
@@ -221,5 +242,5 @@ module.exports = {
         data: null,
       });
     }
-  }    
+  },
 };

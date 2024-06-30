@@ -1,0 +1,27 @@
+### membuat admin secara langsung - Hanya admin yang bisa akses
+POST http://localhost:3000/api/v1/admin
+Content-Type: application/json
+
+{
+    "first_name": "BE3",
+    "last_name": "Infotiket.in",
+    "email": "infotiketin@gmail.com",
+    "password": "password123",
+    "confirmPassword": "password123"
+}
+
+### memperbaharui role dari pengguna ke admin - Hanya admin yang bisa akses
+PUT https://expressjs-develop-b4d1.up.railway.app/api/v1/admin/7
+Authorization: Bearer "isi token disini"
+
+### menampilkan semua data user dari admin - Hanya admin yang bisa akses
+GET https://expressjs-develop-b4d1.up.railway.app/api/v1/users
+Authorization: Bearer "isi token disini"
+
+### menampilkan data user dari admin berdasarkan id - Hanya admin yang bisa akses
+GET https://expressjs-develop-b4d1.up.railway.app/api/v1/users/1
+Authorization: Bearer "isi token disini"
+
+### menghapus data user dari admin berdasarkan id - Hanya admin yang bisa akses
+DELETE https://expressjs-develop-b4d1.up.railway.app/api/v1/users/1
+Authorization: Bearer "isi token disini"

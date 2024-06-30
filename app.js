@@ -53,6 +53,10 @@ const swaggerDocument = YAML.parse(file);
 // Api Docs
 app.use("/api/v1/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
+// Api Admin
+const routerAdmin = require("./routes/route.admin");
+app.use("/api/v1", routerAdmin);
+
 // Api Login and Register
 const authRouter = require("./routes/route.index");
 app.use("/api/v1/auth/", authRouter);
@@ -97,6 +101,10 @@ app.use("/api/v1", routerTransaction);
 const routerWebhookTicket = require("./routes/route.webhook_ticket");
 app.use("/api/v1", routerWebhookTicket);
 
+// Api Notification
+const routerNotification = require("./routes/route.notification");
+app.use("/api/v1", routerNotification);
+
 // 404 halaman tidak ditemukan
 app.use((req, res, next) => {
   return res.status(404).json({
@@ -117,7 +125,30 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => {
+const http = require("http");
+const { Server } = require("socket.io");
+
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: ["http://localhost:5173", "https://infotiket.in"],
+    credentials: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "Content-Type, Authorization",
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("a user connected");
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+});
+
+app.set("io", io);
+
+server.listen(PORT, () => {
   console.log(`Server running at port ${PORT}`);
 });
 

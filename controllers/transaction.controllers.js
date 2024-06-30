@@ -1,27 +1,28 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
-const { v4: uuidv4 } = require('uuid');
-const { ClosedTransaction } = require('tripay-node/closed-transaction');
-const { Merchant } = require('tripay-node/merchant');
-const crypto = require('crypto');
-require('dotenv').config();
+const { v4: uuidv4 } = require("uuid");
+const { ClosedTransaction } = require("tripay-node/closed-transaction");
+const { Merchant } = require("tripay-node/merchant");
+const crypto = require("crypto");
+require("dotenv").config();
 
 const tripayTransaction = new ClosedTransaction({
   apiToken: process.env.TRIPAY_API_TOKEN,
   merchantCode: process.env.TRIPAY_MERCHANT_CODE,
   privateKey: process.env.TRIPAY_PRIVATE_KEY,
-  sandbox: true
+  sandbox: true,
 });
 
 const tripayMerchant = new Merchant({
   apiToken: process.env.TRIPAY_API_TOKEN,
-  sandbox: true 
+  sandbox: true,
 });
 
 function generateSignature(merchantCode, merchantRef, amount, privateKey) {
-  return crypto.createHmac('sha256', privateKey)
-               .update(`${merchantCode}${merchantRef}${amount}`)
-               .digest('hex');
+  return crypto
+    .createHmac("sha256", privateKey)
+    .update(`${merchantCode}${merchantRef}${amount}`)
+    .digest("hex");
 }
 
 module.exports = {
@@ -31,7 +32,9 @@ module.exports = {
       res.json(methods);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Terjadi kesalahan saat mengambil metode pembayaran." });
+      res
+        .status(500)
+        .json({ error: "Terjadi kesalahan saat mengambil metode pembayaran." });
     }
   },
 
@@ -63,15 +66,19 @@ module.exports = {
         });
 
         if (!returnSchedule) {
-          return res.status(404).json({ error: "Return Schedule tidak ditemukan" });
+          return res
+            .status(404)
+            .json({ error: "Return Schedule tidak ditemukan" });
         }
       }
 
       const ticketPrice = booking.total_passenger * schedule.price;
-      const returnTicketPrice = returnSchedule ? booking.total_passenger * returnSchedule.price : 0;
+      const returnTicketPrice = returnSchedule
+        ? booking.total_passenger * returnSchedule.price
+        : 0;
       const totalTicketPrice = ticketPrice + returnTicketPrice;
       const adminTax = totalTicketPrice * 0.02;
-      const ppn = totalTicketPrice * 0.10;
+      const ppn = totalTicketPrice * 0.1;
       const totalPrice = totalTicketPrice + adminTax + ppn;
 
       // Menambahkan item pesanan untuk jadwal keberangkatan
@@ -81,26 +88,26 @@ module.exports = {
         quantity: booking.total_passenger,
         sku: schedule.id.toString(),
         subtotal: ticketPrice,
-        image_url: 'http://image.com',
-        product_url: 'http://product.com',
+        image_url: "http://image.com",
+        product_url: "http://product.com",
       });
       tripayTransaction.addOrderItem({
-        name: 'pajak admin',
+        name: "pajak admin",
         price: adminTax,
         quantity: 1,
         sku: schedule.id.toString(),
         subtotal: adminTax,
-        image_url: 'http://image.com',
-        product_url: 'http://product.com',
+        image_url: "http://image.com",
+        product_url: "http://product.com",
       });
       tripayTransaction.addOrderItem({
-        name: 'pajak ppn',
+        name: "pajak ppn",
         price: ppn,
         quantity: 1,
         sku: schedule.id.toString(),
         subtotal: ppn,
-        image_url: 'http://image.com',
-        product_url: 'http://product.com',
+        image_url: "http://image.com",
+        product_url: "http://product.com",
       });
 
       // Menambahkan item pesanan untuk jadwal kepulangan (jika ada)
@@ -111,14 +118,19 @@ module.exports = {
           quantity: booking.total_passenger,
           sku: returnSchedule.id.toString(),
           subtotal: returnTicketPrice,
-          image_url: 'http://image.com',
-          product_url: 'http://product.com',
+          image_url: "http://image.com",
+          product_url: "http://product.com",
         });
       }
 
       // Membuat merchant reference yang unik
       const merchantRef = `ORDER-${booking_id}-${Date.now()}`;
-      const signature = generateSignature(process.env.TRIPAY_MERCHANT_CODE, merchantRef, totalPrice, process.env.TRIPAY_PRIVATE_KEY);
+      const signature = generateSignature(
+        process.env.TRIPAY_MERCHANT_CODE,
+        merchantRef,
+        totalPrice,
+        process.env.TRIPAY_PRIVATE_KEY
+      );
 
       // Membuat transaksi
       const transaction = await tripayTransaction.create({
@@ -131,7 +143,7 @@ module.exports = {
         expired_time: Math.floor(Date.now() / 1000) + 3600,
         callback_url: `${process.env.DOMAIN}/api/v1/webhook`,
         return_url: `http://localhost:5173/konfirmasi-pembayaran`,
-        signature
+        signature,
       });
 
       await prisma.payment.create({
@@ -152,11 +164,13 @@ module.exports = {
         ticket_price: totalTicketPrice,
         admin_tax: adminTax,
         ppn,
-        total_price: totalPrice
+        total_price: totalPrice,
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Terjadi kesalahan saat memproses pembayaran." });
+      res
+        .status(500)
+        .json({ error: "Terjadi kesalahan saat memproses pembayaran." });
     }
   },
 
@@ -175,12 +189,15 @@ module.exports = {
       return res.json(payment);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: "Terjadi kesalahan saat memeriksa status pembayaran." });
+      res
+        .status(500)
+        .json({ error: "Terjadi kesalahan saat memeriksa status pembayaran." });
     }
   },
 
   getPaymentsByUserId: async (req, res, next) => {
     try {
+      const { first_name, last_name } = req.body;
       const userId = req.user.id;
 
       if (!userId) {
@@ -194,12 +211,12 @@ module.exports = {
       const payments = await prisma.payment.findMany({
         where: {
           booking: {
-            user_id: userId
-          }
+            user_id: userId,
+          },
         },
         include: {
-          booking: true
-        }
+          booking: true,
+        },
       });
 
       if (!payments || payments.length === 0) {
@@ -209,6 +226,17 @@ module.exports = {
           data: null,
         });
       }
+
+      const notification = await prisma.notification.create({
+        data: {
+          title: "Pengguna berhasil mendapatkan pembayaran",
+          message: `Hai ${user.first_name} ${user.last_name}, anda telah berhasil mendapatkan pembayaran!`,
+          user_id: user.id,
+        },
+      });
+      const io = req.app.get("io");
+      io.emit(`login`, { first_name, last_name });
+      io.emit(`user-${user.id}`, notification);
 
       return res.status(200).json({
         status: true,
@@ -227,6 +255,7 @@ module.exports = {
 
   getPendingPaymentsByUserId: async (req, res, next) => {
     try {
+      const { first_name, last_name } = req.body;
       const userId = req.user.id;
 
       if (!userId) {
@@ -240,13 +269,13 @@ module.exports = {
       const payments = await prisma.payment.findMany({
         where: {
           booking: {
-            user_id: userId
+            user_id: userId,
           },
-          status: 'PENDING'
+          status: "PENDING",
         },
         include: {
-          booking: true
-        }
+          booking: true,
+        },
       });
 
       if (!payments || payments.length === 0) {
@@ -256,6 +285,17 @@ module.exports = {
           data: null,
         });
       }
+
+      const notification = await prisma.notification.create({
+        data: {
+          title: "Pengguna berhasil mendapatkan pembayaran yang pending",
+          message: `Hai ${user.first_name} ${user.last_name}, anda telah berhasil mendapatkan pembayaran yang pending!`,
+          user_id: user.id,
+        },
+      });
+      const io = req.app.get("io");
+      io.emit(`login`, { first_name, last_name });
+      io.emit(`user-${user.id}`, notification);
 
       return res.status(200).json({
         status: true,
@@ -270,5 +310,5 @@ module.exports = {
         data: null,
       });
     }
-  }
+  },
 };
