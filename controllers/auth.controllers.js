@@ -415,7 +415,7 @@ module.exports = {
         "Gagal melakukan autentikasi dengan Google OAuth2, Silahkan untuk mencoba lagi!";
       const statusFailure = false;
 
-      const redirectUrlSuccess = `http://localhost:5173/auth-callback?token=${encodeURIComponent(
+      const redirectUrlSuccess = `https://infotiket.in/auth-callback?token=${encodeURIComponent(
         token
       )}&user=${encodeURIComponent(
         JSON.stringify(user)
@@ -423,7 +423,7 @@ module.exports = {
         JSON.stringify(messageSuccess)
       )}&status=${encodeURIComponent(JSON.stringify(statusSuccess))}`;
 
-      const redirectUrlFailure = `http://localhost:5173/auth-callback?message=${encodeURIComponent(
+      const redirectUrlFailure = `https://infotiket.in/auth-callback?message=${encodeURIComponent(
         JSON.stringify(messageFailure)
       )}&status=${encodeURIComponent(JSON.stringify(statusFailure))}`;
 

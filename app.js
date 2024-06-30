@@ -1,15 +1,16 @@
 require('dotenv').config();
 require('./libs/cron');
 
-const express = require('express');
-const session = require('express-session');
-const morgan = require('morgan');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const passport = require('./libs/passport');
-const path = require('path');
+const express = require("express");
+const session = require("express-session");
+const morgan = require("morgan");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const passport = require("./libs/passport");
+const path = require("path");
 const Sentry = require('@sentry/node');
-const DOMAIN = process.env.DOMAIN || 'http://localhost:3000';
+const helmet = require('helmet')
+const DOMAIN = process.env.DOMAIN || "http://localhost:3000";
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -33,7 +34,7 @@ app.use(
 		cookie: { secure: true }
 	})
 );
-
+app.use(helmet());
 app.use(passport.initialize());
 app.use(passport.session());
 
