@@ -105,6 +105,10 @@ app.use("/api/v1", routerWebhookTicket);
 const routerNotification = require("./routes/route.notification");
 app.use("/api/v1", routerNotification);
 
+// Api Groq
+const routerGroq = require("./routes/route.groq");
+app.use("/api/v1", routerGroq);
+
 // 404 halaman tidak ditemukan
 app.use((req, res, next) => {
   return res.status(404).json({
