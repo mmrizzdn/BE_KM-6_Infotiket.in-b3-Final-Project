@@ -1,5 +1,8 @@
 ### cari-jadwal-penerbangan
-GET http://localhost:3000/api/v1/flights?departureAirport=DPS&arrivalAirport=CGK&departureDate=2024-06-12&flightClass=EKONOMI
+GET http://localhost:3000/api/v1/flights?departureAirport=CGK&arrivalAirport=DPS&departureDate=2024-06-27&flightClass=EKONOMI
+
+### cari-jadwal-penerbangan
+http://expressjs-develop-b4d1.up.railway.app/api/v1/flights?departureAirport=CGK&arrivalAirport=BPN&departureDate=2024-06-21&flightClass=EKONOMI
 
 ### cari-jadwal-penerbangan-pulang-pergi
-GET http://localhost:3000/api/v1/flights?departureAirport=DPS&arrivalAirport=CGK&departureDate=2024-06-12&returnDate=2024-06-16&flightClass=EKONOMI
+GET http://localhost:3000/api/v1/flights?departureAirport=DPS&arrivalAirport=CGK&departureDate=2024-06-25&returnDate=2024-06-26&flightClass=EKONOMI

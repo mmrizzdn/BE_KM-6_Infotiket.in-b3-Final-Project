@@ -31,7 +31,12 @@ module.exports = {
         let tickets = [];
         if (booking.schedule_id) {
           const schedule = await prisma.schedule.findFirst({
-            where: { id: booking.schedule_id }
+            where: { id: booking.schedule_id },
+            include: {
+              departure_airport: true,
+              arrival_airport: true,
+              airline: true,
+            }
           });
 
           if (!schedule) {
@@ -45,7 +50,8 @@ module.exports = {
                   booking_id: booking.id,
                   ticket_number: generateTicketNumber(),
                   passenger_id: passenger.id,
-                  schedule_id: booking.schedule_id
+                  schedule_id: booking.schedule_id,
+                  return_schedule_id: null // Tiket berangkat
                 },
                 include: { passenger: true }
               });
@@ -57,7 +63,12 @@ module.exports = {
 
         if (booking.return_schedule_id) {
           const returnSchedule = await prisma.schedule.findFirst({
-            where: { id: booking.return_schedule_id }
+            where: { id: booking.return_schedule_id },
+            include: {
+              departure_airport: true,
+              arrival_airport: true,
+              airline: true,
+            }
           });
 
           if (!returnSchedule) {
@@ -71,7 +82,8 @@ module.exports = {
                   booking_id: booking.id,
                   ticket_number: generateTicketNumber(),
                   passenger_id: passenger.id,
-                  schedule_id: booking.return_schedule_id
+                  schedule_id: booking.return_schedule_id,
+                  return_schedule_id: booking.return_schedule_id // Tiket pulang
                 },
                 include: { passenger: true }
               });
@@ -81,10 +93,14 @@ module.exports = {
           tickets = tickets.concat(returnTickets);
         }
 
-        // Ambil semua schedule berdasarkan schedule_id yang ada di tickets
         const scheduleIds = tickets.map(ticket => ticket.schedule_id);
         const schedules = await prisma.schedule.findMany({
-          where: { id: { in: scheduleIds } }
+          where: { id: { in: scheduleIds } },
+          include: {
+            departure_airport: true,
+            arrival_airport: true,
+            airline: true
+          }
         });
 
         const ticketsWithDetails = tickets.map(ticket => ({
@@ -92,7 +108,6 @@ module.exports = {
           schedule: schedules.find(schedule => schedule.id === ticket.schedule_id)
         }));
 
-        // Mengirim email konfirmasi dengan detail tiket
         const emailContent = await getHTML('ticketEmailTemplate.ejs', { tickets: ticketsWithDetails });
         await sendMail(booking.user.email, 'Your Tickets', emailContent);
 
@@ -112,50 +127,11 @@ module.exports = {
       res.status(500).send('Error updating transaction status');
     }
   },
-  paymentConfirmation: async (req, res, next) => {
-    try {
-        const { tripay_merchant_ref } = req.query;
 
-        const payment = await prisma.payment.findFirst({
-            where: { merchant_ref: tripay_merchant_ref },
-            include: { booking: { include: { user: true, passengers: true } } }
-        });
-
-        if (!payment) {
-            return res.status(404).json({ error: "Pembayaran tidak ditemukan" });
-        }
-
-        const booking = payment.booking;
-
-        if (!booking) {
-            return res.status(404).json({ error: "Booking tidak ditemukan" });
-        }
-
-        const schedule = await prisma.schedule.findFirst({
-            where: { id: booking.schedule_id }
-        });
-
-        if (!schedule) {
-            return res.status(404).json({ error: "Schedule tidak ditemukan" });
-        }
-
-        booking.schedule = schedule;
-
-        if (payment.status === 'SUDAH BAYAR') {
-            res.status(200).send('Selamat, pembayaran Anda berhasil. Silahkan cek email Anda untuk mencetak tiket Anda.');
-        } else {
-            res.status(400).send('Pembayaran Anda belum dikonfirmasi. Silahkan coba lagi nanti.');
-        }
-    } catch (error) {
-        console.error('Error confirming payment:', error);
-        res.status(500).send('Error confirming payment');
-    }
-  },
-
-  getTicketFromBookingId : async (req, res, next) => {
+  getTicketFromBookingId: async (req, res, next) => {
     try {
       const { bookingId } = req.params;
-      const userId = req.user.id; // assuming the user ID is available from the token
+      const userId = req.user.id;
 
       const booking = await prisma.booking.findFirst({
         where: {
@@ -178,7 +154,12 @@ module.exports = {
 
       const scheduleIds = tickets.map(ticket => ticket.schedule_id);
       const schedules = await prisma.schedule.findMany({
-        where: { id: { in: scheduleIds } }
+        where: { id: { in: scheduleIds } },
+        include: {
+          departure_airport: true,
+          arrival_airport: true,
+          airline: true
+        }
       });
 
       const ticketsWithDetails = tickets.map(ticket => ({
@@ -191,8 +172,7 @@ module.exports = {
       next(error);
     }
   },
-
-  getAllTicketsByUserId: async (req, res, next) => {
+    getAllTicketsByUserId: async (req, res, next) => {
     try {
       const userId = req.user.id; // assuming the user ID is available from the token
 
@@ -214,7 +194,12 @@ module.exports = {
 
       const scheduleIds = tickets.map(ticket => ticket.schedule_id);
       const schedules = await prisma.schedule.findMany({
-        where: { id: { in: scheduleIds } }
+        where: { id: { in: scheduleIds } },
+        include: {
+          departure_airport: true,
+          arrival_airport: true,
+          airline: true
+        }
       });
 
       const ticketsWithDetails = tickets.map(ticket => ({
@@ -225,6 +210,50 @@ module.exports = {
       res.status(200).json(ticketsWithDetails);
     } catch (error) {
       next(error);
+    }
+  },
+  paymentConfirmation: async (req, res, next) => {
+    try {
+      const { tripay_merchant_ref } = req.query;
+
+      const payment = await prisma.payment.findFirst({
+        where: { merchant_ref: tripay_merchant_ref },
+        include: { booking: { include: { user: true, passengers: true } } }
+      });
+
+      if (!payment) {
+        return res.status(404).json({ error: "Pembayaran tidak ditemukan" });
+      }
+
+      const booking = payment.booking;
+
+      if (!booking) {
+        return res.status(404).json({ error: "Booking tidak ditemukan" });
+      }
+
+      const schedule = await prisma.schedule.findFirst({
+        where: { id: booking.schedule_id },
+        include: {
+          departure_airport: true,
+          arrival_airport: true,
+          airline: true
+        }
+      });
+
+      if (!schedule) {
+        return res.status(404).json({ error: "Schedule tidak ditemukan" });
+      }
+
+      booking.schedule = schedule;
+
+      if (payment.status === 'SUDAH BAYAR') {
+        res.status(200).send('Selamat, pembayaran Anda berhasil. Silahkan cek email Anda untuk mencetak tiket Anda.');
+      } else {
+        res.status(400).send('Pembayaran Anda belum dikonfirmasi. Silahkan coba lagi nanti.');
+      }
+    } catch (error) {
+      console.error('Error confirming payment:', error);
+      res.status(500).send('Error confirming payment');
     }
   }
 };

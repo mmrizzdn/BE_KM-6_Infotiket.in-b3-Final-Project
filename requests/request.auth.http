@@ -20,8 +20,7 @@ Content-Type: application/json
 }
 
 ### Verification
-GET http://localhost:3000/api/v1/auth/verifikasi?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE4ODkzODAyfQ.MdO0Jw9jcqe4HzmvCtHM-re9CKzYXb8SuV1yyHVdD14
-
+GET http://localhost:3000/api/v1/auth/verifikasi?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE5NDczMjMyfQ.qgO-l8bGmPmmDkjViVJd5Qrx_Ac2lquc_uB0eHthqTY
 
 ### first poge    
 GET http://localhost:3000/api/v1/auth/halaman-utama
