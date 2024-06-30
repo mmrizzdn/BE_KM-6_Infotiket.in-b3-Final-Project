@@ -69,10 +69,14 @@ module.exports = {
       let user = await prisma.user.create({ data: userData });
 
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
-      let url = `http://localhost:5173/verifikasi-email?token=${token}`;
-      console.info(url);
+      let url1 = `https://infotiket.vercel.app/verifikasi-email?token=${token}`;
+      console.info(url1);
+      let url2 = `https://infotiket.in/verifikasi-email?token=${token}`;
+      console.info(url2);
+
       let html = await getHTML("verification-email.ejs", {
-        verification_url: url,
+        verification_url: url1,
+        url2,
       });
 
       await sendMail(user.email, "Verifikasi Email", html);
@@ -145,10 +149,14 @@ module.exports = {
         }
 
         let token = jwt.sign({ id: user.id }, JWT_SECRET);
-        let url = `http://localhost:5173/verifikasi-email?token=${token}`;
-        console.info(url);
+        let url1 = `https://infotiket.vercel.app/verifikasi-email?token=${token}`;
+        console.info(url1);
+        let url2 = `https://infotiket.in/verifikasi-email?token=${token}`;
+        console.info(url2);
+
         let html = await getHTML("verification-email.ejs", {
-          verification_url: url,
+          verification_url: url1,
+          url2,
         });
 
         await sendMail(user.email, "Verifikasi Email", html);
