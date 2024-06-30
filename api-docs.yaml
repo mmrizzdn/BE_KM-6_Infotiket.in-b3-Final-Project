@@ -1695,9 +1695,84 @@ paths:
         - bearerAuth: []
 
   /airlines:
+    post:
+      tags:
+        - "Maskapai"
+      summary: Membuat data Maskapai - Akses hanya Admin
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Citilink
+                short_name:
+                  type: string
+                  example: Citilink
+                file:
+                  type: string
+                  format: binary
+                iata_code:
+                  type: string
+                  example: QG
+      responses:
+        201:
+          description: Airline successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil membuat data maskapai
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Maskapai"
+        400:
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Request body tidak valid
+                  err:
+                    type: string
+                    example: error message
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Kesalahan Server Internal
+                  err:
+                    type: string
+                    example: error message
+      security:
+        - bearerAuth: []
+
     get:
       tags:
-        - "Penerbangan"
+        - "Maskapai"
       summary: Daftar Semua Data Maskapai
       responses:
         200:
@@ -1742,7 +1817,7 @@ paths:
         required: true
     get:
       tags:
-        - "Penerbangan"
+        - "Maskapai"
       summary: Data Maskapai by Id
       responses:
         200:
@@ -1777,11 +1852,226 @@ paths:
                   data:
                     type: string
                     example: null
+    put:
+        tags:
+          - "Maskapai"
+        summary: "Edit Data Maskapai - Akses hanya Admin"
+        requestBody:
+          content:
+            multipart/form-data:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Citilink
+                  short_name:
+                    type: string
+                    example: Citilink
+                  file:
+                    type: string
+                    format: binary
+                  iata_code:
+                    type: string
+                    example: QG
+        responses:
+          200:
+            description: Sukses
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: boolean
+                      example: true
+                    message:
+                      type: string
+                      example: Berhasil memperbaharui data maskapai
+                    data:
+                      allOf:
+                        - $ref: "#/components/schemas/Maskapai"
+          400:
+            description: Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: boolean
+                      example: false
+                    message:
+                      type: string
+                      example: Invalid request body!
+                    data:
+                      type: string
+                      example: null
+          500:
+            description: Error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    status:
+                      type: boolean
+                      example: false
+                    message:
+                      type: string
+                      example: Internal server error!
+                    data:
+                      type: string
+                      example: null
+        security:
+          - bearerAuth: []
+
+    delete:
+      tags:
+        - "Maskapai"
+      summary: Hapus Data Maskapai - Akses hanya Admin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: airline ID to delete
+      responses:
+        200:
+          description: Data maskapai berhasil dihapus
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil menghapus data maskapai
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Maskapai"
+        404:
+          description: Airport not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data Maskapai tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Kesalahan Server Internal
+                  err:
+                    type: string
+                    example: error message
+                  data:
+                    type: string
+                    example: null
+      security:
+        - bearerAuth: []
 
   /airplanes:
+    post:
+      tags:
+        - "Pesawat"
+      summary: Tambahkan Data Pesawat
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                model:
+                  type: string
+                  example: Airbus A320
+                seat_layout:
+                  type: string
+                  example: 3-3
+                seat_pitch:
+                  type: integer
+                  example: 29
+                seat_amount:
+                  type: integer
+                  example: 120
+                airline_id:
+                  type: integer
+                  example: 1
+      responses:
+        200:
+          description: sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil menambahkan data pesawat
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Pesawat"
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Invalid request body!
+                  data:
+                    type: string
+                    example: null
+        500:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Internal server error!
+                  data:
+                    type: string
+                    example: null
+      security:
+        - bearerAuth: []
     get:
       tags:
-        - "Penerbangan"
+        - "Pesawat"
       summary: Daftar Semua Data Pesawat
       responses:
         200:
@@ -1826,7 +2116,7 @@ paths:
         required: true
     get:
       tags:
-        - "Penerbangan"
+        - "Pesawat"
       summary: Data Pesawat by Id
       responses:
         200:
@@ -1861,6 +2151,124 @@ paths:
                   data:
                     type: string
                     example: null
+
+    put:
+      tags:
+        - "Pesawat"
+      summary: Edit Data Pesawat - Akses hanya Admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                model:
+                  type: string
+                  example: Airbus A320
+                seat_layout:
+                  type: string
+                  example: 3-3
+                seat_pitch:
+                  type: integer
+                  example: 29
+                seat_amount:
+                  type: integer
+                  example: 120
+                airline_id:
+                  type: integer
+                  example: 1
+      responses:
+        200:
+          description: sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil menambahkan data pesawat
+                  data:
+                    allOf:
+                      - $ref: "#/components/schemas/Pesawat"
+        400:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Invalid request body!
+                  data:
+                    type: string
+                    example: null
+        500:
+          description: Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Internal server error!
+                  data:
+                    type: string
+                    example: null
+      security:
+        - bearerAuth: []
+
+    delete:
+      tags: 
+        - "Pesawat"
+      summary: Hapus Data Pesawat - Akses hanya Admin
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Berhasil menghapus data pesawat
+                  data:
+                    type: string
+                    example: null
+        404:
+          description: Halaman Tidak Ditemukan 404
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Data pesawat tidak ditemukan!
+                  data:
+                    type: string
+                    example: null
+      security:
+        - bearerAuth: []
 
   /booking:
     post:
@@ -2179,7 +2587,7 @@ components:
           example: Citilink
         icon_url:
           type: string
-          example:
+          example: https://upload.wikimedia.org/wikipedia/commons/d/d4/2012_Citilink_Logo.svg
         iata_code:
           type: string
           example: QG
