@@ -148,17 +148,17 @@ module.exports = {
         signature,
       });
 
-      const notification = await prisma.notification.create({
-        data: {
-          title: "Pengguna Transaksi",
-          message: `Hai ${user.first_name} ${user.last_name}, selamat, anda sudah melakukan transaksi. Segera lunasi pembayaran anda!`,
-          user_id: user.id,
-        },
-      });
+      // const notification = await prisma.notification.create({
+      //   data: {
+      //     title: "Pengguna Transaksi",
+      //     message: `Hai ${user.first_name} ${user.last_name}, selamat, anda sudah melakukan transaksi. Segera lunasi pembayaran anda!`,
+      //     user_id: user.id,
+      //   },
+      // });
 
-      const io = req.app.get("io");
-      io.emit(`login`, { first_name, last_name });
-      io.emit(`user-${user.id}`, notification);
+      // const io = req.app.get("io");
+      // io.emit(`login`, { first_name, last_name });
+      // io.emit(`user-${user.id}`, notification);
 
       await prisma.payment.create({
         data: {
