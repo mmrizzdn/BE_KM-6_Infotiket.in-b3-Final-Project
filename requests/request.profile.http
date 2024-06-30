@@ -1,11 +1,26 @@
+### membuat profil atau pengguna sama seperti register
+POST http://localhost:3000/api/v1/profil
+Content-Type: application/json
+
+{
+    "first_name": "BE3",
+    "last_name": "Infotiket.in",
+    "email": "21102122@ittelkom-pwt.ac.id",
+    "password": "password123",
+    "confirmPassword": "password123"
+}
+
+### mendapatkan semua data profil atau pengguna - Akses hanya Admin
+GET http://localhost:3000/api/v1/profile
+Authorization: Bearer "isi token disini"
+
 ### get profile
 GET http://localhost:3000/api/v1/profil
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYsImlhdCI6MTcxNjg3MTIzNn0.
+Authorization: Bearer "isi token disini"
 
-
-### update profile
+### memperbaharui profil
 PUT http://localhost:3000/api/v1/profil
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzYsImlhdCI6MTcxNjg3MTIzNn0.
+Authorization: Bearer "isi token disini"
 Content-Type: application/json
 
 {
@@ -17,3 +32,7 @@ Content-Type: application/json
 }
 
 ### image_url, password, dan confrim password = opsional 
+
+### menghapus profil atau pengguna berdasarkan id - Akses hanya Admin
+DELETE http://localhost:3000/api/v1/profil/1
+Authorization: Bearer "isi token disini"

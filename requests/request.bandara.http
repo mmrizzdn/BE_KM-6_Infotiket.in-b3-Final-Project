@@ -1,7 +1,0 @@
-### get all data airports
-GET http://localhost:3000/api/v1/bandara
-Content-Type: application/json
-
-### get detail airport
-GET http://localhost:3000/api/v1/bandara/1
-Content-Type: application/json

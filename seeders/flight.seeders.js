@@ -4,8 +4,27 @@ const prisma = new PrismaClient();
 const fs = require("fs");
 const path = require("path");
 
+function getRandomClass() {
+  const classes = [
+    { name: "EKONOMI", weight: 50 },
+    { name: "BISNIS", weight: 30 },
+    { name: "EKSEKUTIF", weight: 20 },
+  ];
+
+  const totalWeight = classes.reduce((total, item) => total + item.weight, 0);
+  const random = Math.random() * totalWeight;
+
+  let weightSum = 0;
+  for (const item of classes) {
+    weightSum += item.weight;
+    if (random <= weightSum) {
+      return item.name;
+    }
+  }
+}
+
 async function flight() {
-  const filePath = path.join(__dirname, "data", "schedules2.json");
+  const filePath = path.join(__dirname, "data", "schedules.json");
   const flightsData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
   for (const flightKey in flightsData) {
@@ -34,7 +53,7 @@ async function flight() {
           free_baggage: flight.freeBaggage,
           cabin_baggage: flight.cabinBaggage,
           duration_minute: flight.durationMinute,
-          class: flight.class,
+          class: getRandomClass(),  // Assign random class
           is_sunday: flight.isSunday,
           is_monday: flight.isMonday,
           is_tuesday: flight.isTuesday,

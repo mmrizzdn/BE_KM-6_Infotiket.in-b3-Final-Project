@@ -7,17 +7,17 @@ const { flight } = require('./flight.seeders');
 const { airplane } = require('./airplane.seeders');
 
 async function main() {
-	await airline();
-	await airport();
-	await airplane();
-	await flight();
+    await airline();
+    await airport();
+    await airplane();
+    await flight();
 }
 
 main()
-	.catch((e) => {
-		console.error(e);
-		process.exit(1);
-	})
-	.finally(async () => {
-		await prisma.$disconnect();
-	});
+    .catch((e) => {
+        console.error(e);
+        process.exit(1);
+    })
+    .finally(async() => {
+        await prisma.$disconnect();
+    });

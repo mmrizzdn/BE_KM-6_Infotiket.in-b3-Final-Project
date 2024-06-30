@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Konfirmasi Pembayaran Tiket</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      padding: 20px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+    }
+    .header {
+      background-color: #2a91e5;
+      color: #ffffff;
+      text-align: center;
+      padding: 10px 0;
+      border-radius: 8px 8px 0 0;
+    }
+    .content {
+      padding: 20px;
+    }
+    .flight-info {
+      margin-bottom: 20px;
+    }
+    .flight-info img {
+      height: 28px;
+      width: auto;
+      border-radius: 4px;
+    }
+    .travel-time {
+      text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .price {
+      font-size: 18px;
+      font-weight: bold;
+      color: #2a91e5;
+      text-align: right;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .divider {
+      border-top: 2px solid #e0e0e0;
+      margin: 20px 0;
+    }
+    .flex {
+      display: flex;
+      align-items: center;
+    }
+    .justify-center {
+      justify-content: center;
+    }
+    .gap-2 {
+      gap: 8px;
+    }
+    table {
+      width: 100%;
+      table-layout: fixed;
+    }
+    td {
+      padding: 4px 8px;
+    }
+    .section-header {
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: #2a91e5;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="header">
+      <h1>Konfirmasi Pembayaran Tiket</h1>
+    </div>
+    <div class="content">
+      <div class="section-header">TIKET BERANGKAT</div>
+      <% let departureTickets = tickets.filter(ticket => ticket.return_schedule_id === null); %>
+      <% departureTickets.forEach((ticket) => { %>
+        <div class="flight-info">
+          <table>
+            <tr>
+              <td colspan="2">
+                <img src="<%= ticket.schedule.airline.icon_url %>" alt="Airline Logo" style="display: block;" />
+                <span><%= ticket.schedule.airline.name %></span> - <span><%= ticket.schedule.class %></span>
+              </td>
+            </tr>
+            <tr>
+              <td style="width: 35%;">
+                <div style="font-weight: bold"><%= ticket.schedule.departure_airport.city %> (<%= ticket.schedule.departure_airport.iata_code %>)</div>
+                <div><%= ticket.schedule.departure_time %></div>
+              </td>
+              <td style="width: 30%;" class="travel-time">
+                <%= ticket.schedule.duration_minute %> menit
+              </td>
+              <td style="width: 35%;">
+                <div style="font-weight: bold"><%= ticket.schedule.arrival_airport.city %> (<%= ticket.schedule.arrival_airport.iata_code %>)</div>
+                <div><%= ticket.schedule.arrival_time %></div>
+              </td>
+            </tr>
+          </table>
+          <div class="flight-details flex justify-center gap-2">
+            <div>✈</div>
+            <div class="divider" style="width: 100%; border-top: 2px dashed #e0e0e0"></div>
+            <div>✈</div>
+          </div>
+          <div class="price">Rp <%= ticket.schedule.price %></div>
+        </div>
+      <% }); %>
+
+      <div class="section-header">TIKET PULANG</div>
+      <% let returnTickets = tickets.filter(ticket => ticket.return_schedule_id !== null); %>
+      <% if (returnTickets.length > 0) { %>
+        <% returnTickets.forEach((ticket) => { %>
+          <div class="flight-info">
+            <table>
+              <tr>
+                <td colspan="2">
+                  <img src="<%= ticket.schedule.airline.icon_url %>" alt="Airline Logo" style="display: block;" />
+                  <span><%= ticket.schedule.airline.name %></span> - <span><%= ticket.schedule.class %></span>
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 35%;">
+                  <div style="font-weight: bold"><%= ticket.schedule.departure_airport.city %> (<%= ticket.schedule.departure_airport.iata_code %>)</div>
+                  <div><%= ticket.schedule.departure_time %></div>
+                </td>
+                <td style="width: 30%;" class="travel-time">
+                  <%= ticket.schedule.duration_minute %> menit
+                </td>
+                <td style="width: 35%;">
+                  <div style="font-weight: bold"><%= ticket.schedule.arrival_airport.city %> (<%= ticket.schedule.arrival_airport.iata_code %>)</div>
+                  <div><%= ticket.schedule.arrival_time %></div>
+                </td>
+              </tr>
+            </table>
+            <div class="flight-details flex justify-center gap-2">
+              <div>✈</div>
+              <div class="divider" style="width: 100%; border-top: 2px dashed #e0e0e0"></div>
+              <div>✈</div>
+            </div>
+            <div class="price">Rp <%= ticket.schedule.price %></div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <div>Tidak ada tiket pulang</div>
+      <% } %>
+      <div class="footer">
+        Terima kasih telah melakukan pemesanan dengan kami.
+      </div>
+    </div>
+  </div>
+</body>
+</html>
