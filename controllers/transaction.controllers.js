@@ -142,7 +142,7 @@ module.exports = {
         customer_phone: booking.user.phone_number,
         expired_time: Math.floor(Date.now() / 1000) + 3600,
         callback_url: `${process.env.DOMAIN}/api/v1/webhook`,
-        return_url: `http://localhost:5173/konfirmasi-pembayaran`,
+        return_url: `https://infotiket.in/konfirmasi-pembayaran`,
         signature,
       });
 
