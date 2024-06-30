@@ -90,31 +90,33 @@ module.exports = {
 				});
 			}
 
-			let booking = await prisma.booking.findUnique({
+			let bookings = await prisma.booking.findMany({
 				where: { user_id: id }
 			});
 
-			if (booking) {
-				await prisma.payment.delete({
-					where: {
-						booking_id: booking.id
-					}
-				});
+			if (bookings.length > 0) {
+				for (let booking of bookings) {
+					await prisma.payment.deleteMany({
+						where: {
+							booking_id: booking.id
+						}
+					});
 
-				await prisma.ticket.delete({
-					where: { booking_id: booking.id }
-				});
+					await prisma.ticket.deleteMany({
+						where: { booking_id: booking.id }
+					});
 
-				await prisma.passenger.delete({
-					where: { booking_id: booking.id }
-				});
-
-				await prisma.booking.delete({
-					where: { user_id: id }
-				});
+					await prisma.passenger.deleteMany({
+						where: { booking_id: booking.id }
+					});
+				}
 			}
-			
-			await prisma.notification.delete({
+
+			await prisma.booking.deleteMany({
+				where: { user_id: id }
+			});
+
+			await prisma.notification.deleteMany({
 				where: { user_id: id }
 			});
 
