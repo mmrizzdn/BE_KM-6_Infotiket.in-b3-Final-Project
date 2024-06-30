@@ -45,7 +45,7 @@ module.exports = {
 
 			return res.status(200).json({
 				status: true,
-				message: 'Success',
+				message: 'get all users success',
 				data: users
 			});
 		} catch (error) {
@@ -62,14 +62,14 @@ module.exports = {
 			if (!user) {
 				return res.status(404).json({
 					status: false,
-					message: 'User not found',
+					message: 'user not found',
 					data: null
 				});
 			}
 
 			return res.status(200).json({
 				status: true,
-				message: 'success',
+				message: `get user success`,
 				data: user
 			});
 		} catch (error) {
@@ -85,7 +85,7 @@ module.exports = {
 			if (!user) {
 				return res.status(404).json({
 					status: false,
-					message: 'User not found',
+					message: 'user not found',
 					data: null
 				});
 			}
@@ -123,7 +123,7 @@ module.exports = {
 			let deleteUser = await prisma.user.delete({ where: { id } });
 			return res.status(200).json({
 				status: true,
-				message: 'User deleted successfully',
+				message: 'user deleted successfully',
 				data: deleteUser
 			});
 		} catch (error) {
