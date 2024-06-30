@@ -40,6 +40,8 @@ module.exports = {
 
   pay: async (req, res, next) => {
     const { booking_id, payment_method } = req.query;
+    const first_name = req.body.first_name || req.user.first_name;
+    const last_name = req.body.last_name || req.user.last_name;
 
     try {
       const booking = await prisma.booking.findUnique({
@@ -158,6 +160,18 @@ module.exports = {
           ppn_tax: ppn,
         },
       });
+
+      const notification = await prisma.notification.create({
+        data: {
+          title: "Pengguna Login",
+          message: `Hai ${user.first_name} ${user.last_name}, selamat, anda sudah melakukan transaksi. Segera lunasi pembayaran anda!`,
+          user_id: user.id,
+        },
+      });
+
+      const io = req.app.get("io");
+      io.emit(`login`, { first_name, last_name });
+      io.emit(`user-${user.id}`, notification);
 
       res.json({
         transaction,
