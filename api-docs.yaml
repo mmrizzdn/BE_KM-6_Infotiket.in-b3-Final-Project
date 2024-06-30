@@ -428,6 +428,8 @@ paths:
                   data:
                     type: string
                     example: null
+      security:
+        - bearerAuth: []
 
   /admin/{id}:
     put:
@@ -934,6 +936,9 @@ paths:
                   data:
                     type: string
                     example: null
+      security:
+        - bearerAuth: []
+
     get:
       tags:
         - "User atau Profil"
@@ -1190,6 +1195,8 @@ paths:
                   err:
                     type: string
                     example: error message
+      security:
+        - bearerAuth: []
 
   /flights:
     get:
@@ -1364,6 +1371,9 @@ paths:
                   err:
                     type: string
                     example: error message
+      security:
+        - bearerAuth: []
+
     get:
       tags:
         - "Bandara"
@@ -1596,6 +1606,8 @@ paths:
                   data:
                     type: string
                     example: null
+      security:
+        - bearerAuth: []
 
     delete:
       tags:
@@ -1678,6 +1690,8 @@ paths:
                   data:
                     type: string
                     example: null
+      security:
+        - bearerAuth: []
 
   /airlines:
     get:
