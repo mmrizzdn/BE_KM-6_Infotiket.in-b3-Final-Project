@@ -1268,7 +1268,7 @@ paths:
     post:
       tags:
         - "Bandara"
-      summary: Membuat data Bandara
+      summary: Membuat data Bandara - Akses hanya Admin
       requestBody:
         required: true
         content:
@@ -1496,7 +1496,7 @@ paths:
     put:
       tags:
         - "Bandara"
-      summary: Memperbaharui Data Bandara dengan ID
+      summary: Memperbaharui Data Bandara dengan ID - Akses hanya Admin
       parameters:
         - name: id
           in: path
@@ -1600,7 +1600,7 @@ paths:
     delete:
       tags:
         - "Bandara"
-      summary: Menghapus Data Bandara dengan ID
+      summary: Menghapus Data Bandara dengan ID - Akses hanya Admin
       parameters:
         - name: id
           in: path
