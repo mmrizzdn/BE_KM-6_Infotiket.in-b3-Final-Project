@@ -11,7 +11,7 @@ module.exports = {
 			if (!user) {
 				return res.status(404).json({
 					status: false,
-					message: 'User not found',
+					message: 'user not found',
 					data: null
 				});
 			}
@@ -19,7 +19,7 @@ module.exports = {
 			if (user.is_verified === false) {
 				return res.status(400).json({
 					status: false,
-					message: 'User not verified',
+					message: 'user not verified',
 					data: null
 				});
 			}
@@ -31,7 +31,7 @@ module.exports = {
 
 			return res.status(200).json({
 				status: true,
-				message: 'Now, you are an admin',
+				message: `now, ${user.first_name} is an admin`,
 				data: admin
 			});
 		} catch (error) {
