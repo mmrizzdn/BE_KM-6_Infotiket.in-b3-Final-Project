@@ -69,14 +69,11 @@ module.exports = {
       let user = await prisma.user.create({ data: userData });
 
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
-      let url1 = `https://infotiket.vercel.app/verifikasi-email?token=${token}`;
-      console.info(url1);
-      let url2 = `https://infotiket.in/verifikasi-email?token=${token}`;
-      console.info(url2);
+      let url = `https://infotiket.in/verifikasi-email?token=${token}`;
+      console.info(url);
 
       let html = await getHTML("verification-email.ejs", {
-        verification_url: url1,
-        url2,
+        verification_url: url,
       });
 
       await sendMail(user.email, "Verifikasi Email", html);
@@ -149,14 +146,11 @@ module.exports = {
         }
 
         let token = jwt.sign({ id: user.id }, JWT_SECRET);
-        let url1 = `https://infotiket.vercel.app/verifikasi-email?token=${token}`;
-        console.info(url1);
-        let url2 = `https://infotiket.in/verifikasi-email?token=${token}`;
-        console.info(url2);
+        let url = `https://infotiket.in/verifikasi-email?token=${token}`;
+        console.info(url);
 
         let html = await getHTML("verification-email.ejs", {
-          verification_url: url1,
-          url2,
+          verification_url: url,
         });
 
         await sendMail(user.email, "Verifikasi Email", html);
@@ -311,7 +305,7 @@ module.exports = {
       });
 
       let token = jwt.sign({ id: user.id }, JWT_SECRET);
-      let resetPassUrl = `http://localhost:5173/mengatur-ulang-kata-sandi?token=${token}`;
+      let resetPassUrl = `https://infotiket.in/mengatur-ulang-kata-sandi?token=${token}`;
       console.info(resetPassUrl);
       let html = await getHTML("forgot-password.ejs", {
         verification_url: resetPassUrl,
