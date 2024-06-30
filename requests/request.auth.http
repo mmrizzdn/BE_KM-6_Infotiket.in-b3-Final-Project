@@ -5,7 +5,7 @@ Content-Type: application/json
 {
     "first_name": "BE3",
     "last_name": "Infotiket.in",
-    "email": "e41212053@student.polije.ac.id",
+    "email": "21102122@ittelkom-pwt.ac.id",
     "password": "password123",
     "confirmPassword": "password123"
 }

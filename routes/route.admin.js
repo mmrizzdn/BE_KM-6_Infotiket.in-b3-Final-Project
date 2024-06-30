@@ -9,7 +9,7 @@ const {
 const { isAdmin } = require("../middleware/admin");
 const { restrict } = require("../middleware/restrict");
 
-router.post("/admin/:id", isAdmin, addAdmin);
+router.put("/admin/:id", restrict, isAdmin, addAdmin);
 router.get("/users", restrict, isAdmin, getAllUsers);
 router.get("/users/:id", restrict, isAdmin, getUserbyId);
 router.delete("/users/:id", restrict, isAdmin, deleteUser);

@@ -1,4 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 module.exports = {
@@ -11,28 +11,28 @@ module.exports = {
 			if (!user) {
 				return res.status(404).json({
 					status: false,
-					message: "User not found",
-					data: null,
+					message: 'User not found',
+					data: null
 				});
 			}
 
 			if (user.is_verified === false) {
 				return res.status(400).json({
 					status: false,
-					message: "User not verified",
-					data: null,
+					message: 'User not verified',
+					data: null
 				});
 			}
 
 			let admin = await prisma.user.update({
 				where: { id },
-				data: { role: "admin" },
+				data: { role: 'admin' }
 			});
 
 			return res.status(200).json({
 				status: true,
-				message: "Now, you are an admin",
-				data: admin,
+				message: 'Now, you are an admin',
+				data: admin
 			});
 		} catch (error) {
 			next(error);
@@ -45,8 +45,8 @@ module.exports = {
 
 			return res.status(200).json({
 				status: true,
-				message: "Success",
-				data: users,
+				message: 'Success',
+				data: users
 			});
 		} catch (error) {
 			next(error);
@@ -62,15 +62,15 @@ module.exports = {
 			if (!user) {
 				return res.status(404).json({
 					status: false,
-					message: "User not found",
-					data: null,
+					message: 'User not found',
+					data: null
 				});
 			}
 
 			return res.status(200).json({
 				status: true,
-				message: "success",
-				data: user,
+				message: 'success',
+				data: user
 			});
 		} catch (error) {
 			next(error);
@@ -85,19 +85,45 @@ module.exports = {
 			if (!user) {
 				return res.status(404).json({
 					status: false,
-					message: "User not found",
-					data: null,
+					message: 'User not found',
+					data: null
 				});
 			}
 
-			let deletedUser = await prisma.user.delete({ where: { id } });
+			let booking = await prisma.booking.findUnique({
+				where: { user_id: id }
+			});
+
+			await prisma.payment.delete({
+				where: {
+					booking_id: booking.id
+				}
+			});
+
+			await prisma.ticket.delete({
+				where: { booking_id: booking.id }
+			});
+
+			await prisma.passenger.delete({
+				where: { booking_id: booking.id }
+			});
+
+			await prisma.booking.delete({
+				where: { user_id: id }
+			});
+
+			await prisma.notification.delete({
+				where: { user_id: id }
+			});
+
+			let deleteUser = await prisma.user.delete({ where: { id } });
 			return res.status(200).json({
 				status: true,
-				message: "User deleted successfully",
-				data: deletedUser,
+				message: 'User deleted successfully',
+				data: deleteUser
 			});
 		} catch (error) {
 			next(error);
 		}
-	},
+	}
 };

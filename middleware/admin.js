@@ -5,7 +5,11 @@ module.exports = {
 			if (role === "admin") {
 				next();
 			} else {
-				res.status(401).json({ message: "Unauthorized" });
+				res.status(401).json({
+					status: false,
+					message: "Unauthorized",
+					data: null,
+				});
 			}
 		} catch (error) {
 			next(error);
