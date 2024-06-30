@@ -94,24 +94,26 @@ module.exports = {
 				where: { user_id: id }
 			});
 
-			await prisma.payment.delete({
-				where: {
-					booking_id: booking.id
-				}
-			});
+			if (booking) {
+				await prisma.payment.delete({
+					where: {
+						booking_id: booking.id
+					}
+				});
 
-			await prisma.ticket.delete({
-				where: { booking_id: booking.id }
-			});
+				await prisma.ticket.delete({
+					where: { booking_id: booking.id }
+				});
 
-			await prisma.passenger.delete({
-				where: { booking_id: booking.id }
-			});
+				await prisma.passenger.delete({
+					where: { booking_id: booking.id }
+				});
 
-			await prisma.booking.delete({
-				where: { user_id: id }
-			});
-
+				await prisma.booking.delete({
+					where: { user_id: id }
+				});
+			}
+			
 			await prisma.notification.delete({
 				where: { user_id: id }
 			});
