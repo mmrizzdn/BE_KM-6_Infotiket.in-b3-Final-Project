@@ -40,8 +40,8 @@ module.exports = {
 
   pay: async (req, res, next) => {
     const { booking_id, payment_method } = req.query;
-    const first_name = req.body.first_name || req.user.first_name;
-    const last_name = req.body.last_name || req.user.last_name;
+    // const first_name = req.body.first_name || req.user.first_name;
+    // const last_name = req.body.last_name || req.user.last_name;
 
     try {
       const booking = await prisma.booking.findUnique({
