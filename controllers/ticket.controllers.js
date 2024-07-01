@@ -110,8 +110,21 @@ module.exports = {
           ),
         }));
 
+        // Mendapatkan rincian pajak dari pembayaran
+        const adminTax = payment.admin_tax;
+        const ppnTax = payment.ppn_tax;
+        const totalPrice = payment.amount;
+
+        // Menambahkan rincian pajak ke setiap tiket
+        const ticketsWithPriceDetails = ticketsWithDetails.map((ticket) => ({
+          ...ticket,
+          admin_tax: adminTax,
+          ppn_tax: ppnTax,
+          total_price: totalPrice,
+        }));
+
         const emailContent = await getHTML("ticketEmailTemplate.ejs", {
-          tickets: ticketsWithDetails,
+          tickets: ticketsWithPriceDetails,
         });
         await sendMail(booking.user.email, "Your Tickets", emailContent);
 
@@ -119,7 +132,7 @@ module.exports = {
         return res.status(200).json({
           Notification: `Tickets sent to ${booking.user.email} with status ${status}`,
           status: 200,
-          data: ticketsWithDetails,
+          data: ticketsWithPriceDetails,
         });
       } else {
         console.log(`Invalid status received: ${status}`);
@@ -167,11 +180,22 @@ module.exports = {
         },
       });
 
+      const payment = await prisma.payment.findFirst({
+        where: { booking_id: bookingId },
+      });
+
+      const adminTax = payment.admin_tax;
+      const ppnTax = payment.ppn_tax;
+      const totalPrice = payment.amount;
+
       const ticketsWithDetails = tickets.map((ticket) => ({
         ...ticket,
         schedule: schedules.find(
           (schedule) => schedule.id === ticket.schedule_id
         ),
+        admin_tax: adminTax,
+        ppn_tax: ppnTax,
+        total_price: totalPrice,
       }));
 
       res.status(200).json(ticketsWithDetails);
@@ -209,12 +233,28 @@ module.exports = {
         },
       });
 
-      const ticketsWithDetails = tickets.map((ticket) => ({
-        ...ticket,
-        schedule: schedules.find(
-          (schedule) => schedule.id === ticket.schedule_id
-        ),
-      }));
+      const payments = await prisma.payment.findMany({
+        where: { booking_id: { in: bookingIds } },
+      });
+
+      const ticketsWithDetails = tickets.map((ticket) => {
+        const payment = payments.find(
+          (payment) => payment.booking_id === ticket.booking_id
+        );
+        const adminTax = payment.admin_tax;
+        const ppnTax = payment.ppn_tax;
+        const totalPrice = payment.amount;
+
+        return {
+          ...ticket,
+          schedule: schedules.find(
+            (schedule) => schedule.id === ticket.schedule_id
+          ),
+          admin_tax: adminTax,
+          ppn_tax: ppnTax,
+          total_price: totalPrice,
+        };
+      });
 
       res.status(200).json(ticketsWithDetails);
     } catch (error) {

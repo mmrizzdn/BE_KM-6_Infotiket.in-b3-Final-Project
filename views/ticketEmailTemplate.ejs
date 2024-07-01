@@ -115,13 +115,16 @@
                 <div><%= ticket.schedule.arrival_time %></div>
               </td>
             </tr>
+            <!-- <tr>
+              <td colspan="3">Nomor Tiket: <%= ticket.ticket_number %></td>
+            </tr> -->
           </table>
           <div class="flight-details flex justify-center gap-2">
             <div>✈</div>
             <div class="divider" style="width: 100%; border-top: 2px dashed #e0e0e0"></div>
             <div>✈</div>
           </div>
-          <div class="price">Rp <%= ticket.schedule.price %></div>
+          <div class="price">Rp <%= ticket.schedule.price.toLocaleString('id-ID') %></div>
         </div>
       <% }); %>
 
@@ -150,18 +153,38 @@
                   <div><%= ticket.schedule.arrival_time %></div>
                 </td>
               </tr>
+              <!-- <tr>
+                <td colspan="3">Nomor Tiket: <%= ticket.ticket_number %></td>
+              </tr> -->
             </table>
             <div class="flight-details flex justify-center gap-2">
               <div>✈</div>
               <div class="divider" style="width: 100%; border-top: 2px dashed #e0e0e0"></div>
               <div>✈</div>
             </div>
-            <div class="price">Rp <%= ticket.schedule.price %></div>
+            <div class="price">Rp <%= ticket.schedule.price.toLocaleString('id-ID') %></div>
           </div>
         <% }); %>
       <% } else { %>
         <div>Tidak ada tiket pulang</div>
       <% } %>
+
+      <div class="section-header">Rincian Biaya</div>
+      <table>
+        <tr>
+          <td>Pajak Admin:</td>
+          <td class="price">Rp <%= tickets[0].admin_tax.toLocaleString('id-ID') %></td>
+        </tr>
+        <tr>
+          <td>PPN:</td>
+          <td class="price">Rp <%= tickets[0].ppn_tax.toLocaleString('id-ID') %></td>
+        </tr>
+        <tr>
+          <td>Total Biaya:</td>
+          <td class="price">Rp <%= tickets[0].total_price.toLocaleString('id-ID') %></td>
+        </tr>
+      </table>
+      
       <div class="footer">
         Terima kasih telah melakukan pemesanan dengan kami.
       </div>
