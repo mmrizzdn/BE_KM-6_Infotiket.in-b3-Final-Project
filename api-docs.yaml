@@ -1203,74 +1203,101 @@ paths:
     get:
       tags:
         - "Penerbangan"
-      summary: Ambil informasi penerbangan
-      description: Ambil informasi penerbangan berdasarkan bandara keberangkatan, bandara kedatangan, tanggal keberangkatan, dan kelas penerbangan.
+      summary: "Mencari jadwal penerbangan"
       parameters:
-        - in: query
-          name: departureAirport
+        - name: departureAirport
+          in: query
+          required: true
           schema:
             type: string
+          description: "Kode IATA bandara keberangkatan"
+          example: "CGK"
+        - name: arrivalAirport
+          in: query
           required: true
-          description: DPS
-        - in: query
-          name: arrivalAirport
           schema:
             type: string
+          description: "Kode IATA bandara kedatangan"
+          example: "DPS"
+        - name: departureDate
+          in: query
           required: true
-          description: CGK
-        - in: query
-          name: departureDate
           schema:
             type: string
             format: date
-          required: true
-          description: 2024-06-19
-        - in: query
-          name: returnDate
-          schema:
-            type: string
-            format: date
+          description: "Tanggal keberangkatan (YYYY-MM-DD)"
+          example: "2024-06-30"
+        - name: returnDate
+          in: query
           required: false
-          description: 2024-06-23 "Opsinal"
-        - in: query
-          name: flightClass
           schema:
             type: string
-            enum: [EKONOMI, BISNIS, FIRST]
-          required: true
-          description: Pilih
+            format: date
+          description: "Tanggal pulang (YYYY-MM-DD)"
+          example: "2024-07-01"
+        - name: flightClass
+          in: query
+          required: false
+          schema:
+            type: string
+          description: "Kelas penerbangan (EKONOMI, BISNIS, FIRST)"
+          example: "EKONOMI"
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 1
+          description: "Nomor halaman untuk pagination"
+          example: 1
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 10
+          description: "Jumlah hasil per halaman untuk pagination"
+          example: 10
       responses:
-        "200":
-          description: Berhasil mengambil informasi penerbangan
+        200:
+          description: "Sukses"
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  flights:
+                  departureFlights:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        flightNumber:
-                          type: string
-                          description: Nomor penerbangan
-                        departureTime:
-                          type: string
-                          description: Waktu keberangkatan
-                        arrivalTime:
-                          type: string
-                          description: Waktu kedatangan
-                        duration:
-                          type: string
-                          description: Durasi penerbangan
-                        price:
-                          type: number
-                          description: Harga tiket
-        "400":
-          description: parameter yang diperlukan tidak ada atau format tidak valid
-        "500":
-          description: Kesalahan server
+                      $ref: "#/components/schemas/Flight"
+                  departurePagination:
+                    $ref: "#/components/schemas/Pagination"
+                  returnFlights:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Flight"
+                  returnPagination:
+                    $ref: "#/components/schemas/Pagination"
+        404:
+          description: "Jadwal Tidak Ditemukan"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Jadwal Tidak Ditemukan"
+        500:
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Internal server error: {error message}"
 
   /bandara:
     post:
@@ -2282,6 +2309,12 @@ paths:
             type: string
           required: true
           description: ID jadwal penerbangan yang akan dibooking
+        - in: query
+          name: return_schedule_id
+          schema:
+            type: string
+          required: false
+          description: ID jadwal penerbangan yang akan dibooking
       requestBody:
         required: true
         content:
@@ -2295,7 +2328,7 @@ paths:
                   example: "2024-07-01"
                 total_passenger:
                   type: integer
-                  example: 3
+                  example: 1
                 passengers:
                   type: array
                   items:
@@ -2343,6 +2376,416 @@ paths:
           description: Jadwal penerbangan tidak ditemukan
       security:
         - bearerAuth: []
+  /get-payment-list:
+    get:
+      tags:
+        - "Pembayaran"
+      summary: Mendapatkan Daftar Metode Pembayaran
+      responses:
+        200:
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PaymentMethod"
+        500:
+          description: Kesalahan server
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Terjadi kesalahan saat mengambil metode pembayaran.
+
+  /pay:
+    post:
+      tags:
+        - "Pembayaran"
+      summary: Melakukan Pembayaran
+      parameters:
+        - name: booking_id
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: ID Pemesanan
+        - name: payment_method
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Metode Pembayaran
+      responses:
+        200:
+          description: Pembayaran Berhasil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  transaction:
+                    $ref: "#/components/schemas/Transaction"
+                  ticket_price:
+                    type: number
+                    example: 1000000
+                  admin_tax:
+                    type: number
+                    example: 20000
+                  ppn:
+                    type: number
+                    example: 100000
+                  total_price:
+                    type: number
+                    example: 1120000
+        404:
+          description: Data tidak ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Booking tidak ditemukan
+        500:
+          description: Kesalahan server
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Terjadi kesalahan saat memproses pembayaran.
+
+  /check-payment-status:
+    get:
+      tags:
+        - "Pembayaran"
+      summary: Memeriksa Status Pembayaran
+      parameters:
+        - name: merchant_ref
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Referensi Merchant
+      responses:
+        200:
+          description: Status Pembayaran Berhasil Ditemukan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Payment"
+        404:
+          description: Pembayaran tidak ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Pembayaran tidak ditemukan
+        500:
+          description: Kesalahan server
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Terjadi kesalahan saat memeriksa status pembayaran.
+
+  /get-payments:
+    get:
+      tags:
+        - "Pembayaran"
+      summary: Mendapatkan Semua Pembayaran Pengguna
+      responses:
+        200:
+          description: Pembayaran Berhasil Ditemukan
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Payment"
+        404:
+          description: Tidak ada pembayaran yang ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Tidak ada pembayaran yang ditemukan untuk user ini
+                  data:
+                    type: string
+                    example: null
+        500:
+          description: Kesalahan server
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Terjadi kesalahan saat mendapatkan pembayaran
+                  data:
+                    type: string
+                    example: null
+
+  /get-pending-payments:
+    get:
+      tags:
+        - "Pembayaran"
+      summary: Mendapatkan Pembayaran yang Pending
+      responses:
+        200:
+          description: Pembayaran Pending Berhasil Ditemukan
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Payment"
+        404:
+          description: Tidak ada pembayaran yang pending ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Tidak ada pembayaran yang ditemukan untuk user ini
+                  data:
+                    type: string
+                    example: null
+        500:
+          description: Kesalahan server
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: Terjadi kesalahan saat mendapatkan pembayaran yang pending
+                  data:
+                    type: string
+                    example: null
+  /webhook:
+    post:
+      tags:
+        - "Webhook dan Tiket"
+      summary: Webhook dari Tripay untuk Pembayaran
+      requestBody:
+        description: Body akan dihandle oleh Tripay sebagai pihak ketiga payment gateway
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                merchant_ref:
+                  type: string
+                  description: Referensi Merchant
+                  example: ORDER-24-1719736304659
+                status:
+                  type: string
+                  description: Status Pembayaran
+                  example: PAID
+      responses:
+        200:
+          description: Tiket berhasil dikirim ke email pengguna
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Notification:
+                    type: string
+                    example: Tickets sent to johndoe@example.com with status PAID
+                  status:
+                    type: integer
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/TicketWithDetails"
+        400:
+          description: Status tidak valid
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Invalid status
+        404:
+          description: Data tidak ditemukan
+          content:
+            text/plain:
+              schema:
+                type: string
+                example:
+                  paymentNotFound:
+                    value: Payment not found
+                  scheduleNotFound:
+                    value: Schedule tidak ditemukan
+                  returnScheduleNotFound:
+                    value: Return schedule tidak ditemukan
+        500:
+          description: Kesalahan server
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Error updating transaction status
+
+  /payment-confirmation:
+    get:
+      tags:
+        - "Webhook dan Tiket"
+      summary: Konfirmasi Pembayaran
+      parameters:
+        - name: tripay_merchant_ref
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Referensi Merchant dari Tripay
+      responses:
+        200:
+          description: Pembayaran Berhasil Dikonfirmasi
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Selamat, pembayaran Anda berhasil. Silahkan cek email Anda untuk mencetak tiket Anda.
+        400:
+          description: Pembayaran belum dikonfirmasi
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Pembayaran Anda belum dikonfirmasi. Silahkan coba lagi nanti.
+        404:
+          description: Data tidak ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example:
+                      paymentNotFound:
+                        value: Pembayaran tidak ditemukan
+                      bookingNotFound:
+                        value: Booking tidak ditemukan
+                      scheduleNotFound:
+                        value: Schedule tidak ditemukan
+        500:
+          description: Kesalahan server
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Error confirming payment
+
+  /get-ticket:
+    get:
+      tags:
+        - "Webhook dan Tiket"
+      summary: Mendapatkan Tiket berdasarkan Booking ID
+      parameters:
+        - name: bookingId
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: ID Pemesanan
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Bearer token untuk otentikasi
+      responses:
+        200:
+          description: Tiket Berhasil Ditemukan
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TicketWithDetails"
+        404:
+          description: Data tidak ditemukan atau tidak diotorisasi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Booking not found or not authorized
+        500:
+          description: Kesalahan server
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Error getting ticket details
+
+  /get-all-tickets:
+    get:
+      tags:
+        - "Webhook dan Tiket"
+      summary: Mendapatkan Semua Tiket Pengguna
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Bearer token untuk otentikasi
+      responses:
+        200:
+          description: Semua Tiket Berhasil Ditemukan
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TicketWithDetails"
+        500:
+          description: Kesalahan server
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Error getting tickets
 
   /groq-chat-bot:
     post:
@@ -2615,6 +3058,280 @@ components:
         airline_id:
           type: integer
           example: 1
+    Flight:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        departure_airport:
+          $ref: "#/components/schemas/Airport"
+        arrival_airport:
+          $ref: "#/components/schemas/Airport"
+        airline:
+          $ref: "#/components/schemas/Airline"
+        class:
+          type: string
+          example: "EKONOMI"
+        Date:
+          type: string
+          format: date-time
+          example: "2024-06-30T08:00:00.000Z"
+    Airport:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Soekarno-Hatta International Airport"
+        iata_code:
+          type: string
+          example: "CGK"
+        city:
+          type: string
+          example: "Jakarta"
+    Airline:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Garuda Indonesia"
+        icon_url:
+          type: string
+          example: "https://example.com/garuda-indonesia.png"
+    Pagination:
+      type: object
+      properties:
+        link:
+          type: object
+          properties:
+            next:
+              type: string
+              example: "http://localhost:3000/api/v1/flights?page=2&limit=10"
+            prev:
+              type: string
+              example: "http://localhost:3000/api/v1/flights?page=1&limit=10"
+        total:
+          type: integer
+          example: 100
+    PaymentMethod:
+      type: object
+      properties:
+        group:
+          type: string
+          example: Virtual Account
+        code:
+          type: string
+          example: BRIVA
+        name:
+          type: string
+          example: BRI Virtual Account
+        type:
+          type: string
+          example: direct
+        fee_merchant:
+          type: object
+          properties:
+            flat:
+              type: integer
+              example: 4250
+            percent:
+              type: integer
+              example: 0
+        fee_customer:
+          type: object
+          properties:
+            flat:
+              type: integer
+              example: 0
+            percent:
+              type: integer
+              example: 0
+        total_fee:
+          type: object
+          properties:
+            flat:
+              type: integer
+              example: 4250
+            percent:
+              type: string
+              example: "0.00"
+        minimum_fee:
+          type: integer
+          nullable: true
+          example: null
+        maximum_fee:
+          type: integer
+          nullable: true
+          example: null
+        minimum_amount:
+          type: integer
+          example: 10000
+        maximum_amount:
+          type: integer
+          example: 10000000
+        icon_url:
+          type: string
+          example: https://assets.tripay.co.id/upload/payment-icon/8WQ3APST5s1579461828.png
+        active:
+          type: boolean
+          example: true
+
+    Transaction:
+      type: object
+      properties:
+        amount:
+          type: number
+          example: 1120000
+        method:
+          type: string
+          example: BRIVA
+        merchant_ref:
+          type: string
+          example: ORDER-24-1719736304659
+        customer_name:
+          type: string
+          example: John Doe
+        customer_email:
+          type: string
+          example: johndoe@example.com
+        customer_phone:
+          type: string
+          example: 08123456789
+        expired_time:
+          type: number
+          example: 1622520000
+        callback_url:
+          type: string
+          example: https://infotiket.in/api/v1/webhook
+        return_url:
+          type: string
+          example: https://infotiket.in/konfirmasi-pembayaran
+        checkout_url:
+          type: string
+          example: url redirect from tripay
+        signature:
+          type: string
+          example: f5d1278e8109edd94e1e4197e04873b9
+
+    Payment:
+      type: object
+      properties:
+        booking_id:
+          type: integer
+          example: 24
+        payment_date:
+          type: string
+          format: date-time
+          example: 2024-06-30T12:34:56Z
+        amount:
+          type: number
+          example: 1120000
+        payment_method:
+          type: string
+          example: BRIVA
+        status:
+          type: string
+          example: PENDING
+        merchant_ref:
+          type: string
+          example: ORDER-24-1719736304659
+        admin_tax:
+          type: number
+          example: 20000
+        ppn_tax:
+          type: number
+          example: 100000
+    TicketWithDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        booking_id:
+          type: integer
+          example: 1
+        ticket_number:
+          type: string
+          example: TICKET-12345678
+        passenger_id:
+          type: integer
+          example: 1
+        schedule_id:
+          type: integer
+          example: 1
+        return_schedule_id:
+          type: integer
+          example: null
+        created_at:
+          type: string
+          format: date-time
+          example: 2024-06-27T12:34:56Z
+        updated_at:
+          type: string
+          format: date-time
+          example: 2024-06-27T12:34:56Z
+        passenger:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: John Doe
+        schedule:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            departure_airport:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                name:
+                  type: string
+                  example: Soekarno-Hatta International Airport
+                code:
+                  type: string
+                  example: CGK
+            arrival_airport:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 2
+                name:
+                  type: string
+                  example: Ngurah Rai International Airport
+                code:
+                  type: string
+                  example: DPS
+            airline:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  example: 1
+                name:
+                  type: string
+                  example: Garuda Indonesia
+            departure_time:
+              type: string
+              format: date-time
+              example: 2024-07-01T09:00:00Z
+            arrival_time:
+              type: string
+              format: date-time
+              example: 2024-07-01T11:00:00Z
 
 security:
   - google_oauth: []

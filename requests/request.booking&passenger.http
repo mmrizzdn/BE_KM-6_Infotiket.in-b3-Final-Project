@@ -1,9 +1,9 @@
 
 
 ### Membuat Booking dan Menambahkan Penumpang
-POST http://localhost:3000/api/v1/booking?schedule_id=8B-5114_4
+POST http://localhost:3000/api/v1/booking?schedule_id=IN-280_false_true_false_false_false_false_false
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE5NDczNDQyLCJleHAiOjE3MTk1NTk4NDJ9.nIwpu-jy7lYbfwqfiHjyWsgG3AMwMR-Ctzc5FirtYZI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzE5ODM3MDE4LCJleHAiOjE3MTk5MjM0MTh9.VyMRti1BihdKelkPmOgK6zTs-qcjdRFwpCmq0Q11OBA
 
 {
   "booking_date": "2024-07-01",
@@ -43,9 +43,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxN
 }
 
 ### Membuat Booking Pulang-Pergi
-POST http://localhost:3000/api/v1/booking?schedule_id=8B-5114_4&return_schedule_id=GA-416_5
+POST http://localhost:3000/api/v1/booking?schedule_id=IN-280_false_true_false_false_false_false_false&return_schedule_id=GA-416_false_false_false_false_true_false_false
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE5NzI5MzA2LCJleHAiOjE3MTk4MTU3MDZ9.knHwbztoHEOq5yzUv5SV_OjgOesC-dLHcX0hpDjKC4U
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzE5ODM3MDE4LCJleHAiOjE3MTk5MjM0MTh9.VyMRti1BihdKelkPmOgK6zTs-qcjdRFwpCmq0Q11OBA
 
 {
   "booking_date": "2024-07-01",
