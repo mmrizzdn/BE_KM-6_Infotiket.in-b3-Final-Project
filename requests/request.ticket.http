@@ -3,7 +3,7 @@ POST http://localhost:3000/api/v1/webhook
 Content-Type: application/json
 
 {
-    "merchant_ref": "ORDER-24-1719736304659",
+    "merchant_ref": "ORDER-6-1719838598589",
     "status": "PAID"
 }
 
@@ -11,7 +11,7 @@ Content-Type: application/json
 GET http://localhost:3000/api/v1/payment-confirmation?bookingId=1
 
 ### search ticket with booking id
-GET http://localhost:3000/api/v1/get-all-tickets
+GET http://localhost:3000/api/v1/get-ticket?bookingId=1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE5NDczNDQyLCJleHAiOjE3MTk1NTk4NDJ9.nIwpu-jy7lYbfwqfiHjyWsgG3AMwMR-Ctzc5FirtYZI
 
 ### search all ticket
