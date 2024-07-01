@@ -175,6 +175,14 @@ module.exports = {
 				});
 			}
 
+			if (req.user.id === id) {
+				return res.status(400).json({
+					status: false,
+					message: 'you cannot delete yourself',
+					data: null
+				});
+			}
+
 			let bookings = await prisma.booking.findMany({
 				where: { user_id: id }
 			});
