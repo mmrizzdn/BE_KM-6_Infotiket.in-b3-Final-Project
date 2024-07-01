@@ -42,38 +42,40 @@ module.exports = {
     const { booking_id, payment_method } = req.query;
     const first_name = req.body.first_name || req.user.first_name;
     const last_name = req.body.last_name || req.user.last_name;
-
+  
     try {
       const booking = await prisma.booking.findUnique({
         where: { id: parseInt(booking_id) },
         include: { user: true },
       });
-
+  
       if (!booking) {
         return res.status(404).json({ error: "Booking tidak ditemukan" });
       }
-
+  
+      const user = booking.user;
+  
       const schedule = await prisma.schedule.findUnique({
         where: { id: booking.schedule_id },
       });
-
+  
       if (!schedule) {
         return res.status(404).json({ error: "Schedule tidak ditemukan" });
       }
-
+  
       let returnSchedule = null;
       if (booking.return_schedule_id) {
         returnSchedule = await prisma.schedule.findUnique({
           where: { id: booking.return_schedule_id },
         });
-
+  
         if (!returnSchedule) {
           return res
             .status(404)
             .json({ error: "Return Schedule tidak ditemukan" });
         }
       }
-
+  
       const ticketPrice = booking.total_passenger * schedule.price;
       const returnTicketPrice = returnSchedule
         ? booking.total_passenger * returnSchedule.price
@@ -82,7 +84,7 @@ module.exports = {
       const adminTax = totalTicketPrice * 0.02;
       const ppn = totalTicketPrice * 0.1;
       const totalPrice = totalTicketPrice + adminTax + ppn;
-
+  
       // Menambahkan item pesanan untuk jadwal keberangkatan
       tripayTransaction.addOrderItem({
         name: schedule.flight_number,
@@ -111,7 +113,7 @@ module.exports = {
         image_url: "http://image.com",
         product_url: "http://product.com",
       });
-
+  
       // Menambahkan item pesanan untuk jadwal kepulangan (jika ada)
       if (returnSchedule) {
         tripayTransaction.addOrderItem({
@@ -124,7 +126,7 @@ module.exports = {
           product_url: "http://product.com",
         });
       }
-
+  
       // Membuat merchant reference yang unik
       const merchantRef = `ORDER-${booking_id}-${Date.now()}`;
       const signature = generateSignature(
@@ -133,21 +135,21 @@ module.exports = {
         totalPrice,
         process.env.TRIPAY_PRIVATE_KEY
       );
-
+  
       // Membuat transaksi
       const transaction = await tripayTransaction.create({
         amount: totalPrice,
         method: payment_method,
         merchant_ref: merchantRef,
-        customer_name: `${booking.user.first_name} ${booking.user.last_name}`,
-        customer_email: booking.user.email,
-        customer_phone: booking.user.phone_number,
+        customer_name: `${user.first_name} ${user.last_name}`,
+        customer_email: user.email,
+        customer_phone: '085233029994',
         expired_time: Math.floor(Date.now() / 1000) + 3600,
         callback_url: `${process.env.DOMAIN}/api/v1/webhook`,
         return_url: `https://infotiket.in/konfirmasi-pembayaran`,
         signature,
       });
-
+  
       const notification = await prisma.notification.create({
         data: {
           title: "Pengguna Transaksi",
@@ -155,11 +157,11 @@ module.exports = {
           user_id: user.id,
         },
       });
-
+  
       const io = req.app.get("io");
       io.emit(`login`, { first_name, last_name });
       io.emit(`user-${user.id}`, notification);
-
+  
       await prisma.payment.create({
         data: {
           booking_id: booking.id,
@@ -172,7 +174,7 @@ module.exports = {
           ppn_tax: ppn,
         },
       });
-
+  
       res.json({
         transaction,
         ticket_price: totalTicketPrice,
@@ -186,7 +188,7 @@ module.exports = {
         .status(500)
         .json({ error: "Terjadi kesalahan saat memproses pembayaran." });
     }
-  },
+  },  
 
   checkPaymentStatus: async (req, res, next) => {
     const { merchant_ref } = req.query;
