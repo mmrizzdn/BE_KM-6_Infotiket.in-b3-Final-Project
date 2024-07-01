@@ -6,6 +6,8 @@ info:
   contact:
     email: Infotiket.in@gmail.com
 servers:
+  - url: https://expressjs-production-d668.up.railway.app/api/v1/
+    description: URL Production
   - url: https://expressjs-develop-b4d1.up.railway.app/api/v1/
     description: URL Develop
   - url: http://localhost:3000/api/v1/
