@@ -5,6 +5,18 @@ const bcrypt = require("bcrypt");
 const { JWT_SECRET } = process.env;
 const { getHTML, sendMail } = require("../libs/nodemailer");
 
+const validateName = (name) => /^[A-Za-z]+$/.test(name);
+
+const validateEmail = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
+const validatePassword = (password) => {
+  const minLength = 6;
+  return password.length >= minLength;
+};
+
 module.exports = {
   register: async (req, res, next) => {
     try {
@@ -20,6 +32,22 @@ module.exports = {
         return res.status(400).json({
           status: false,
           message: "Semua kolom harus diisi!",
+          data: null,
+        });
+      }
+
+      if (!validateName(first_name) || !validateName(last_name)) {
+        return res.status(400).json({
+          status: false,
+          message: "Nama depan dan nama belakang hanya boleh berisi huruf!",
+          data: null,
+        });
+      }
+
+      if (!validateEmail(email)) {
+        return res.status(400).json({
+          status: false,
+          message: "Format email tidak valid!",
           data: null,
         });
       }
@@ -54,6 +82,14 @@ module.exports = {
         return res.status(400).json({
           status: false,
           message: "Kata sandi tidak cocok!",
+          data: null,
+        });
+      }
+
+      if (!validatePassword(password)) {
+        return res.status(400).json({
+          status: false,
+          message: "Kata sandi harus minimal 6 karakter!",
           data: null,
         });
       }
@@ -102,6 +138,14 @@ module.exports = {
         });
       }
 
+      if (!validateEmail(email)) {
+        return res.status(400).json({
+          status: false,
+          message: "Format email tidak valid!",
+          data: null,
+        });
+      }
+
       let user = await prisma.user.findFirst({ where: { email } });
       if (!user) {
         return res.status(400).json({
@@ -116,6 +160,14 @@ module.exports = {
           status: false,
           message:
             "Sepertinya Anda telah mendaftar dengan Google. Silakan masuk menggunakan Google.",
+          data: null,
+        });
+      }
+
+      if (!validatePassword(password)) {
+        return res.status(400).json({
+          status: false,
+          message: "Kata sandi harus minimal 6 karakter!",
           data: null,
         });
       }
