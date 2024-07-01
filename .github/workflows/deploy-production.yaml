@@ -1,9 +1,9 @@
-name: Deploy to Railway Dev ENV
+name: Deploy to Railway Prod ENV
 
 on:
   push:
     branches:
-      - "develop"
+      - "release"
 
 jobs:
   deploy:
@@ -29,15 +29,15 @@ jobs:
 
       - name: Run Migration
         run: |
-          export DATABASE_URL="${{ secrets.DEV_DATABASE_URL }}"
+          export DATABASE_URL="${{ secrets.PROD_DATABASE_URL }}"
           npx prisma migrate deploy
-      
+
       # - name: Run Seeder
       #   run: |
-      #     export DATABASE_URL="${{ secrets.DEV_DATABASE_URL }}"
+      #     export DATABASE_URL="${{ secrets.PROD_DATABASE_URL }}"
       #     npm run seed
 
       - name: Deploy to Railway
-        run: railway up --service ${{ secrets.RAILWAY_DEV_SERVICE_ID }}
+        run: railway up --service ${{ secrets.RAILWAY_PROD_SERVICE_ID }}
         env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_DEV_TOKEN }}
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_PROD_TOKEN }}

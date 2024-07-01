@@ -34,7 +34,7 @@
 
 ## Tentang Proyek
 
-![Screen Shoot](./public/stylesheets/landing_page.PNG)
+![Screen Shoot](./public/stylesheets/new_landing_page.PNG)
 
 <p align="center">Team BE-3 Infotiketin</p>
 
@@ -62,36 +62,43 @@ Teknologi yang digunakan dalam proyek ini:
 
 1. Clone the repo:
 
-   sh
+   ```
    git clone https://github.com/mmrizzdn/BE_KM-6_Infotiket.in-b3-Final-Project.git
+   ```
 
 2. Install all yarn or NPM
 
-   sh
+   ```
    yarn install
+   ```
 
    Atau
 
-   sh
+   ```
    npm run install
+   ```
 
 3. Tambahkan kredensial ke environment
 
 4. Migrasikan database dengan menjalankan perintah ini:
 
-   sh
+   ```
    npm run migrate
+   ```
 
-   sh
+   ```
    npm run seed
+   ```
 
    Atau
 
-   sh
+   ```
    yarn migrate
+   ```
 
-   sh
+   ```
    yarn seed
+   ```
 
 ### Jalankan Secara Lokal
 
@@ -99,13 +106,15 @@ Anda dapat menjalankan proyek ini secara lokal untuk mencobanya.
 
 1. Jalankan local development server:
 
-   sh
+   ```
    npm run dev
+   ```
 
-   Or
+   Atau
 
-   sh
+   ```
    yarn dev
+   ```
 
 2. Open http://localhost:3000.
 
