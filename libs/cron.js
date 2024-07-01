@@ -30,7 +30,7 @@ const generateFlightSchedules = async () => {
 
       flightTemplates.forEach((template) => {
         if (template[`is_${dayOfWeek.toLowerCase()}`]) {
-          const uniqueId = `${template.flight_number}_${template.airline_id}`;
+          const uniqueId = `${template.flight_number}_${template.is_sunday}_${template.is_monday}_${template.is_tuesday}_${template.is_wednesday}_${template.is_thursday}_${template.is_friday}_${template.is_saturday}`;
           const scheduleData = {
             id: uniqueId,
             departure_airport_id: template.departure_airport_id,
