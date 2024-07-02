@@ -3,7 +3,7 @@ POST http://localhost:3000/api/v1/webhook
 Content-Type: application/json
 
 {
-    "merchant_ref": "ORDER-6-1719838598589",
+    "merchant_ref": "ORDER-15-1719921071615",
     "status": "PAID"
 }
 

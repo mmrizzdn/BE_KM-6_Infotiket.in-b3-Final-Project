@@ -45,6 +45,7 @@ module.exports = {
 
           const departureTickets = await Promise.all(
             booking.passengers.map(async (passenger) => {
+              const price = calculatePrice(schedule.price, passenger.type);
               return prisma.ticket.create({
                 data: {
                   booking_id: booking.id,
@@ -52,6 +53,7 @@ module.exports = {
                   passenger_id: passenger.id,
                   schedule_id: booking.schedule_id,
                   return_schedule_id: null, // Tiket berangkat
+                  price: price, // Menyimpan harga tiket
                 },
                 include: { passenger: true },
               });
@@ -77,6 +79,7 @@ module.exports = {
 
           const returnTickets = await Promise.all(
             booking.passengers.map(async (passenger) => {
+              const price = calculatePrice(returnSchedule.price, passenger.type);
               return prisma.ticket.create({
                 data: {
                   booking_id: booking.id,
@@ -84,6 +87,7 @@ module.exports = {
                   passenger_id: passenger.id,
                   schedule_id: booking.return_schedule_id,
                   return_schedule_id: booking.return_schedule_id, // Tiket pulang
+                  price: price, // Menyimpan harga tiket
                 },
                 include: { passenger: true },
               });
@@ -108,6 +112,8 @@ module.exports = {
           schedule: schedules.find(
             (schedule) => schedule.id === ticket.schedule_id
           ),
+          type: ticket.passenger.type, // Tambahkan tipe penumpang
+          price: ticket.price, // Harga tiket yang telah dihitung
         }));
 
         // Mendapatkan rincian pajak dari pembayaran
@@ -330,4 +336,14 @@ module.exports = {
 
 function generateTicketNumber() {
   return "TICKET-" + uuidv4();
+}
+
+function calculatePrice(basePrice, passengerType) {
+  if (passengerType === "Anak") {
+    return basePrice * 0.75; // Potongan 50% untuk anak-anak
+  } else if (passengerType === "Bayi") {
+    return basePrice * 0.5; // Potongan 75% untuk bayi
+  } else {
+    return basePrice; // Harga penuh untuk dewasa
+  }
 }

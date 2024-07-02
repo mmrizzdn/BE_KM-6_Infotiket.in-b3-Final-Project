@@ -43,17 +43,17 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxN
 }
 
 ### Membuat Booking Pulang-Pergi
-POST http://localhost:3000/api/v1/booking?schedule_id=IN-280_false_true_false_false_false_false_false&return_schedule_id=GA-416_false_false_false_false_true_false_false
+POST http://localhost:3000/api/v1/booking?schedule_id=8B-5114_false_false_true_false_false_false_false&return_schedule_id=ID-6505_false_true_false_false_false_false_false
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzE5ODM3MDE4LCJleHAiOjE3MTk5MjM0MTh9.VyMRti1BihdKelkPmOgK6zTs-qcjdRFwpCmq0Q11OBA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzE5ODk1ODg2LCJleHAiOjE3MTk5ODIyODZ9.91wNTHrClVjd3uJoVGa5eiPZ-F2sUxuhPf3FDMUgMAc
 
 {
   "booking_date": "2024-07-01",
-  "total_passenger": 2,
+  "total_passenger": 3,
   "passengers": [
     {
       "birth_date": "1990-01-01",
-      "type": "ADULT",
+      "type": "Dewasa",
       "id_passport_number": "A1234567",
       "citizenship": "ID",
       "gender": "MALE",
@@ -63,11 +63,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxN
     },
     {
       "birth_date": "1995-05-05",
-      "type": "ADULT",
+      "type": "Anak",
       "id_passport_number": "B7654321",
       "citizenship": "ID",
       "gender": "FEMALE",
       "first_name": "Jane",
+      "last_name": "Doe",
+      "phone_number": "08129876543"
+    },
+    {
+      "birth_date": "1995-05-05",
+      "type": "Anak",
+      "id_passport_number": "B7654321",
+      "citizenship": "ID",
+      "gender": "MALE",
+      "first_name": "Randy",
       "last_name": "Doe",
       "phone_number": "08129876543"
     }

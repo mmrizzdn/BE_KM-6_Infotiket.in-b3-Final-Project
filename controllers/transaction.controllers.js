@@ -46,7 +46,7 @@ module.exports = {
     try {
       const booking = await prisma.booking.findUnique({
         where: { id: parseInt(booking_id) },
-        include: { user: true },
+        include: { user: true, passengers: true },
       });
   
       if (!booking) {
@@ -76,57 +76,92 @@ module.exports = {
         }
       }
   
-      const ticketPrice = booking.total_passenger * schedule.price;
-      const returnTicketPrice = returnSchedule
-        ? booking.total_passenger * returnSchedule.price
-        : 0;
-      const totalTicketPrice = ticketPrice + returnTicketPrice;
+      // Menghitung harga berdasarkan kategori penumpang
+      let adultCount = 0;
+      let childCount = 0;
+      let infantCount = 0;
+      booking.passengers.forEach(passenger => {
+        if (passenger.type === "Dewasa") adultCount++;
+        if (passenger.type === "Anak") childCount++;
+        if (passenger.type === "Bayi") infantCount++;
+      });
+
+      const adultPrice = schedule.price * adultCount;
+      const childPrice = schedule.price * 0.75 * childCount;
+      const infantPrice = schedule.price * 0.5 * infantCount;
+      console.log(adultPrice, childPrice, infantPrice);
+
+      const totalPassengerPrice = adultPrice + childPrice + infantPrice;
+      console.log(totalPassengerPrice);
+      const returnAdultPrice = returnSchedule ? returnSchedule.price * adultCount : 0;
+      const returnChildPrice = returnSchedule ? returnSchedule.price * 0.75 * childCount : 0;
+      const returnInfantPrice = returnSchedule ? returnSchedule.price * 0.5 * infantCount : 0;
+
+      console.log(returnAdultPrice, returnChildPrice, returnInfantPrice);
+
+      const totalReturnPassengerPrice = returnAdultPrice + returnChildPrice + returnInfantPrice;
+
+      console.log(totalReturnPassengerPrice);
+
+      // Membulatkan harga ke integer terdekat
+      const roundedTotalPassengerPrice = Math.round(totalPassengerPrice);
+      const roundedTotalReturnPassengerPrice = Math.round(totalReturnPassengerPrice);
+
+      const totalTicketPrice = roundedTotalPassengerPrice + roundedTotalReturnPassengerPrice;
       const adminTax = totalTicketPrice * 0.02;
       const ppn = totalTicketPrice * 0.1;
-      const totalPrice = totalTicketPrice + adminTax + ppn;
-  
+      console.log(totalTicketPrice, adminTax, ppn);
+
+      const roundedAdminTax = Math.round(adminTax);
+      const roundedPpn = Math.round(ppn);
+
+      const totalPrice = totalTicketPrice + roundedAdminTax + roundedPpn;
+      console.log(totalPrice);
+
+      console.log(roundedTotalPassengerPrice, roundedTotalReturnPassengerPrice, roundedAdminTax, roundedPpn);
+
       // Menambahkan item pesanan untuk jadwal keberangkatan
       tripayTransaction.addOrderItem({
-        name: schedule.flight_number,
-        price: schedule.price,
-        quantity: booking.total_passenger,
+        name: 'Total Tiket Pergi',
+        price: roundedTotalPassengerPrice,
+        quantity: 1,
         sku: schedule.id.toString(),
-        subtotal: ticketPrice,
+        subtotal: roundedTotalPassengerPrice,
         image_url: "http://image.com",
         product_url: "http://product.com",
       });
       tripayTransaction.addOrderItem({
         name: "pajak admin",
-        price: adminTax,
+        price: roundedAdminTax,
         quantity: 1,
         sku: schedule.id.toString(),
-        subtotal: adminTax,
+        subtotal: roundedAdminTax,
         image_url: "http://image.com",
         product_url: "http://product.com",
       });
       tripayTransaction.addOrderItem({
-        name: "pajak ppn",
-        price: ppn,
+        name: "pajak PPN",
+        price: roundedPpn,
         quantity: 1,
         sku: schedule.id.toString(),
-        subtotal: ppn,
+        subtotal: roundedPpn,
         image_url: "http://image.com",
         product_url: "http://product.com",
       });
-  
+
       // Menambahkan item pesanan untuk jadwal kepulangan (jika ada)
       if (returnSchedule) {
         tripayTransaction.addOrderItem({
-          name: returnSchedule.flight_number,
-          price: returnSchedule.price,
-          quantity: booking.total_passenger,
-          sku: returnSchedule.id.toString(),
-          subtotal: returnTicketPrice,
+          name: 'Total Tiket Kembali',
+          price: roundedTotalReturnPassengerPrice,
+          quantity: 1,
+          sku: schedule.id.toString(),
+          subtotal: roundedTotalReturnPassengerPrice,
           image_url: "http://image.com",
           product_url: "http://product.com",
         });
       }
-  
+
       // Membuat merchant reference yang unik
       const merchantRef = `ORDER-${booking_id}-${Date.now()}`;
       const signature = generateSignature(
@@ -135,7 +170,7 @@ module.exports = {
         totalPrice,
         process.env.TRIPAY_PRIVATE_KEY
       );
-  
+
       // Membuat transaksi
       const transaction = await tripayTransaction.create({
         amount: totalPrice,
@@ -149,19 +184,8 @@ module.exports = {
         return_url: `https://infotiket.in/konfirmasi-pembayaran`,
         signature,
       });
-  
-      const notification = await prisma.notification.create({
-        data: {
-          title: "Pengguna Transaksi",
-          message: `Hai ${user.first_name} ${user.last_name}, selamat, anda sudah melakukan transaksi. Segera lunasi pembayaran anda!`,
-          user_id: user.id,
-        },
-      });
-  
-      const io = req.app.get("io");
-      io.emit(`login`, { first_name, last_name });
-      io.emit(`user-${user.id}`, notification);
-  
+
+      // Simpan rincian harga ke database
       await prisma.payment.create({
         data: {
           booking_id: booking.id,
@@ -170,16 +194,34 @@ module.exports = {
           payment_method,
           status: "PENDING",
           merchant_ref: transaction.merchant_ref,
-          admin_tax: adminTax,
-          ppn_tax: ppn,
+          admin_tax: roundedAdminTax,
+          ppn_tax: roundedPpn,
+          total_adult_price: Math.round(adultPrice + returnAdultPrice),
+          total_child_price: Math.round(childPrice + returnChildPrice),
+          total_infant_price: Math.round(infantPrice + returnInfantPrice),
         },
       });
-  
+
+      const notification = await prisma.notification.create({
+        data: {
+          title: "Pengguna Transaksi",
+          message: `Hai ${user.first_name} ${user.last_name}, selamat, anda sudah melakukan transaksi. Segera lunasi pembayaran anda!`,
+          user_id: user.id,
+        },
+      });
+
+      const io = req.app.get("io");
+      io.emit(`login`, { first_name, last_name });
+      io.emit(`user-${user.id}`, notification);
+
       res.json({
         transaction,
         ticket_price: totalTicketPrice,
-        admin_tax: adminTax,
-        ppn,
+        adult_price: Math.round(adultPrice + returnAdultPrice),
+        child_price: Math.round(childPrice + returnChildPrice),
+        infant_price: Math.round(infantPrice + returnInfantPrice),
+        admin_tax: roundedAdminTax,
+        ppn: roundedPpn,
         total_price: totalPrice,
       });
     } catch (error) {
@@ -188,7 +230,7 @@ module.exports = {
         .status(500)
         .json({ error: "Terjadi kesalahan saat memproses pembayaran." });
     }
-  },  
+  },
 
   checkPaymentStatus: async (req, res, next) => {
     const { merchant_ref } = req.query;
@@ -213,59 +255,43 @@ module.exports = {
 
   getPaymentsByUserId: async (req, res, next) => {
     try {
-      const { first_name, last_name } = req.body;
-      const userId = req.user.id;
+      const { first_name, last_name } = req.user;
 
-      if (!userId) {
-        return res.status(400).json({
-          status: false,
-          message: "User ID tidak ditemukan atau anda belum login",
-          data: null,
-        });
+      const bookings = await prisma.booking.findMany({
+        where: {
+          user_id: req.user.id,
+        },
+      });
+
+      if (bookings.length === 0) {
+        return res
+          .status(404)
+          .json({ message: "Tidak ada transaksi yang ditemukan" });
       }
 
       const payments = await prisma.payment.findMany({
         where: {
-          booking: {
-            user_id: userId,
+          booking_id: {
+            in: bookings.map((booking) => booking.id),
           },
         },
-        include: {
-          booking: true,
-        },
       });
 
-      if (!payments || payments.length === 0) {
-        return res.status(404).json({
-          status: false,
-          message: "Tidak ada pembayaran yang ditemukan untuk user ini",
-          data: null,
-        });
+      if (payments.length === 0) {
+        return res
+          .status(404)
+          .json({ message: "Tidak ada pembayaran yang ditemukan" });
       }
 
-      const notification = await prisma.notification.create({
-        data: {
-          title: "Pengguna berhasil mendapatkan pembayaran",
-          message: `Hai ${user.first_name} ${user.last_name}, anda telah berhasil mendapatkan pembayaran!`,
-          user_id: user.id,
-        },
-      });
       const io = req.app.get("io");
       io.emit(`login`, { first_name, last_name });
-      io.emit(`user-${user.id}`, notification);
 
-      return res.status(200).json({
-        status: true,
-        message: "Berhasil mendapatkan pembayaran",
-        data: payments,
-      });
+      return res.json(payments);
     } catch (error) {
       console.error(error);
-      return res.status(500).json({
-        status: false,
-        message: "Terjadi kesalahan saat mendapatkan pembayaran",
-        data: null,
-      });
+      res
+        .status(500)
+        .json({ error: "Terjadi kesalahan saat mengambil pembayaran." });
     }
   },
 
@@ -305,13 +331,13 @@ module.exports = {
       const notification = await prisma.notification.create({
         data: {
           title: "Pengguna berhasil mendapatkan pembayaran yang pending",
-          message: `Hai ${user.first_name} ${user.last_name}, anda telah berhasil mendapatkan pembayaran yang pending!`,
-          user_id: user.id,
+          message: `Hai ${req.user.first_name} ${req.user.last_name}, anda telah berhasil mendapatkan pembayaran yang pending!`,
+          user_id: req.user.id,
         },
       });
       const io = req.app.get("io");
       io.emit(`login`, { first_name, last_name });
-      io.emit(`user-${user.id}`, notification);
+      io.emit(`user-${req.user.id}`, notification);
 
       return res.status(200).json({
         status: true,

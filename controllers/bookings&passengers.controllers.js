@@ -36,7 +36,7 @@ module.exports = {
         });
       }
 
-      if (!total_passenger || total_passenger <= 0) {
+      if (!total_passenger || total_passenger <= 0|| total_passenger !== passengers.length) {
         return res.status(400).json({
           status: false,
           message: "Jumlah penumpang tidak valid",

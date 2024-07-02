@@ -150,6 +150,7 @@ model Ticket {
   return_schedule_id String?
   booking_id         Int
   ticket_number      String
+  price              Int       @default(0)
   passenger          Passenger @relation(fields: [passenger_id], references: [id])
   booking            Booking   @relation(fields: [booking_id], references: [id])
 
@@ -174,15 +175,18 @@ model Passenger {
 }
 
 model Payment {
-  id             Int      @id @default(autoincrement())
-  booking_id     Int
-  payment_date   DateTime
-  amount         Float
-  payment_method String
-  status         String
-  merchant_ref   String
-  admin_tax      Float
-  ppn_tax        Float
+  id                 Int      @id @default(autoincrement())
+  booking_id         Int
+  payment_date       DateTime
+  amount             Float
+  payment_method     String
+  status             String
+  merchant_ref       String
+  admin_tax          Float
+  ppn_tax            Float
+  total_adult_price  Float    @default(0.0)
+  total_child_price  Float    @default(0.0)
+  total_infant_price Float    @default(0.0)
 
   booking Booking @relation(fields: [booking_id], references: [id])
 
