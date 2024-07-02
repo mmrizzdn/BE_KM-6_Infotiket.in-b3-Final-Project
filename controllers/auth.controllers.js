@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const { JWT_SECRET } = process.env;
 const { getHTML, sendMail } = require("../libs/nodemailer");
 
-const validateName = (name) => /^[A-Za-z]+$/.test(name);
+const validateName = (name) => /^[A-Za-z\s]+$/.test(name);
 
 const validateEmail = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
